@@ -244,7 +244,7 @@ export default function DynamicCoursePage() {
                                                     const done = progress.completedLessons.includes(lesson.id);
                                                     return (
                                                         <Link key={lesson.id}
-                                                            href={isLocked ? "#" : `/dashboard/lesson/${lesson.id}?course=${courseId}`}
+                                                            href={isLocked ? "#" : `/academy/dashboard/lesson/${lesson.id}?course=${courseId}`}
                                                             className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-colors group">
                                                             <div className="flex items-center gap-3">
                                                                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${done ? "border-success bg-success/20" : "border-border-dark group-hover:border-accent"}`}>
@@ -267,7 +267,7 @@ export default function DynamicCoursePage() {
                                                     );
                                                 })}
                                                 {/* Quiz Button */}
-                                                <Link href={isLocked ? "#" : `/dashboard/quiz/${mod.id}?course=${courseId}`}
+                                                <Link href={isLocked ? "#" : `/academy/dashboard/quiz/${mod.id}?course=${courseId}`}
                                                     className={`flex items-center justify-between p-3 rounded-xl border transition-all group ${quizDone ? "bg-success/5 border-success/20" : "bg-primary/5 border-primary/10 hover:bg-primary/10 hover:border-primary/20"}`}>
                                                     <div className="flex items-center gap-3">
                                                         <div className={`w-6 h-6 rounded-full flex items-center justify-center ${quizDone ? "bg-success/20" : "bg-primary/20"}`}>
@@ -300,7 +300,7 @@ export default function DynamicCoursePage() {
                                         🎓 Ver Certificado
                                     </Link>
                                 ) : (
-                                    <Link href={`/dashboard/lesson/${course.modules[0]?.lessons[0]?.id || ""}?course=${courseId}`}
+                                    <Link href={`/academy/dashboard/lesson/${course.modules[0]?.lessons[0]?.id || ""}?course=${courseId}`}
                                         className="block w-full text-center px-6 py-3.5 min-h-[48px] rounded-xl gradient-bg text-white font-semibold btn-glow hover:opacity-90 transition-opacity">
                                         {completedLessons === 0 ? "🚀 Empezar Curso" : "▶️ Continuar"}
                                     </Link>

@@ -34,7 +34,7 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2 group">
+                    <Link href={user ? "/academy/dashboard" : "/"} className="flex items-center gap-2 group">
                         <img
                             src="/logo-shippar.png"
                             alt="Shippar"
@@ -51,7 +51,7 @@ export default function Navbar() {
                             <>
                                 <Link
                                     href="/academy/dashboard"
-                                    className={`px-5 py-2 rounded-lg text-base font-medium transition-colors ${isActive("/dashboard")
+                                    className={`px-5 py-2 rounded-lg text-base font-medium transition-colors ${isActive("/academy/dashboard")
                                         ? "gradient-text bg-white/10"
                                         : "text-text-secondary hover:text-white hover:bg-white/5"
                                         }`}
@@ -61,7 +61,7 @@ export default function Navbar() {
                                 <div className="w-px h-5 bg-border-dark" />
                                 <Link
                                     href="/academy/dashboard/courses"
-                                    className={`px-5 py-2 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/dashboard/course") || pathname?.startsWith("/dashboard/lesson") || pathname?.startsWith("/dashboard/quiz")
+                                    className={`px-5 py-2 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/academy/dashboard/course") || pathname?.startsWith("/academy/dashboard/lesson") || pathname?.startsWith("/academy/dashboard/quiz")
                                         ? "gradient-text bg-white/10"
                                         : "text-text-secondary hover:text-white hover:bg-white/5"
                                         }`}
@@ -71,7 +71,7 @@ export default function Navbar() {
                                 <div className="w-px h-5 bg-border-dark" />
                                 <Link
                                     href="/academy/dashboard/community"
-                                    className={`px-5 py-2 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/dashboard/community")
+                                    className={`px-5 py-2 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/academy/dashboard/community")
                                         ? "gradient-text bg-white/10"
                                         : "text-text-secondary hover:text-white hover:bg-white/5"
                                         }`}
@@ -151,7 +151,7 @@ export default function Navbar() {
                                     <Link
                                         href="/academy/dashboard"
                                         onClick={() => setMobileOpen(false)}
-                                        className={`py-3 px-3 rounded-lg text-base font-medium transition-colors ${isActive("/dashboard") ? "gradient-text bg-white/10" : "text-text-secondary"
+                                        className={`py-3 px-3 rounded-lg text-base font-medium transition-colors ${isActive("/academy/dashboard") ? "gradient-text bg-white/10" : "text-text-secondary"
                                             }`}
                                     >
                                         Panel
@@ -160,7 +160,7 @@ export default function Navbar() {
                                     <Link
                                         href="/academy/dashboard/courses"
                                         onClick={() => setMobileOpen(false)}
-                                        className={`py-3 px-3 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/dashboard/course") ? "gradient-text bg-white/10" : "text-text-secondary"
+                                        className={`py-3 px-3 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/academy/dashboard/course") ? "gradient-text bg-white/10" : "text-text-secondary"
                                             }`}
                                     >
                                         Cursos
@@ -169,7 +169,7 @@ export default function Navbar() {
                                     <Link
                                         href="/academy/dashboard/community"
                                         onClick={() => setMobileOpen(false)}
-                                        className={`py-3 px-3 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/dashboard/community") ? "gradient-text bg-white/10" : "text-text-secondary"
+                                        className={`py-3 px-3 rounded-lg text-base font-medium transition-colors ${pathname?.startsWith("/academy/dashboard/community") ? "gradient-text bg-white/10" : "text-text-secondary"
                                             }`}
                                     >
                                         Comunidad

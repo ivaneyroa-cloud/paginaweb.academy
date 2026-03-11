@@ -25,7 +25,7 @@ export default function LoginPage() {
             if (error) throw error;
 
             // Force a hard reload to the dashboard so auth state connects
-            window.location.href = "/dashboard";
+            window.location.href = "/academy/dashboard";
         } catch (err: any) {
             setError(err.message || "Error al iniciar sesión.");
         } finally {

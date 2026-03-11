@@ -54,7 +54,7 @@ export default function RegisterPage() {
 
             // Auto-redirect después de 2 segundos (el signup ya loguea al usuario)
             setTimeout(() => {
-                window.location.href = "/dashboard";
+                window.location.href = "/academy/dashboard";
             }, 2000);
 
         } catch (err: any) {

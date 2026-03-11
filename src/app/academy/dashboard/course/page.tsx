@@ -24,7 +24,7 @@ export default function CourseRedirectPage() {
                     if (res.ok) {
                         const data = await res.json();
                         if (data.courses && data.courses.length > 0) {
-                            router.replace(`/dashboard/course/${data.courses[0].id}`);
+                            router.replace(`/academy/dashboard/course/${data.courses[0].id}`);
                             return;
                         }
                     }
@@ -34,7 +34,7 @@ export default function CourseRedirectPage() {
                     if (resFallback.ok) {
                         const fallbackData = await resFallback.json();
                         if (fallbackData.course) {
-                            router.replace(`/dashboard/course/${fallbackData.course.id}`);
+                            router.replace(`/academy/dashboard/course/${fallbackData.course.id}`);
                             return;
                         }
                     }

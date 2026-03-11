@@ -160,7 +160,7 @@ export default function CoursesPage() {
                                         </div>
                                     )}
 
-                                    <Link href={`/dashboard/course/${course.id}`}
+                                    <Link href={`/academy/dashboard/course/${course.id}`}
                                         className="block w-full text-center py-3 rounded-xl gradient-bg text-white font-semibold text-sm hover:opacity-90 transition-opacity btn-glow">
                                         {allQuizzesPassed
                                             ? "🎓 Ver Certificado"
