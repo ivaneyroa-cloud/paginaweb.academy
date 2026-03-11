@@ -22,6 +22,10 @@ export function getSupabaseAdmin(): SupabaseClient {
     return _supabaseAdmin;
 }
 
-// DEPRECATED: Do not use this at module level. Use getSupabaseAdmin() inside handlers.
-// This exists only for backward compatibility — it will throw at build time if accessed.
-export const supabaseAdmin = {} as SupabaseClient;
+// Proxy-based lazy accessor: any property access on `supabaseAdmin`
+// forwards to getSupabaseAdmin() at runtime, avoiding build-time crashes.
+export const supabaseAdmin: SupabaseClient = new Proxy({} as SupabaseClient, {
+    get(_target, prop, receiver) {
+        return Reflect.get(getSupabaseAdmin(), prop, receiver);
+    },
+});
