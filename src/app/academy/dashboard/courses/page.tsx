@@ -63,7 +63,7 @@ export default function CoursesPage() {
     const [courseProgress, setCourseProgress] = useState(0);
 
     useEffect(() => {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
             if (!session) { router.push("/academy/login"); return; }
             setUser(session.user);
             const p = getProgress();

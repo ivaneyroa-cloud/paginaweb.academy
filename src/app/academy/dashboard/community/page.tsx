@@ -105,7 +105,7 @@ export default function CommunityPage() {
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (_event, session) => {
+            (_event: any, session: any) => {
                 if (!session) {
                     router.push("/academy/login");
                 } else {
