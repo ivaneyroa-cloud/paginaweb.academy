@@ -231,6 +231,7 @@ export default function RastreoPage() {
                 }
                 .tracking-input-row input {
                     flex: 1;
+                    width: 100%;
                     background: transparent;
                     border: none;
                     outline: none;
