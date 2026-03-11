@@ -41,7 +41,7 @@ export default function AnalyticsPage() {
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            async (_event, session) => {
+            async (_event: any, session: any) => {
                 if (!session) { router.push("/academy/login"); return; }
                 if (!ADMIN_EMAILS.includes(session.user.email?.toLowerCase() || "")) {
                     router.push("/academy/dashboard"); return;

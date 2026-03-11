@@ -12,7 +12,7 @@ export default function CourseRedirectPage() {
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            async (_event, session) => {
+            async (_event: any, session: any) => {
                 if (!session) {
                     router.push("/academy/login");
                     return;
