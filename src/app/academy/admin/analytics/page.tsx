@@ -442,7 +442,7 @@ export default function AnalyticsPage() {
                                                 <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${c.published ? "bg-success/15 text-success" : "bg-amber-500/15 text-amber-400"}`}>
                                                     {c.published ? "Publicado" : "Borrador"}
                                                 </span>
-                                                <Link href={`/admin/courses/${c.id}`} className="text-accent text-xs hover:underline">Editar →</Link>
+                                                <Link href={`/academy/admin/courses/${c.id}`} className="text-accent text-xs hover:underline">Editar →</Link>
                                             </div>
                                         </div>
                                         {c.moduleNames.length > 0 && (

@@ -332,7 +332,7 @@ export default function AdminCoursesPage() {
                                     </div>
                                     <div className="flex items-center gap-2 shrink-0">
                                         <Link
-                                            href={`/admin/courses/${course.id}`}
+                                            href={`/academy/admin/courses/${course.id}`}
                                             className="px-4 py-2 rounded-xl gradient-bg text-white text-xs font-semibold hover:opacity-90 transition-opacity"
                                         >
                                             ✏️ Editar
