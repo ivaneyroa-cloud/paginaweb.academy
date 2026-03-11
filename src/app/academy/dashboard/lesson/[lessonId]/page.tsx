@@ -41,7 +41,7 @@ export default function LessonPage() {
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            async (event, session) => {
+            async (event: any, session: any) => {
                 if (session) {
                     try {
                         const res = await fetch(`/api/academy/lessons/${lessonId}`);

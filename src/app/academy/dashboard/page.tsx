@@ -40,7 +40,7 @@ export default function DashboardPage() {
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (event, session) => {
+            (event: any, session: any) => {
                 if (session) {
                     setUser(session.user);
                     setProgress(getProgress());
