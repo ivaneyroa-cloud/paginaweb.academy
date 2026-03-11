@@ -2,13 +2,9 @@
 // Uses anon client + strips correct_index from quiz questions
 
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin as supabasePublic } from "@/lib/academy/supabaseAdmin";
 import { cachedQuery } from "@/lib/academy/analyticsCache";
 
-const supabasePublic = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export async function GET(
     _request: Request,

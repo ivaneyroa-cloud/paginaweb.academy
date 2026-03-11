@@ -1,12 +1,8 @@
 // ─── Lesson Detail API ───
 // GET /api/lessons/[id] — Returns lesson with module context and navigation
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin as supabase } from "@/lib/academy/supabaseAdmin";
 
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export async function GET(
     _request: Request,

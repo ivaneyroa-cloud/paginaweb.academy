@@ -14,9 +14,14 @@ export function getSupabase() {
     return _supabase;
 }
 
-// Keep backward-compatible export (lazy)
+// Backward-compatible lazy export via Proxy
 export const supabase = new Proxy({} as ReturnType<typeof createBrowserClient>, {
-    get(_, prop) {
-        return (getSupabase() as any)[prop];
+    get(_target, prop, receiver) {
+        const instance = getSupabase();
+        const value = Reflect.get(instance, prop, receiver);
+        if (typeof value === "function") {
+            return value.bind(instance);
+        }
+        return value;
     },
 });

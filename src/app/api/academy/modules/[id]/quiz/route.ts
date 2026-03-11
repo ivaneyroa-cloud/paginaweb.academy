@@ -1,12 +1,8 @@
 // ─── Module Quiz Questions API ───
 // GET /api/modules/[id]/quiz — Returns quiz questions for a module (answers stripped)
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin as supabase } from "@/lib/academy/supabaseAdmin";
 
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export async function GET(
     _request: Request,

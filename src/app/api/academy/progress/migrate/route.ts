@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // ─── Progress Migration API ───
 // One-time endpoint to merge localStorage progress into DB
 

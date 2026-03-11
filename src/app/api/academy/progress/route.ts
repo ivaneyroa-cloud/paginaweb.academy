@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // ─── Rewritten Progress API ───
 // XP is now server-side. Replay prevention. No more client xp_earned.
 

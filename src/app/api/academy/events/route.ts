@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // ─── Event Tracking API ───
 // Append-only event log for analytics
 
