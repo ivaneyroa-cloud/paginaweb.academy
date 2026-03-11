@@ -212,12 +212,18 @@ export default function RastreoPage() {
                 }
                 .tracking-input-row {
                     display: flex;
-                    align-items: stretch;
+                    flex-direction: column;
                     background: rgba(255,255,255,0.03);
                     border: 1px solid rgba(255,255,255,0.08);
                     border-radius: 14px;
                     overflow: hidden;
                     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+                }
+                @media (min-width: 640px) {
+                    .tracking-input-row {
+                        flex-direction: row;
+                        align-items: stretch;
+                    }
                 }
                 .tracking-input-row.focused {
                     border-color: rgba(43,192,255,0.35);
@@ -229,20 +235,33 @@ export default function RastreoPage() {
                     border: none;
                     outline: none;
                     color: #FFFFFF;
-                    font-size: 15px;
-                    padding: 16px 16px 16px 48px;
+                    font-size: 14px;
+                    padding: 14px 14px 14px 44px;
+                    min-width: 0;
+                }
+                @media (min-width: 640px) {
+                    .tracking-input-row input {
+                        font-size: 15px;
+                        padding: 16px 16px 16px 48px;
+                    }
                 }
                 .tracking-input-row input::placeholder {
                     color: rgba(255,255,255,0.28);
                 }
                 .tracking-input-row .search-icon {
                     position: absolute;
-                    left: 16px;
-                    top: 50%;
+                    left: 14px;
+                    top: 24px;
                     transform: translateY(-50%);
                     color: rgba(255,255,255,0.3);
                     pointer-events: none;
                     transition: color 0.3s;
+                }
+                @media (min-width: 640px) {
+                    .tracking-input-row .search-icon {
+                        left: 16px;
+                        top: 50%;
+                    }
                 }
                 .tracking-input-row.focused .search-icon {
                     color: rgba(43,192,255,0.6);
@@ -250,8 +269,9 @@ export default function RastreoPage() {
                 .tracking-btn {
                     display: inline-flex;
                     align-items: center;
+                    justify-content: center;
                     gap: 8px;
-                    padding: 0 28px;
+                    padding: 14px 28px;
                     font-size: 14.5px;
                     font-weight: 600;
                     color: #FFFFFF;
@@ -262,7 +282,14 @@ export default function RastreoPage() {
                     transition: all 0.25s ease;
                     position: relative;
                     overflow: hidden;
-                    border-left: 1px solid rgba(255,255,255,0.06);
+                    border-top: 1px solid rgba(255,255,255,0.06);
+                }
+                @media (min-width: 640px) {
+                    .tracking-btn {
+                        padding: 0 28px;
+                        border-top: none;
+                        border-left: 1px solid rgba(255,255,255,0.06);
+                    }
                 }
                 .tracking-btn:hover {
                     filter: brightness(1.08);
@@ -528,31 +555,31 @@ export default function RastreoPage() {
                                 </div>
 
                                 {/* Milestones */}
-                                <div className="flex justify-between">
+                                <div className="flex justify-between px-1">
                                     {MILESTONES.map((m, i) => {
                                         const reached = cfg.progress >= m.threshold;
                                         const MIcon = m.icon;
                                         return (
-                                            <div key={m.label} className="flex flex-col items-center gap-1.5">
+                                            <div key={m.label} className="flex flex-col items-center gap-1" style={{ minWidth: 0, flex: '1 1 0' }}>
                                                 <motion.div
                                                     initial={{ scale: 0 }}
                                                     animate={{ scale: 1 }}
                                                     transition={{ delay: 0.3 + i * 0.15, type: "spring" }}
-                                                    className="w-8 h-8 rounded-lg flex items-center justify-center"
+                                                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center"
                                                     style={{
                                                         background: reached ? `${cfg.color}15` : "rgba(255,255,255,0.03)",
                                                         border: `1px solid ${reached ? `${cfg.color}30` : "rgba(255,255,255,0.06)"}`,
                                                     }}
                                                 >
                                                     <MIcon
-                                                        size={14}
+                                                        size={12}
                                                         style={{
                                                             color: reached ? cfg.color : "rgba(255,255,255,0.2)",
                                                         }}
                                                     />
                                                 </motion.div>
                                                 <span
-                                                    className="text-[10px] font-semibold"
+                                                    className="text-[9px] sm:text-[10px] font-semibold text-center leading-tight"
                                                     style={{
                                                         color: reached ? cfg.color : "#8494b0",
                                                     }}
@@ -567,7 +594,7 @@ export default function RastreoPage() {
 
                             {/* Info grid */}
                             <div
-                                className="grid grid-cols-2 md:grid-cols-3 gap-4 p-6 rounded-2xl"
+                                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 rounded-2xl"
                                 style={{
                                     background: "rgba(10,22,45,0.5)",
                                     border: "1px solid rgba(255,255,255,0.06)",
