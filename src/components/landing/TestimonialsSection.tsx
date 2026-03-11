@@ -391,7 +391,7 @@ export default function TestimonialsSection() {
                     className="mt-6 flex justify-end"
                 >
                     <a
-                        href="https://www.google.com/maps/place/Shippar"
+                        href="https://www.google.com/maps/search/Shippar+importaciones+argentina"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200"

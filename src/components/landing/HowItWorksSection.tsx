@@ -19,7 +19,8 @@ import {
 
 /* ══════════════════════════════════════════════════════════
    "CÓMO FUNCIONA" — Premium scrollytelling section
-   Sticky panel with 4 operational phases
+   Desktop: Sticky scroll-driven animation
+   Mobile:  Tab-based click navigation (fast & clean)
    ══════════════════════════════════════════════════════════ */
 
 /* ── Step data ── */
@@ -80,6 +81,7 @@ const STEPS = [
         id: 2,
         number: "03",
         label: "Liberación aduanera",
+        labelShort: "Aduana",
         title: "Gestionamos la liberación de tu carga en Argentina",
         description:
             "Nos ocupamos de la documentación ante ARCA y del proceso de liberación aduanera, revisando que la clasificación de la mercadería sea la correcta para resguardar la operación y el beneficio del cliente.",
@@ -168,19 +170,363 @@ const staggerContainer = {
     animate: { transition: { staggerChildren: 0.08 } },
 };
 
+/* ── Hook: detect mobile ── */
+function useIsMobile(breakpoint = 1024) {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < breakpoint);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, [breakpoint]);
+    return isMobile;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAIN EXPORT
+   ══════════════════════════════════════════════════════════ */
 export default function HowItWorksSection() {
+    const isMobile = useIsMobile();
+    return isMobile ? <MobileHowItWorks /> : <DesktopHowItWorks />;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE VERSION — Tab-based, no scroll tracking
+   ══════════════════════════════════════════════════════════ */
+function MobileHowItWorks() {
+    const [activeStep, setActiveStep] = useState(0);
+    const step = STEPS[activeStep];
+
+    return (
+        <section
+            id="how-it-works"
+            className="relative overflow-hidden"
+            style={{ background: "#050b1f" }}
+        >
+            {/* Ambient glows */}
+            <div
+                className="ambient-glow"
+                style={{
+                    width: 400, height: 400,
+                    top: "-8%", left: "5%",
+                    background: "rgba(43, 192, 255, 0.015)",
+                }}
+            />
+
+            <div className="relative z-10 px-4 py-16 max-w-xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-6">
+                    <h2
+                        className="text-2xl sm:text-3xl font-bold text-white leading-tight"
+                        style={{ letterSpacing: "-0.02em" }}
+                    >
+                        Cómo funciona una importación con Shippar
+                    </h2>
+                    <p
+                        className="mt-2 text-sm sm:text-base"
+                        style={{ color: "rgba(255,255,255,0.5)" }}
+                    >
+                        Seguí cada etapa real de una carga, desde el origen hasta la entrega en Argentina.
+                    </p>
+                </div>
+
+                {/* ── Tab bar ── */}
+                <div
+                    className="flex rounded-xl p-1 mb-5"
+                    style={{
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.06)",
+                    }}
+                >
+                    {STEPS.map((s, i) => {
+                        const isActive = i === activeStep;
+                        return (
+                            <button
+                                key={s.id}
+                                onClick={() => setActiveStep(i)}
+                                className="flex-1 py-2.5 rounded-lg text-center transition-all duration-300"
+                                style={{
+                                    background: isActive
+                                        ? "rgba(43,192,255,0.12)"
+                                        : "transparent",
+                                    border: isActive
+                                        ? "1px solid rgba(43,192,255,0.25)"
+                                        : "1px solid transparent",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                <span
+                                    className="text-[11px] sm:text-xs font-bold block"
+                                    style={{
+                                        color: isActive
+                                            ? "var(--primary)"
+                                            : "rgba(255,255,255,0.35)",
+                                    }}
+                                >
+                                    {s.number}
+                                </span>
+                                <span
+                                    className="text-[9px] sm:text-[10px] font-medium block mt-0.5"
+                                    style={{
+                                        color: isActive
+                                            ? "rgba(255,255,255,0.7)"
+                                            : "rgba(255,255,255,0.2)",
+                                    }}
+                                >
+                                    {(s as any).labelShort || s.label}
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
+
+                {/* ── Content card ── */}
+                <div
+                    className="rounded-2xl overflow-hidden"
+                    style={{
+                        background: "linear-gradient(145deg, #0a1628 0%, #0d1f3c 50%, #0a1628 100%)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        boxShadow: "0 4px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)",
+                    }}
+                >
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={step.id}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {/* Text content */}
+                            <div style={{ padding: "1.5rem 1.25rem 1.25rem" }}>
+                                {/* Step label */}
+                                <div className="flex items-center gap-2 mb-3">
+                                    <span
+                                        className="text-2xl font-bold"
+                                        style={{
+                                            color: "var(--primary)",
+                                            opacity: 0.25,
+                                            fontVariantNumeric: "tabular-nums",
+                                        }}
+                                    >
+                                        {step.number}
+                                    </span>
+                                    <span
+                                        className="text-[10px] uppercase tracking-[0.15em] font-semibold"
+                                        style={{ color: "var(--primary)" }}
+                                    >
+                                        {step.label}
+                                    </span>
+                                </div>
+
+                                {/* Title */}
+                                <h3
+                                    className="text-lg font-bold text-white leading-snug mb-3"
+                                    style={{ letterSpacing: "-0.01em" }}
+                                >
+                                    {step.title}
+                                </h3>
+
+                                {/* Description */}
+                                <p
+                                    className="text-sm leading-relaxed mb-4"
+                                    style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}
+                                >
+                                    {step.description}
+                                </p>
+
+                                {/* Bullets */}
+                                <ul className="space-y-2 mb-0">
+                                    {step.bullets.map((bullet, i) => (
+                                        <li
+                                            key={i}
+                                            className="flex items-start gap-2.5 text-sm"
+                                            style={{ color: "rgba(255,255,255,0.6)" }}
+                                        >
+                                            <span
+                                                className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0"
+                                                style={{ background: "var(--primary)", opacity: 0.7 }}
+                                            />
+                                            {bullet}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Divider */}
+                            <div style={{ height: 1, background: "rgba(255,255,255,0.05)" }} />
+
+                            {/* Operational panel — compact */}
+                            <div style={{ padding: "1.25rem" }}>
+                                <MobileOperationalPanel step={step} />
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
+                {/* ── Swipe hint ── */}
+                {activeStep < 3 && (
+                    <div className="flex justify-center mt-4">
+                        <button
+                            onClick={() => setActiveStep(prev => Math.min(3, prev + 1))}
+                            className="flex items-center gap-2 text-xs font-medium transition-all"
+                            style={{
+                                color: "rgba(255,255,255,0.3)",
+                                background: "none",
+                                border: "none",
+                                cursor: "pointer",
+                                padding: "8px 16px",
+                            }}
+                        >
+                            Siguiente paso
+                            <ArrowRight size={14} />
+                        </button>
+                    </div>
+                )}
+            </div>
+        </section>
+    );
+}
+
+/* ── Mobile Operational Panel (compact) ── */
+function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
+    return (
+        <div>
+            {/* Status + Route row */}
+            <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.5)" }}>
+                        {step.panel.origin}
+                    </span>
+                    <ArrowRight size={12} style={{ color: "var(--primary)", opacity: 0.4 }} />
+                    <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.5)" }}>
+                        {step.panel.destination}
+                    </span>
+                </div>
+                <StatusBadge text={step.panel.status} color={step.panel.statusColor} />
+            </div>
+
+            {/* Process nodes — compact horizontal */}
+            <div className="flex items-center gap-0 mb-3">
+                {step.panel.nodes.map((nodeKey, i) => (
+                    <div key={nodeKey} className="flex items-center" style={{ flex: 1 }}>
+                        <div className="flex flex-col items-center" style={{ minWidth: 0, flex: "0 0 auto" }}>
+                            <div
+                                className="w-8 h-8 rounded-lg flex items-center justify-center mb-1"
+                                style={{
+                                    background: i <= step.panel.activeConnection
+                                        ? "rgba(43,192,255,0.1)"
+                                        : "rgba(255,255,255,0.03)",
+                                    border: `1px solid ${i <= step.panel.activeConnection
+                                        ? "rgba(43,192,255,0.25)"
+                                        : "rgba(255,255,255,0.06)"
+                                        }`,
+                                    color: i <= step.panel.activeConnection
+                                        ? "var(--primary)"
+                                        : "rgba(255,255,255,0.25)",
+                                }}
+                            >
+                                {React.cloneElement(NODE_ICONS[nodeKey] as React.ReactElement<{ size: number }>, { size: 14 })}
+                            </div>
+                            <span
+                                className="text-[8px] text-center font-medium leading-tight"
+                                style={{
+                                    color: i <= step.panel.activeConnection
+                                        ? "rgba(255,255,255,0.55)"
+                                        : "rgba(255,255,255,0.2)",
+                                    maxWidth: 60,
+                                }}
+                            >
+                                {NODE_LABELS[nodeKey]}
+                            </span>
+                        </div>
+                        {i < step.panel.nodes.length - 1 && (
+                            <div className="flex-1 mx-1.5">
+                                <div
+                                    className="h-px"
+                                    style={{
+                                        background: i < step.panel.activeConnection
+                                            ? "linear-gradient(to right, rgba(43,192,255,0.4), rgba(43,192,255,0.15))"
+                                            : "rgba(255,255,255,0.06)",
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            {/* Badges — compact */}
+            <div className="space-y-1.5">
+                {step.panel.badges.map((badge) => (
+                    <div
+                        key={badge.text}
+                        className="flex items-center gap-2 py-1.5 px-2.5 rounded-lg"
+                        style={{
+                            background: badge.done
+                                ? "rgba(255,255,255,0.025)"
+                                : "rgba(43,192,255,0.04)",
+                            border: `1px solid ${badge.done
+                                ? "rgba(255,255,255,0.04)"
+                                : "rgba(43,192,255,0.12)"
+                                }`,
+                        }}
+                    >
+                        <div
+                            className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+                            style={{
+                                background: badge.done
+                                    ? "rgba(34,197,94,0.15)"
+                                    : "rgba(43,192,255,0.1)",
+                            }}
+                        >
+                            {badge.done ? (
+                                <CircleCheckBig size={10} style={{ color: "#22c55e" }} />
+                            ) : (
+                                <div
+                                    className="w-1.5 h-1.5 rounded-full animate-pulse"
+                                    style={{ background: "var(--primary)" }}
+                                />
+                            )}
+                        </div>
+                        <span
+                            className="text-[11px] font-medium"
+                            style={{
+                                color: badge.done
+                                    ? "rgba(255,255,255,0.5)"
+                                    : "rgba(255,255,255,0.75)",
+                            }}
+                        >
+                            {badge.text}
+                        </span>
+                        {!badge.done && (
+                            <span
+                                className="ml-auto text-[9px] uppercase tracking-wider font-semibold"
+                                style={{ color: "var(--primary)", opacity: 0.7 }}
+                            >
+                                En curso
+                            </span>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+/* ══════════════════════════════════════════════════════════
+   DESKTOP VERSION — Scroll-driven sticky (original)
+   ══════════════════════════════════════════════════════════ */
+function DesktopHowItWorks() {
     const sectionRef = useRef<HTMLElement>(null);
 
-    /* ── Scroll tracking ── */
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start start", "end end"],
     });
 
-    /* Map 0→1 progress to step index (0-3) */
     const stepRaw = useTransform(scrollYProgress, [0, 1], [0, 3.99]);
 
-    /* ── Programmatic scroll to step ── */
     const handleStepClick = (stepIndex: number) => {
         if (!sectionRef.current) return;
         const sectionTop = sectionRef.current.offsetTop;
@@ -205,27 +551,23 @@ export default function HowItWorksSection() {
                 <div
                     className="ambient-glow"
                     style={{
-                        width: 600,
-                        height: 600,
-                        top: "-10%",
-                        left: "5%",
+                        width: 600, height: 600,
+                        top: "-10%", left: "5%",
                         background: "rgba(43, 192, 255, 0.015)",
                     }}
                 />
                 <div
                     className="ambient-glow"
                     style={{
-                        width: 400,
-                        height: 400,
-                        bottom: "5%",
-                        right: "10%",
+                        width: 400, height: 400,
+                        bottom: "5%", right: "10%",
                         background: "rgba(43, 192, 255, 0.01)",
                     }}
                 />
 
-                {/* ── Scroll hint arrow on the right side ── */}
+                {/* Scroll hint */}
                 <motion.div
-                    className="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col items-center gap-2"
+                    className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-2"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.5, duration: 0.8 }}
@@ -259,7 +601,7 @@ export default function HowItWorksSection() {
                     className="relative z-10 max-w-7xl mx-auto w-full"
                     style={{ padding: "3.5rem 1.5rem 1.5rem" }}
                 >
-                    {/* ── Header ── */}
+                    {/* Header */}
                     <div className="text-center mb-6">
                         <h2
                             className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-white leading-tight"
@@ -271,13 +613,12 @@ export default function HowItWorksSection() {
                             className="mt-3 text-base"
                             style={{ color: "rgba(255,255,255,0.5)" }}
                         >
-                            Seguí cada etapa real de una carga, desde el origen hasta la
-                            entrega en Argentina.
+                            Seguí cada etapa real de una carga, desde el origen hasta la entrega en Argentina.
                         </p>
                     </div>
 
-                    {/* ── Main panel ── */}
-                    <StepContent stepProgress={stepRaw} onStepClick={handleStepClick} />
+                    {/* Main panel */}
+                    <DesktopStepContent stepProgress={stepRaw} onStepClick={handleStepClick} />
                 </div>
             </div>
         </section>
@@ -285,23 +626,20 @@ export default function HowItWorksSection() {
 }
 
 /* ═══════════════════════════════════════════════
-   Step Content — reads motion value, renders panel
+   Desktop Step Content — reads motion value
    ═══════════════════════════════════════════════ */
-function StepContent({
+function DesktopStepContent({
     stepProgress,
     onStepClick,
 }: {
     stepProgress: ReturnType<typeof useTransform<number, number>>;
     onStepClick: (stepIndex: number) => void;
 }) {
-    /* Subscribe to step changes */
     const activeStep = useRoundedMotionValue(stepProgress);
-
     const step = STEPS[activeStep] ?? STEPS[0];
 
     return (
         <>
-            {/* Panel */}
             <div
                 className="rounded-2xl overflow-hidden"
                 style={{
@@ -313,7 +651,7 @@ function StepContent({
                 }}
             >
                 <div className="flex flex-col lg:flex-row h-full" style={{ minHeight: "min(60vh, 480px)" }}>
-                    {/* ── Left column: text ── */}
+                    {/* Left: text */}
                     <div
                         className="lg:w-[45%] flex flex-col justify-center"
                         style={{
@@ -329,7 +667,6 @@ function StepContent({
                                 animate="animate"
                                 exit="exit"
                             >
-                                {/* Step number */}
                                 <motion.div
                                     variants={fadeSlideUp}
                                     transition={{ duration: 0.4 }}
@@ -354,7 +691,6 @@ function StepContent({
                                     </span>
                                 </motion.div>
 
-                                {/* Title */}
                                 <motion.h3
                                     variants={fadeSlideUp}
                                     transition={{ duration: 0.4, delay: 0.05 }}
@@ -364,7 +700,6 @@ function StepContent({
                                     {step.title}
                                 </motion.h3>
 
-                                {/* Description */}
                                 <motion.p
                                     variants={fadeSlideUp}
                                     transition={{ duration: 0.4, delay: 0.1 }}
@@ -374,7 +709,6 @@ function StepContent({
                                     {step.description}
                                 </motion.p>
 
-                                {/* Bullets */}
                                 <motion.ul className="space-y-3" variants={staggerContainer}>
                                     {step.bullets.map((bullet, i) => (
                                         <motion.li
@@ -396,7 +730,7 @@ function StepContent({
                         </AnimatePresence>
                     </div>
 
-                    {/* ── Right column: operational panel ── */}
+                    {/* Right: operational panel */}
                     <div
                         className="lg:w-[55%] flex items-center justify-center"
                         style={{ padding: "2rem 2rem" }}
@@ -410,26 +744,26 @@ function StepContent({
                                 transition={{ duration: 0.45 }}
                                 className="w-full"
                             >
-                                <OperationalPanel step={step} />
+                                <DesktopOperationalPanel step={step} />
                             </motion.div>
                         </AnimatePresence>
                     </div>
                 </div>
             </div>
 
-            {/* ── Stepper ── */}
-            <Stepper activeStep={activeStep} onStepClick={onStepClick} />
+            {/* Stepper */}
+            <DesktopStepper activeStep={activeStep} onStepClick={onStepClick} />
         </>
     );
 }
 
 /* ═══════════════════════════════════════════════
-   Operational Panel — right side visual
+   Desktop Operational Panel
    ═══════════════════════════════════════════════ */
-function OperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
+function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
     return (
         <div className="w-full max-w-lg mx-auto">
-            {/* Header bar */}
+            {/* Header */}
             <div
                 className="flex items-center justify-end mb-5 pb-4"
                 style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
@@ -447,60 +781,28 @@ function OperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
             >
                 <div className="flex items-center justify-between">
                     <div>
-                        <p
-                            className="text-[10px] uppercase tracking-widest mb-1"
-                            style={{ color: "rgba(255,255,255,0.3)" }}
-                        >
+                        <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.3)" }}>
                             Origen
                         </p>
-                        <p className="text-sm font-semibold text-white">
-                            {step.panel.origin}
-                        </p>
+                        <p className="text-sm font-semibold text-white">{step.panel.origin}</p>
                     </div>
-
                     <div className="flex items-center gap-2 px-4">
-                        <div
-                            className="h-px flex-1"
-                            style={{
-                                width: 40,
-                                background:
-                                    "linear-gradient(to right, rgba(255,255,255,0.1), rgba(43,192,255,0.3), rgba(255,255,255,0.1))",
-                            }}
-                        />
-                        <ArrowRight
-                            size={14}
-                            style={{ color: "var(--primary)", opacity: 0.5 }}
-                        />
-                        <div
-                            className="h-px flex-1"
-                            style={{
-                                width: 40,
-                                background:
-                                    "linear-gradient(to right, rgba(255,255,255,0.1), rgba(43,192,255,0.3), rgba(255,255,255,0.1))",
-                            }}
-                        />
+                        <div className="h-px flex-1" style={{ width: 40, background: "linear-gradient(to right, rgba(255,255,255,0.1), rgba(43,192,255,0.3), rgba(255,255,255,0.1))" }} />
+                        <ArrowRight size={14} style={{ color: "var(--primary)", opacity: 0.5 }} />
+                        <div className="h-px flex-1" style={{ width: 40, background: "linear-gradient(to right, rgba(255,255,255,0.1), rgba(43,192,255,0.3), rgba(255,255,255,0.1))" }} />
                     </div>
-
                     <div className="text-right">
-                        <p
-                            className="text-[10px] uppercase tracking-widest mb-1"
-                            style={{ color: "rgba(255,255,255,0.3)" }}
-                        >
+                        <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.3)" }}>
                             Destino
                         </p>
-                        <p className="text-sm font-semibold text-white">
-                            {step.panel.destination}
-                        </p>
+                        <p className="text-sm font-semibold text-white">{step.panel.destination}</p>
                     </div>
                 </div>
             </div>
 
             {/* Process nodes */}
             <div className="mb-5">
-                <p
-                    className="text-[10px] uppercase tracking-[0.15em] font-semibold mb-3"
-                    style={{ color: "rgba(255,255,255,0.25)" }}
-                >
+                <p className="text-[10px] uppercase tracking-[0.15em] font-semibold mb-3" style={{ color: "rgba(255,255,255,0.25)" }}>
                     Estado operativo
                 </p>
                 <div className="flex items-center gap-0">
@@ -521,10 +823,9 @@ function OperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                                         transition={{ duration: 0.5, delay: 0.2 + i * 0.15 }}
                                         className="h-px origin-left"
                                         style={{
-                                            background:
-                                                i < step.panel.activeConnection
-                                                    ? "linear-gradient(to right, rgba(43,192,255,0.4), rgba(43,192,255,0.15))"
-                                                    : "rgba(255,255,255,0.06)",
+                                            background: i < step.panel.activeConnection
+                                                ? "linear-gradient(to right, rgba(43,192,255,0.4), rgba(43,192,255,0.15))"
+                                                : "rgba(255,255,255,0.06)",
                                         }}
                                     />
                                 </div>
@@ -544,28 +845,18 @@ function OperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                         transition={{ duration: 0.35, delay: 0.3 + i * 0.1 }}
                         className="flex items-center gap-2.5 py-2 px-3 rounded-lg"
                         style={{
-                            background: badge.done
-                                ? "rgba(255,255,255,0.025)"
-                                : "rgba(43,192,255,0.04)",
-                            border: `1px solid ${badge.done
-                                ? "rgba(255,255,255,0.04)"
-                                : "rgba(43,192,255,0.12)"
-                                }`,
+                            background: badge.done ? "rgba(255,255,255,0.025)" : "rgba(43,192,255,0.04)",
+                            border: `1px solid ${badge.done ? "rgba(255,255,255,0.04)" : "rgba(43,192,255,0.12)"}`,
                         }}
                     >
                         <div
                             className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
                             style={{
-                                background: badge.done
-                                    ? "rgba(34,197,94,0.15)"
-                                    : "rgba(43,192,255,0.1)",
+                                background: badge.done ? "rgba(34,197,94,0.15)" : "rgba(43,192,255,0.1)",
                             }}
                         >
                             {badge.done ? (
-                                <CircleCheckBig
-                                    size={12}
-                                    style={{ color: "#22c55e" }}
-                                />
+                                <CircleCheckBig size={12} style={{ color: "#22c55e" }} />
                             ) : (
                                 <motion.div
                                     animate={{ opacity: [0.4, 1, 0.4] }}
@@ -577,11 +868,7 @@ function OperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                         </div>
                         <span
                             className="text-xs font-medium"
-                            style={{
-                                color: badge.done
-                                    ? "rgba(255,255,255,0.5)"
-                                    : "rgba(255,255,255,0.75)",
-                            }}
+                            style={{ color: badge.done ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.75)" }}
                         >
                             {badge.text}
                         </span>
@@ -601,7 +888,7 @@ function OperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
 }
 
 /* ═══════════════════════════════════════════════
-   Process Node — single node in the visual
+   Process Node
    ═══════════════════════════════════════════════ */
 function ProcessNode({
     icon,
@@ -627,17 +914,10 @@ function ProcessNode({
             <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center mb-2 transition-all duration-500"
                 style={{
-                    background: isActive
-                        ? "rgba(43,192,255,0.1)"
-                        : "rgba(255,255,255,0.03)",
-                    border: `1px solid ${isActive
-                        ? "rgba(43,192,255,0.25)"
-                        : "rgba(255,255,255,0.06)"
-                        }`,
+                    background: isActive ? "rgba(43,192,255,0.1)" : "rgba(255,255,255,0.03)",
+                    border: `1px solid ${isActive ? "rgba(43,192,255,0.25)" : "rgba(255,255,255,0.06)"}`,
                     color: isActive ? "var(--primary)" : "rgba(255,255,255,0.25)",
-                    boxShadow: isActive
-                        ? "0 0 20px rgba(43,192,255,0.08)"
-                        : "none",
+                    boxShadow: isActive ? "0 0 20px rgba(43,192,255,0.08)" : "none",
                 }}
             >
                 {icon}
@@ -673,10 +953,7 @@ function StatusBadge({ text, color }: { text: string; color: string }) {
                 className="w-1.5 h-1.5 rounded-full"
                 style={{ background: color }}
             />
-            <span
-                className="text-xs font-semibold"
-                style={{ color }}
-            >
+            <span className="text-xs font-semibold" style={{ color }}>
                 {text}
             </span>
         </div>
@@ -684,9 +961,9 @@ function StatusBadge({ text, color }: { text: string; color: string }) {
 }
 
 /* ═══════════════════════════════════════════════
-   Stepper — horizontal step indicator
+   Desktop Stepper
    ═══════════════════════════════════════════════ */
-function Stepper({ activeStep, onStepClick }: { activeStep: number; onStepClick: (stepIndex: number) => void }) {
+function DesktopStepper({ activeStep, onStepClick }: { activeStep: number; onStepClick: (stepIndex: number) => void }) {
     return (
         <div className="mt-4 mx-auto max-w-3xl">
             <div className="flex items-center">
@@ -696,7 +973,6 @@ function Stepper({ activeStep, onStepClick }: { activeStep: number; onStepClick:
 
                     return (
                         <div key={step.id} className="flex items-center" style={{ flex: 1 }}>
-                            {/* Step indicator — clickable */}
                             <button
                                 onClick={() => onStepClick(i)}
                                 className="flex flex-col items-center group"
@@ -717,23 +993,16 @@ function Stepper({ activeStep, onStepClick }: { activeStep: number; onStepClick:
                                                 ? "rgba(34,197,94,0.25)"
                                                 : "rgba(255,255,255,0.06)"
                                             }`,
-                                        boxShadow: isActive
-                                            ? "0 0 16px rgba(43,192,255,0.15)"
-                                            : "none",
+                                        boxShadow: isActive ? "0 0 16px rgba(43,192,255,0.15)" : "none",
                                     }}
                                 >
                                     {isDone ? (
-                                        <CircleCheckBig
-                                            size={14}
-                                            style={{ color: "#22c55e" }}
-                                        />
+                                        <CircleCheckBig size={14} style={{ color: "#22c55e" }} />
                                     ) : (
                                         <span
                                             className="text-[11px] font-bold"
                                             style={{
-                                                color: isActive
-                                                    ? "var(--primary)"
-                                                    : "rgba(255,255,255,0.2)",
+                                                color: isActive ? "var(--primary)" : "rgba(255,255,255,0.2)",
                                                 fontVariantNumeric: "tabular-nums",
                                             }}
                                         >
@@ -755,14 +1024,11 @@ function Stepper({ activeStep, onStepClick }: { activeStep: number; onStepClick:
                                 </span>
                             </button>
 
-                            {/* Connector line */}
                             {i < STEPS.length - 1 && (
                                 <div className="flex-1 mx-2 mb-6">
                                     <div
                                         className="h-px w-full relative overflow-hidden rounded"
-                                        style={{
-                                            background: "rgba(255,255,255,0.06)",
-                                        }}
+                                        style={{ background: "rgba(255,255,255,0.06)" }}
                                     >
                                         <motion.div
                                             className="absolute inset-y-0 left-0 rounded"
@@ -792,8 +1058,6 @@ function Stepper({ activeStep, onStepClick }: { activeStep: number; onStepClick:
 
 /* ═══════════════════════════════════════════════
    Hook: useRoundedMotionValue
-   Subscribes to a MotionValue<number> and returns
-   a rounded integer (the active step index)
    ═══════════════════════════════════════════════ */
 function useRoundedMotionValue(
     mv: ReturnType<typeof useTransform<number, number>>

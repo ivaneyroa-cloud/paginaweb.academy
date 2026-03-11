@@ -251,7 +251,7 @@ export default function RastreoPage() {
                 .tracking-input-row .search-icon {
                     position: absolute;
                     left: 14px;
-                    top: 24px;
+                    top: 50%;
                     transform: translateY(-50%);
                     color: rgba(255,255,255,0.3);
                     pointer-events: none;
@@ -260,7 +260,6 @@ export default function RastreoPage() {
                 @media (min-width: 640px) {
                     .tracking-input-row .search-icon {
                         left: 16px;
-                        top: 50%;
                     }
                 }
                 .tracking-input-row.focused .search-icon {
@@ -398,17 +397,19 @@ export default function RastreoPage() {
                         {/* Input row */}
                         <div className="relative">
                             <div className={`tracking-input-row ${inputFocused ? "focused" : ""}`}>
-                                <Search size={18} className="search-icon" style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", zIndex: 2 }} />
-                                <input
-                                    ref={inputRef}
-                                    type="text"
-                                    placeholder="Ingresá tu número de seguimiento"
-                                    value={trackingNumber}
-                                    onChange={(e) => setTrackingNumber(e.target.value)}
-                                    onKeyDown={handleKeyDown}
-                                    onFocus={() => setInputFocused(true)}
-                                    onBlur={() => setInputFocused(false)}
-                                />
+                                <div className="relative" style={{ flex: 1 }}>
+                                    <Search size={18} className="search-icon" style={{ zIndex: 2 }} />
+                                    <input
+                                        ref={inputRef}
+                                        type="text"
+                                        placeholder="Ingresá tu número de seguimiento"
+                                        value={trackingNumber}
+                                        onChange={(e) => setTrackingNumber(e.target.value)}
+                                        onKeyDown={handleKeyDown}
+                                        onFocus={() => setInputFocused(true)}
+                                        onBlur={() => setInputFocused(false)}
+                                    />
+                                </div>
                                 <button
                                     onClick={handleTrack}
                                     disabled={loading || !trackingNumber.trim()}
