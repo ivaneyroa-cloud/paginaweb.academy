@@ -202,6 +202,11 @@ export default function Navbar() {
 
                     {/* ── Desktop Nav ── */}
                     <nav className="hidden md:flex items-center gap-2">
+                        {/* Servicios — premium link */}
+                        <Link href="/servicios" className="nav-link-academy mr-3">
+                            Servicios
+                        </Link>
+
                         {/* Academy — premium link */}
                         <Link href="/academy" className="nav-link-academy mr-3">
                             Academy
@@ -256,11 +261,27 @@ export default function Navbar() {
                         }}
                     >
                         <div className="flex flex-col items-center justify-center h-full gap-10">
-                            {/* Academy */}
+                            {/* Servicios */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.05 }}
+                            >
+                                <Link
+                                    href="/servicios"
+                                    onClick={() => setMobileOpen(false)}
+                                    className="text-xl font-medium transition-colors"
+                                    style={{ color: "rgba(255,255,255,0.7)" }}
+                                >
+                                    Servicios
+                                </Link>
+                            </motion.div>
+
+                            {/* Academy */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
                             >
                                 <Link
                                     href="/academy"
@@ -276,7 +297,7 @@ export default function Navbar() {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.1 }}
+                                transition={{ delay: 0.15 }}
                             >
                                 <Link
                                     href="/rastreo"
@@ -293,7 +314,7 @@ export default function Navbar() {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
+                                transition={{ delay: 0.25 }}
                                 className="absolute bottom-8 left-5 right-5"
                             >
                                 <a

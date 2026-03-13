@@ -11,7 +11,11 @@ export default function MainLayout({
     return (
         <>
             <Navbar />
-            <main className="min-h-screen">{children}</main>
+            <main className="min-h-screen relative">
+                <div className="relative" style={{ zIndex: 1 }}>
+                    {children}
+                </div>
+            </main>
             <Footer />
             <WhatsAppFloat />
             <TrackingWidget />
