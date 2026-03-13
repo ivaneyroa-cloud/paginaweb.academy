@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, AnimatePresence, LayoutGroup } from "framer-motion";
+import { useI18n } from "@/i18n";
 import {
     Package,
     Plane,
@@ -436,8 +437,9 @@ export default function ServiciosSection() {
     const selectorRef = useRef<HTMLDivElement>(null);
     const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
     const [activeIndex, setActiveIndex] = useState(0);
-    const [direction, setDirection] = useState(0); // -1 left, 1 right
+    const [direction, setDirection] = useState(0);
     const isMobile = useIsMobile();
+    const { t } = useI18n();
 
     const activeService = SERVICES[activeIndex];
 
@@ -547,7 +549,7 @@ export default function ServiciosSection() {
                                     color: "#2BC0FF",
                                 }}
                             >
-                                Servicios
+                                {t("servicios.eyebrow")}
                             </span>
                         </motion.div>
 
@@ -569,7 +571,7 @@ export default function ServiciosSection() {
                                 color: "#FFFFFF",
                             }}
                         >
-                            Soluciones logísticas para operaciones comerciales{" "}
+                            {t("servicios.title")}{" "}
                             <span
                                 style={{
                                     background:
@@ -579,7 +581,7 @@ export default function ServiciosSection() {
                                     backgroundClip: "text",
                                 }}
                             >
-                                internacionales
+                                {t("servicios.title_accent", "internacionales")}
                             </span>
                         </motion.h1>
 
@@ -600,9 +602,7 @@ export default function ServiciosSection() {
                                 margin: "clamp(8px, 1vw, 12px) auto 0",
                             }}
                         >
-                            Trabajamos con empresas, pymes y emprendedores que
-                            necesitan importar o exportar con una operación
-                            clara, acompañada y eficiente.
+                            {t("servicios.subtitle")}
                         </motion.p>
                     </div>
 
@@ -693,7 +693,7 @@ export default function ServiciosSection() {
                                                     transition: "color 0.3s",
                                                 }}
                                             >
-                                                {service.label}
+                                                {t(`svc.${service.id}.label`)}
                                             </span>
                                             <span
                                                 className="relative z-10"
@@ -713,7 +713,7 @@ export default function ServiciosSection() {
                                                     transition: "all 0.3s",
                                                 }}
                                             >
-                                                {service.tag}
+                                                {t(`svc.${service.id}.tag`)}
                                             </span>
                                         </motion.button>
                                     );
@@ -770,7 +770,7 @@ export default function ServiciosSection() {
                                                     transition: "color 0.25s",
                                                 }}
                                             >
-                                                {service.label}
+                                                {t(`svc.${service.id}.label`)}
                                             </span>
                                             {isActive && (
                                                 <motion.span
@@ -891,7 +891,7 @@ export default function ServiciosSection() {
                                                         color: "#2BC0FF",
                                                     }}
                                                 >
-                                                    {activeService.label}
+                                                    {t(`svc.${activeService.id}.label`)}
                                                 </motion.span>
                                             </div>
 
@@ -910,7 +910,7 @@ export default function ServiciosSection() {
                                                         : "16px",
                                                 }}
                                             >
-                                                {activeService.title}
+                                                {t(`svc.${activeService.id}.title`)}
                                             </h2>
 
                                             {/* Description */}
@@ -929,7 +929,7 @@ export default function ServiciosSection() {
                                                     maxWidth: "480px",
                                                 }}
                                             >
-                                                {activeService.description}
+                                                {t(`svc.${activeService.id}.desc`)}
                                             </p>
 
                                             {/* Benefits — staggered checks */}
@@ -1050,7 +1050,7 @@ export default function ServiciosSection() {
                                                                     lineHeight: 1.4,
                                                                 }}
                                                             >
-                                                                {item}
+                                                                {t(`svc.${activeService.id}.benefit.${i}`)}
                                                             </span>
                                                         </motion.div>
                                                     )
@@ -1107,7 +1107,7 @@ export default function ServiciosSection() {
                                                     </span>
                                                     <span className="relative z-10 flex items-center gap-2">
                                                         {
-                                                            activeService.ctaPrimary
+                                                            t("servicios.ver")
                                                         }
                                                         <ArrowRight
                                                             size={15}
@@ -1151,7 +1151,7 @@ export default function ServiciosSection() {
                                                     }}
                                                 >
                                                     <Headset size={15} />
-                                                    Hablar con un asesor
+                                                    {t("servicios.talk", "Hablar con un asesor")}
                                                 </motion.a>
                                             </div>
                                         </div>

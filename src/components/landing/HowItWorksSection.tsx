@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useI18n } from "@/i18n";
 import {
     Package,
     Warehouse,
@@ -194,6 +195,7 @@ export default function HowItWorksSection() {
    MOBILE VERSION — Tab-based, no scroll tracking
    ══════════════════════════════════════════════════════════ */
 function MobileHowItWorks() {
+    const { t } = useI18n();
     const [activeStep, setActiveStep] = useState(0);
     const step = STEPS[activeStep];
 
@@ -220,13 +222,13 @@ function MobileHowItWorks() {
                         className="text-2xl sm:text-3xl font-bold text-white leading-tight"
                         style={{ letterSpacing: "-0.02em" }}
                     >
-                        Cómo funciona una importación con Shippar
+                        {t("how.title")}
                     </h2>
                     <p
                         className="mt-2 text-sm sm:text-base"
                         style={{ color: "rgba(255,255,255,0.5)" }}
                     >
-                        Seguí cada etapa real de una carga, desde el origen hasta la entrega en Argentina.
+                        {t("how.subtitle")}
                     </p>
                 </div>
 
@@ -273,7 +275,7 @@ function MobileHowItWorks() {
                                             : "rgba(255,255,255,0.2)",
                                     }}
                                 >
-                                    {(s as any).labelShort || s.label}
+                                    {t(`how.step.${s.id}.labelShort`, t(`how.step.${s.id}.label`))}
                                 </span>
                             </button>
                         );
@@ -315,7 +317,7 @@ function MobileHowItWorks() {
                                         className="text-[10px] uppercase tracking-[0.15em] font-semibold"
                                         style={{ color: "var(--primary)" }}
                                     >
-                                        {step.label}
+                                        {t(`how.step.${step.id}.label`)}
                                     </span>
                                 </div>
 
@@ -324,7 +326,7 @@ function MobileHowItWorks() {
                                     className="text-lg font-bold text-white leading-snug mb-3"
                                     style={{ letterSpacing: "-0.01em" }}
                                 >
-                                    {step.title}
+                                    {t(`how.step.${step.id}.title`)}
                                 </h3>
 
                                 {/* Description */}
@@ -332,12 +334,12 @@ function MobileHowItWorks() {
                                     className="text-sm leading-relaxed mb-4"
                                     style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}
                                 >
-                                    {step.description}
+                                    {t(`how.step.${step.id}.desc`)}
                                 </p>
 
                                 {/* Bullets */}
                                 <ul className="space-y-2 mb-0">
-                                    {step.bullets.map((bullet, i) => (
+                                    {step.bullets.map((_bullet, i) => (
                                         <li
                                             key={i}
                                             className="flex items-start gap-2.5 text-sm"
@@ -347,7 +349,7 @@ function MobileHowItWorks() {
                                                 className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0"
                                                 style={{ background: "var(--primary)", opacity: 0.7 }}
                                             />
-                                            {bullet}
+                                            {t(`how.step.${step.id}.bullet.${i}`)}
                                         </li>
                                     ))}
                                 </ul>
@@ -378,7 +380,7 @@ function MobileHowItWorks() {
                                 padding: "8px 16px",
                             }}
                         >
-                            Siguiente paso
+                            {t("how.next_step", "Siguiente paso")}
                             <ArrowRight size={14} />
                         </button>
                     </div>
@@ -390,6 +392,7 @@ function MobileHowItWorks() {
 
 /* ── Mobile Operational Panel (compact) ── */
 function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
+    const { t } = useI18n();
     return (
         <div>
             {/* Status + Route row */}
@@ -403,7 +406,7 @@ function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                         {step.panel.destination}
                     </span>
                 </div>
-                <StatusBadge text={step.panel.status} color={step.panel.statusColor} />
+                <StatusBadge text={t(`how.step.${step.id}.status`)} color={step.panel.statusColor} />
             </div>
 
             {/* Process nodes — compact horizontal */}
@@ -437,7 +440,7 @@ function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                                     maxWidth: 60,
                                 }}
                             >
-                                {NODE_LABELS[nodeKey]}
+                                {t(`how.node.${nodeKey}`)}
                             </span>
                         </div>
                         {i < step.panel.nodes.length - 1 && (
@@ -497,14 +500,14 @@ function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                                     : "rgba(255,255,255,0.75)",
                             }}
                         >
-                            {badge.text}
+                            {t(`how.step.${step.id}.badge.${step.panel.badges.indexOf(badge)}`)}
                         </span>
                         {!badge.done && (
                             <span
                                 className="ml-auto text-[9px] uppercase tracking-wider font-semibold"
                                 style={{ color: "var(--primary)", opacity: 0.7 }}
                             >
-                                En curso
+                                {t("how.in_progress", "En curso")}
                             </span>
                         )}
                     </div>
@@ -518,6 +521,7 @@ function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
    DESKTOP VERSION — Scroll-driven sticky (original)
    ══════════════════════════════════════════════════════════ */
 function DesktopHowItWorks() {
+    const { t } = useI18n();
     const sectionRef = useRef<HTMLElement>(null);
 
     const { scrollYProgress } = useScroll({
@@ -607,13 +611,13 @@ function DesktopHowItWorks() {
                             className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-white leading-tight"
                             style={{ letterSpacing: "-0.02em" }}
                         >
-                            Cómo funciona una importación con Shippar
+                            {t("how.title")}
                         </h2>
                         <p
                             className="mt-3 text-base"
                             style={{ color: "rgba(255,255,255,0.5)" }}
                         >
-                            Seguí cada etapa real de una carga, desde el origen hasta la entrega en Argentina.
+                            {t("how.subtitle")}
                         </p>
                     </div>
 
@@ -635,6 +639,7 @@ function DesktopStepContent({
     stepProgress: ReturnType<typeof useTransform<number, number>>;
     onStepClick: (stepIndex: number) => void;
 }) {
+    const { t } = useI18n();
     const activeStep = useRoundedMotionValue(stepProgress);
     const step = STEPS[activeStep] ?? STEPS[0];
 
@@ -687,7 +692,7 @@ function DesktopStepContent({
                                         className="text-xs uppercase tracking-[0.15em] font-semibold"
                                         style={{ color: "var(--primary)" }}
                                     >
-                                        {step.label}
+                                        {t(`how.step.${step.id}.label`)}
                                     </span>
                                 </motion.div>
 
@@ -697,7 +702,7 @@ function DesktopStepContent({
                                     className="text-xl lg:text-2xl font-bold text-white leading-snug mb-4"
                                     style={{ letterSpacing: "-0.01em" }}
                                 >
-                                    {step.title}
+                                    {t(`how.step.${step.id}.title`)}
                                 </motion.h3>
 
                                 <motion.p
@@ -706,11 +711,11 @@ function DesktopStepContent({
                                     className="text-sm leading-relaxed mb-6"
                                     style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}
                                 >
-                                    {step.description}
+                                    {t(`how.step.${step.id}.desc`)}
                                 </motion.p>
 
                                 <motion.ul className="space-y-3" variants={staggerContainer}>
-                                    {step.bullets.map((bullet, i) => (
+                                    {step.bullets.map((_bullet, i) => (
                                         <motion.li
                                             key={i}
                                             variants={fadeSlideUp}
@@ -722,7 +727,7 @@ function DesktopStepContent({
                                                 className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0"
                                                 style={{ background: "var(--primary)", opacity: 0.7 }}
                                             />
-                                            {bullet}
+                                            {t(`how.step.${step.id}.bullet.${i}`)}
                                         </motion.li>
                                     ))}
                                 </motion.ul>
@@ -761,6 +766,7 @@ function DesktopStepContent({
    Desktop Operational Panel
    ═══════════════════════════════════════════════ */
 function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
+    const { t } = useI18n();
     return (
         <div className="w-full max-w-lg mx-auto">
             {/* Header */}
@@ -768,7 +774,7 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                 className="flex items-center justify-end mb-5 pb-4"
                 style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
             >
-                <StatusBadge text={step.panel.status} color={step.panel.statusColor} />
+                <StatusBadge text={t(`how.step.${step.id}.status`)} color={step.panel.statusColor} />
             </div>
 
             {/* Route info */}
@@ -782,7 +788,7 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                 <div className="flex items-center justify-between">
                     <div>
                         <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.3)" }}>
-                            Origen
+                            {t("how.panel.origin")}
                         </p>
                         <p className="text-sm font-semibold text-white">{step.panel.origin}</p>
                     </div>
@@ -793,7 +799,7 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                     </div>
                     <div className="text-right">
                         <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.3)" }}>
-                            Destino
+                            {t("how.panel.destination")}
                         </p>
                         <p className="text-sm font-semibold text-white">{step.panel.destination}</p>
                     </div>
@@ -803,14 +809,14 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
             {/* Process nodes */}
             <div className="mb-5">
                 <p className="text-[10px] uppercase tracking-[0.15em] font-semibold mb-3" style={{ color: "rgba(255,255,255,0.25)" }}>
-                    Estado operativo
+                    {t("how.panel.status_label")}
                 </p>
                 <div className="flex items-center gap-0">
                     {step.panel.nodes.map((nodeKey, i) => (
                         <div key={nodeKey} className="flex items-center" style={{ flex: 1 }}>
                             <ProcessNode
                                 icon={NODE_ICONS[nodeKey]}
-                                label={NODE_LABELS[nodeKey]}
+                                label={t(`how.node.${nodeKey}`)}
                                 isActive={i <= step.panel.activeConnection}
                                 isLast={i === step.panel.nodes.length - 1}
                                 delay={i * 0.12}
@@ -870,14 +876,14 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                             className="text-xs font-medium"
                             style={{ color: badge.done ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.75)" }}
                         >
-                            {badge.text}
+                            {t(`how.step.${step.id}.badge.${i}`)}
                         </span>
                         {!badge.done && (
                             <span
                                 className="ml-auto text-[10px] uppercase tracking-wider font-semibold"
                                 style={{ color: "var(--primary)", opacity: 0.7 }}
                             >
-                                En curso
+                                {t("how.in_progress", "En curso")}
                             </span>
                         )}
                     </motion.div>
@@ -964,6 +970,7 @@ function StatusBadge({ text, color }: { text: string; color: string }) {
    Desktop Stepper
    ═══════════════════════════════════════════════ */
 function DesktopStepper({ activeStep, onStepClick }: { activeStep: number; onStepClick: (stepIndex: number) => void }) {
+    const { t } = useI18n();
     return (
         <div className="mt-4 mx-auto max-w-3xl">
             <div className="flex items-center">
@@ -1020,7 +1027,7 @@ function DesktopStepper({ activeStep, onStepClick }: { activeStep: number; onSte
                                                 : "rgba(255,255,255,0.2)",
                                     }}
                                 >
-                                    {step.label}
+                                    {t(`how.step.${step.id}.label`)}
                                 </span>
                             </button>
 

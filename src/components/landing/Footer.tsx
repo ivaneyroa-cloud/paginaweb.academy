@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useI18n } from "@/i18n";
 
 /* ─── Social icons (inline SVG for zero-dep, pixel-perfect control) ─── */
 const socials = [
@@ -51,14 +52,18 @@ const CONTACT_PHONES = [
     { label: "WhatsApp", number: "+54 9 11 3924 3790", href: "https://wa.me/5491139243790" },
 ];
 
-const NAV_LINKS = [
-    { label: "Academy", href: "/academy" },
-    { label: "Contacto", href: "/contacto" },
-    { label: "Rastrear envío", href: "/rastreo" },
-    { label: "Cotizar envío", href: "/contacto" },
-];
+
 
 export default function Footer() {
+    const { t } = useI18n();
+
+    const NAV_LINKS = [
+        { label: t("footer.nav.academy"), href: "/academy" },
+        { label: t("footer.nav.contacto"), href: "/contacto" },
+        { label: t("footer.nav.rastrear"), href: "/rastreo" },
+        { label: t("footer.nav.cotizar"), href: "/contacto" },
+    ];
+
     return (
         <footer
             style={{
@@ -79,13 +84,13 @@ export default function Footer() {
                             className="text-[13px] font-medium tracking-wide"
                             style={{ color: "rgba(255,255,255,0.6)", letterSpacing: "0.04em" }}
                         >
-                            Comercio sin fronteras
+                            {t("footer.tagline")}
                         </p>
                         <p
                             className="text-[12px] leading-relaxed mt-3 mb-5"
                             style={{ color: "#8494b0", lineHeight: 1.7, maxWidth: 260 }}
                         >
-                            Logística internacional express. Importá desde cualquier lugar del mundo con envíos rápidos y seguimiento en tiempo real.
+                            {t("footer.desc")}
                         </p>
 
                         {/* Social icons */}
@@ -126,7 +131,7 @@ export default function Footer() {
                             className="text-[10px] font-bold uppercase tracking-[0.16em] mb-5"
                             style={{ color: "#b0bdd0" }}
                         >
-                            Contacto
+                            {t("footer.contact")}
                         </h4>
 
                         {/* Emails */}
@@ -170,7 +175,7 @@ export default function Footer() {
                                     Warehouse Argentina
                                 </span>
                                 <span className="text-[12px]" style={{ color: "#a0b0cc" }}>
-                                    Lun a Vie · 9:00 a 17:00 hs
+                                    {t("footer.warehouse_ar_hours")}
                                 </span>
                             </div>
                             <div>
@@ -178,7 +183,7 @@ export default function Footer() {
                                     Warehouse China
                                 </span>
                                 <span className="text-[12px]" style={{ color: "#a0b0cc" }}>
-                                    Operativo 24 hs · los 365 días
+                                    {t("footer.warehouse_cn_hours")}
                                 </span>
                             </div>
                         </div>
@@ -190,7 +195,7 @@ export default function Footer() {
                             className="text-[10px] font-bold uppercase tracking-[0.16em] mb-5"
                             style={{ color: "#b0bdd0" }}
                         >
-                            Navegación
+                            {t("footer.navigation")}
                         </h4>
                         <ul className="space-y-2.5">
                             {NAV_LINKS.map((l) => (
@@ -213,7 +218,7 @@ export default function Footer() {
                             className="text-[10px] font-bold uppercase tracking-[0.16em] mb-5"
                             style={{ color: "#b0bdd0" }}
                         >
-                            Legal
+                            {t("footer.legal")}
                         </h4>
 
                         <div className="space-y-2 mb-4">
@@ -232,7 +237,7 @@ export default function Footer() {
                                     className="text-[13px] transition-colors duration-300 hover:text-white"
                                     style={{ color: "#8b9dc3" }}
                                 >
-                                    Términos y condiciones
+                                    {t("footer.terms")}
                                 </Link>
                             </li>
                             <li>
@@ -241,7 +246,7 @@ export default function Footer() {
                                     className="text-[13px] transition-colors duration-300 hover:text-white"
                                     style={{ color: "#8b9dc3" }}
                                 >
-                                    Política de privacidad
+                                    {t("footer.privacy")}
                                 </Link>
                             </li>
                         </ul>
@@ -254,10 +259,10 @@ export default function Footer() {
                     style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
                 >
                     <p className="text-[11px]" style={{ color: "#5a6e8a" }}>
-                        © {new Date().getFullYear()} Shippar Global Logistics S.R.L — Todos los derechos reservados
+                        © {new Date().getFullYear()} Shippar Global Logistics S.R.L — {t("footer.copyright")}
                     </p>
                     <p className="text-[10px] tracking-wide" style={{ color: "#3a4a66" }}>
-                        Comercio sin fronteras
+                        {t("footer.tagline")}
                     </p>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useI18n } from "@/i18n";
 
 /* ══════════════════════════════════════════════════════════
    TESTIMONIALS — Premium social proof
@@ -199,6 +200,7 @@ function ReviewCard({ review }: { review: Review }) {
 
 /* ════════ Main Section ════════ */
 export default function TestimonialsSection() {
+    const { t } = useI18n();
     const sectionRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
@@ -295,7 +297,7 @@ export default function TestimonialsSection() {
                                 lineHeight: 1.2,
                             }}
                         >
-                            Opiniones reales de clientes
+                            {t("testimonials.title")}
                         </h2>
 
                     </div>
@@ -414,7 +416,7 @@ export default function TestimonialsSection() {
                         }}
                     >
                         <GoogleG size={13} />
-                        <span>Ver todas en Google</span>
+                        <span>{t("testimonials.google")}</span>
                     </a>
                 </motion.div>
             </div>
