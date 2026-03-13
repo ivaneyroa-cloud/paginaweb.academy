@@ -27,6 +27,7 @@ export type ServiceLandingData = {
         title: string;
         titleAccent: string; // gradient-colored word(s)
         subtitle: string;
+        badges?: string[];
         ctaPrimary: { label: string; href: string };
         ctaSecondary: { label: string; href: string };
         flowNodes: FlowNode[];
@@ -42,6 +43,7 @@ export type ServiceLandingData = {
             icon: LucideIcon;
             title: string;
             description: string;
+            link?: { label: string; href: string };
         }[];
     };
 
@@ -72,5 +74,6 @@ export type ServiceLandingData = {
         subtitle: string;
         ctaLabel: string;
         ctaHref: string;
+        useForm?: boolean;
     };
 };

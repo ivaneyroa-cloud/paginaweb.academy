@@ -225,6 +225,26 @@ export default function ServiceBenefits({
                                 >
                                     {item.description}
                                 </p>
+
+                                {/* Optional link */}
+                                {item.link && (
+                                    <a
+                                        href={item.link.href}
+                                        style={{
+                                            display: "inline-block",
+                                            marginTop: "10px",
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            color: "#2BC0FF",
+                                            textDecoration: "none",
+                                            transition: "opacity 0.2s",
+                                        }}
+                                        onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
+                                        onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                                    >
+                                        {item.link.label}
+                                    </a>
+                                )}
                             </motion.div>
                         );
                     })}

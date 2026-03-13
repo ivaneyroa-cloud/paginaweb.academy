@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         }
 
         const body = await req.json();
-        const { nombre, telefono, origen, peso, company } = body;
+        const { nombre, telefono, origen, peso, company, yaImporta } = body;
 
         /* ── Honeypot: if 'company' has a value, it's a bot ── */
         if (company) {
@@ -78,9 +78,9 @@ export async function POST(req: NextRequest) {
                                 <td style="padding: 12px 0; color: rgba(255,255,255,0.5); font-size: 13px;">Peso estimado</td>
                                 <td style="padding: 12px 0; color: #ffffff; font-size: 14px; font-weight: 600;">${peso ? `${peso} kg` : "No especificado"}</td>
                             </tr>
-                        </table>
+                        </div>
                         <div style="margin-top: 24px; padding: 16px; background: rgba(43,192,255,0.06); border: 1px solid rgba(43,192,255,0.12); border-radius: 10px;">
-                            <p style="margin: 0; font-size: 12px; color: rgba(255,255,255,0.5);">Destino: <strong style="color: #ffffff;">Argentina</strong></p>
+                            <p style="margin: 0; font-size: 12px; color: rgba(255,255,255,0.5);">Destino: <strong style="color: #ffffff;">Argentina</strong> | Ya importa: <strong style="color: #ffffff;">${yaImporta ? "Sí" : "No"}</strong></p>
                         </div>
                     </div>
                     <div style="padding: 16px 32px; background: rgba(0,0,0,0.15); border-top: 1px solid rgba(255,255,255,0.04);">

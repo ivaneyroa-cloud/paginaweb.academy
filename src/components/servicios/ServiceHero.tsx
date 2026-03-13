@@ -312,13 +312,45 @@ export default function ServiceHero({
                             {data.subtitle}
                         </motion.p>
 
+                        {/* Badges */}
+                        {data.badges && data.badges.length > 0 && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                transition={{
+                                    duration: 0.4,
+                                    delay: 0.25,
+                                    ease: EASE_OUT,
+                                }}
+                                className="flex flex-wrap gap-2 mt-5"
+                            >
+                                {data.badges.map((badge, i) => (
+                                    <span
+                                        key={i}
+                                        style={{
+                                            fontSize: "12px",
+                                            fontWeight: 600,
+                                            color: "#2BC0FF",
+                                            background: "rgba(43,192,255,0.08)",
+                                            border: "1px solid rgba(43,192,255,0.15)",
+                                            borderRadius: "20px",
+                                            padding: "6px 14px",
+                                            letterSpacing: "0.02em",
+                                        }}
+                                    >
+                                        {badge}
+                                    </span>
+                                ))}
+                            </motion.div>
+                        )}
+
                         {/* CTAs */}
                         <motion.div
                             initial={{ opacity: 0, y: 12 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{
                                 duration: 0.5,
-                                delay: 0.3,
+                                delay: 0.35,
                                 ease: EASE_OUT,
                             }}
                             className="flex flex-col sm:flex-row gap-3 mt-8"

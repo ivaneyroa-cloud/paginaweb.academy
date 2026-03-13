@@ -1,11 +1,283 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { ArrowRight, Send, CheckCircle, Loader2 } from "lucide-react";
 import type { ServiceLandingData } from "./types";
 
 const EASE_OUT = [0.25, 0.1, 0.25, 1] as const;
+
+/* ── Shared input styles ── */
+const INPUT_STYLE: React.CSSProperties = {
+    width: "100%",
+    padding: "12px 16px",
+    fontSize: "14px",
+    fontWeight: 500,
+    color: "#FFFFFF",
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    borderRadius: "10px",
+    outline: "none",
+    transition: "border-color 0.2s, background 0.2s",
+    fontFamily: "inherit",
+};
+
+const INPUT_FOCUS: Partial<React.CSSProperties> = {
+    borderColor: "rgba(43,192,255,0.3)",
+    background: "rgba(255,255,255,0.06)",
+};
+
+/* ── Quote Form ── */
+function QuoteForm({ isInView }: { isInView: boolean }) {
+    const [form, setForm] = useState({
+        nombre: "",
+        telefono: "",
+        peso: "",
+        origen: "china",
+        yaImporta: false,
+        company: "", // honeypot
+    });
+    const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+    const [focused, setFocused] = useState<string | null>(null);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (status === "sending") return;
+
+        setStatus("sending");
+        try {
+            const res = await fetch("/api/quote", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(form),
+            });
+            if (res.ok) {
+                setStatus("success");
+            } else {
+                setStatus("error");
+            }
+        } catch {
+            setStatus("error");
+        }
+    };
+
+    if (status === "success") {
+        return (
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center gap-3 py-6"
+            >
+                <CheckCircle size={40} style={{ color: "#2BC0FF" }} />
+                <p style={{ fontSize: "16px", fontWeight: 600, color: "#FFFFFF" }}>
+                    ¡Recibimos tu consulta!
+                </p>
+                <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)" }}>
+                    Te contactamos a la brevedad.
+                </p>
+            </motion.div>
+        );
+    }
+
+    return (
+        <motion.form
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.25, ease: EASE_OUT }}
+            onSubmit={handleSubmit}
+            className="w-full max-w-md mx-auto mt-8"
+            style={{ textAlign: "left" }}
+        >
+            {/* Honeypot — hidden from humans */}
+            <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true">
+                <input
+                    type="text"
+                    name="company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={form.company}
+                    onChange={(e) => setForm({ ...form, company: e.target.value })}
+                />
+            </div>
+
+            <div className="flex flex-col gap-3">
+                {/* Nombre */}
+                <input
+                    type="text"
+                    placeholder="Tu nombre"
+                    required
+                    value={form.nombre}
+                    onChange={(e) => setForm({ ...form, nombre: e.target.value })}
+                    onFocus={() => setFocused("nombre")}
+                    onBlur={() => setFocused(null)}
+                    style={{
+                        ...INPUT_STYLE,
+                        ...(focused === "nombre" ? INPUT_FOCUS : {}),
+                    }}
+                />
+
+                {/* Teléfono */}
+                <input
+                    type="tel"
+                    placeholder="Teléfono / WhatsApp"
+                    required
+                    value={form.telefono}
+                    onChange={(e) => setForm({ ...form, telefono: e.target.value })}
+                    onFocus={() => setFocused("telefono")}
+                    onBlur={() => setFocused(null)}
+                    style={{
+                        ...INPUT_STYLE,
+                        ...(focused === "telefono" ? INPUT_FOCUS : {}),
+                    }}
+                />
+
+                {/* Peso + Origen row */}
+                <div className="grid grid-cols-2 gap-3">
+                    <input
+                        type="number"
+                        placeholder="Kg estimados"
+                        min="0"
+                        value={form.peso}
+                        onChange={(e) => setForm({ ...form, peso: e.target.value })}
+                        onFocus={() => setFocused("peso")}
+                        onBlur={() => setFocused(null)}
+                        style={{
+                            ...INPUT_STYLE,
+                            ...(focused === "peso" ? INPUT_FOCUS : {}),
+                        }}
+                    />
+                    <select
+                        value={form.origen}
+                        onChange={(e) => setForm({ ...form, origen: e.target.value })}
+                        onFocus={() => setFocused("origen")}
+                        onBlur={() => setFocused(null)}
+                        style={{
+                            ...INPUT_STYLE,
+                            ...(focused === "origen" ? INPUT_FOCUS : {}),
+                            cursor: "pointer",
+                            appearance: "none",
+                            WebkitAppearance: "none",
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23adb9cf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "right 12px center",
+                            paddingRight: "36px",
+                        }}
+                    >
+                        <option value="china">China</option>
+                        <option value="usa">Estados Unidos</option>
+                        <option value="europa">Europa</option>
+                    </select>
+                </div>
+
+                {/* Ya importás? */}
+                <div
+                    className="flex items-center gap-3"
+                    style={{
+                        padding: "10px 16px",
+                        borderRadius: "10px",
+                        background: "rgba(255,255,255,0.02)",
+                        border: "1px solid rgba(255,255,255,0.06)",
+                    }}
+                >
+                    <span
+                        style={{
+                            fontSize: "13px",
+                            color: "rgba(255,255,255,0.5)",
+                            flex: 1,
+                        }}
+                    >
+                        ¿Ya estás importando?
+                    </span>
+                    <div className="flex gap-2">
+                        {[true, false].map((val) => (
+                            <button
+                                key={String(val)}
+                                type="button"
+                                onClick={() => setForm({ ...form, yaImporta: val })}
+                                style={{
+                                    padding: "5px 16px",
+                                    borderRadius: "6px",
+                                    fontSize: "12px",
+                                    fontWeight: 600,
+                                    border: "1px solid",
+                                    borderColor:
+                                        form.yaImporta === val
+                                            ? "rgba(43,192,255,0.3)"
+                                            : "rgba(255,255,255,0.08)",
+                                    background:
+                                        form.yaImporta === val
+                                            ? "rgba(43,192,255,0.1)"
+                                            : "transparent",
+                                    color:
+                                        form.yaImporta === val
+                                            ? "#2BC0FF"
+                                            : "rgba(255,255,255,0.4)",
+                                    cursor: "pointer",
+                                    transition: "all 0.15s",
+                                }}
+                            >
+                                {val ? "Sí" : "No"}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Submit */}
+                <motion.button
+                    type="submit"
+                    disabled={status === "sending"}
+                    whileHover={{
+                        y: -2,
+                        boxShadow: "0 8px 32px rgba(43,192,255,0.35)",
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative overflow-hidden flex items-center justify-center gap-2 rounded-xl text-white mt-1"
+                    style={{
+                        background: "linear-gradient(135deg, #1DA1FF, #2BC0FF)",
+                        fontWeight: 600,
+                        fontSize: "15px",
+                        padding: "14px 28px",
+                        minHeight: "48px",
+                        boxShadow: "0 4px 24px rgba(43,192,255,0.25)",
+                        border: "none",
+                        cursor: status === "sending" ? "wait" : "pointer",
+                        fontFamily: "inherit",
+                        width: "100%",
+                    }}
+                >
+                    <span className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
+                        <span
+                            className="servicios-shimmer absolute inset-0"
+                            style={{
+                                background:
+                                    "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%)",
+                            }}
+                        />
+                    </span>
+                    <span className="relative z-10 flex items-center gap-2">
+                        {status === "sending" ? (
+                            <>
+                                <Loader2 size={16} className="animate-spin" />
+                                Enviando...
+                            </>
+                        ) : (
+                            <>
+                                <Send size={16} />
+                                Enviar consulta
+                            </>
+                        )}
+                    </span>
+                </motion.button>
+
+                {status === "error" && (
+                    <p style={{ fontSize: "13px", color: "#ff6b6b", textAlign: "center", marginTop: "4px" }}>
+                        Error al enviar. Intentá nuevamente.
+                    </p>
+                )}
+            </div>
+        </motion.form>
+    );
+}
 
 /* ═══════════════════════════════════════════════════════
    SERVICE CTA — Final call-to-action block
@@ -121,57 +393,62 @@ export default function ServiceCTA({
                             {data.subtitle}
                         </motion.p>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={
-                                isInView
-                                    ? { opacity: 1, y: 0 }
-                                    : {}
-                            }
-                            transition={{
-                                duration: 0.5,
-                                delay: 0.3,
-                                ease: EASE_OUT,
-                            }}
-                            className="mt-8"
-                        >
-                            <motion.a
-                                href={data.ctaHref}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                whileHover={{
-                                    y: -2,
-                                    boxShadow:
-                                        "0 8px 32px rgba(43,192,255,0.35)",
+                        {/* Form or CTA button */}
+                        {data.useForm ? (
+                            <QuoteForm isInView={isInView} />
+                        ) : (
+                            <motion.div
+                                initial={{ opacity: 0, y: 8 }}
+                                animate={
+                                    isInView
+                                        ? { opacity: 1, y: 0 }
+                                        : {}
+                                }
+                                transition={{
+                                    duration: 0.5,
+                                    delay: 0.3,
+                                    ease: EASE_OUT,
                                 }}
-                                whileTap={{ scale: 0.98 }}
-                                className="relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-xl text-white"
-                                style={{
-                                    background:
-                                        "linear-gradient(135deg, #1DA1FF, #2BC0FF)",
-                                    fontWeight: 600,
-                                    fontSize: "15px",
-                                    padding: "16px 36px",
-                                    minHeight: "52px",
-                                    boxShadow:
-                                        "0 4px 24px rgba(43,192,255,0.25)",
-                                }}
+                                className="mt-8"
                             >
-                                <span className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
-                                    <span
-                                        className="servicios-shimmer absolute inset-0"
-                                        style={{
-                                            background:
-                                                "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%)",
-                                        }}
-                                    />
-                                </span>
-                                <span className="relative z-10 flex items-center gap-2">
-                                    {data.ctaLabel}
-                                    <ArrowRight size={16} />
-                                </span>
-                            </motion.a>
-                        </motion.div>
+                                <motion.a
+                                    href={data.ctaHref}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    whileHover={{
+                                        y: -2,
+                                        boxShadow:
+                                            "0 8px 32px rgba(43,192,255,0.35)",
+                                    }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-xl text-white"
+                                    style={{
+                                        background:
+                                            "linear-gradient(135deg, #1DA1FF, #2BC0FF)",
+                                        fontWeight: 600,
+                                        fontSize: "15px",
+                                        padding: "16px 36px",
+                                        minHeight: "52px",
+                                        boxShadow:
+                                            "0 4px 24px rgba(43,192,255,0.25)",
+                                    }}
+                                >
+                                    <span className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
+                                        <span
+                                            className="servicios-shimmer absolute inset-0"
+                                            style={{
+                                                background:
+                                                    "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%)",
+                                            }}
+                                        />
+                                    </span>
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        {data.ctaLabel}
+                                        <ArrowRight size={16} />
+                                    </span>
+                                </motion.a>
+                            </motion.div>
+                        )}
                     </div>
                 </motion.div>
             </div>
