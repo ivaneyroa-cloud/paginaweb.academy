@@ -548,7 +548,7 @@ function DesktopHowItWorks() {
         >
             {/* Sticky container */}
             <div
-                className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
+                className="sticky top-0 h-screen flex flex-col justify-center overflow-x-hidden"
                 style={{ background: "#050b1f" }}
             >
                 {/* Ambient glows */}
@@ -603,7 +603,7 @@ function DesktopHowItWorks() {
 
                 <div
                     className="relative z-10 max-w-7xl mx-auto w-full"
-                    style={{ padding: "3.5rem 1.5rem 1.5rem" }}
+                    style={{ padding: "2.5rem 1.5rem 1.5rem" }}
                 >
                     {/* Header */}
                     <div className="text-center mb-6">
