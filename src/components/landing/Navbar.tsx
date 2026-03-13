@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Package, ArrowRight } from "lucide-react";
+import { Menu, X, Package, ArrowRight, Globe } from "lucide-react";
 import Link from "next/link";
+import { useI18n, type Locale } from "@/i18n";
 
 /* ══════════════════════════════════════════════════════════
    NAVBAR — Premium, sobrio, tecnológico
@@ -14,7 +15,13 @@ import Link from "next/link";
      Cotizar    → CTA principal (high weight)
    ══════════════════════════════════════════════════════════ */
 
+const LOCALES: { code: Locale; label: string }[] = [
+    { code: "es", label: "ES" },
+    { code: "en", label: "EN" },
+];
+
 export default function Navbar() {
+    const { locale, setLocale, t } = useI18n();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [visible, setVisible] = useState(true);
     const [atTop, setAtTop] = useState(true);
@@ -179,6 +186,37 @@ export default function Navbar() {
                     margin: 0 4px;
                     flex-shrink: 0;
                 }
+
+                /* ── Language toggle ── */
+                .lang-toggle {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 2px;
+                    padding: 3px;
+                    border-radius: 8px;
+                    background: rgba(255,255,255,0.04);
+                    border: 1px solid rgba(255,255,255,0.06);
+                }
+                .lang-btn {
+                    font-size: 11px;
+                    font-weight: 600;
+                    letter-spacing: 0.04em;
+                    padding: 4px 8px;
+                    border-radius: 6px;
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    background: transparent;
+                    color: rgba(255,255,255,0.35);
+                    font-family: inherit;
+                }
+                .lang-btn:hover {
+                    color: rgba(255,255,255,0.6);
+                }
+                .lang-btn.active {
+                    background: rgba(43,192,255,0.12);
+                    color: #2BC0FF;
+                }
             `}</style>
 
             <header
@@ -204,22 +242,36 @@ export default function Navbar() {
                     <nav className="hidden md:flex items-center gap-2">
                         {/* Servicios — premium link */}
                         <Link href="/servicios" className="nav-link-academy mr-3">
-                            Servicios
+                            {t("nav.servicios")}
                         </Link>
 
                         {/* Academy — premium link */}
                         <Link href="/academy" className="nav-link-academy mr-3">
-                            Academy
+                            {t("nav.academy")}
                         </Link>
 
                         {/* Rastrear — utility action */}
                         <Link href="/rastreo" className="nav-utility">
                             <Package size={14} strokeWidth={1.8} className="nav-utility-icon" />
-                            Rastrear
+                            {t("nav.rastrear")}
                         </Link>
 
                         {/* Separator */}
                         <div className="nav-sep" />
+
+                        {/* Language toggle */}
+                        <div className="lang-toggle mr-1">
+                            {LOCALES.map((loc) => (
+                                <button
+                                    key={loc.code}
+                                    className={`lang-btn ${locale === loc.code ? "active" : ""}`}
+                                    onClick={() => setLocale(loc.code)}
+                                    aria-label={`Switch to ${loc.label}`}
+                                >
+                                    {loc.label}
+                                </button>
+                            ))}
+                        </div>
 
                         {/* Cotizar — CTA principal */}
                         <a
@@ -228,20 +280,34 @@ export default function Navbar() {
                             rel="noopener noreferrer"
                             className="nav-cta"
                         >
-                            Cotizar envío
+                            {t("nav.cotizar")}
                             <ArrowRight size={14} strokeWidth={2} className="nav-cta-arrow" />
                         </a>
                     </nav>
 
                     {/* ── Mobile hamburger ── */}
-                    <button
-                        onClick={() => setMobileOpen(!mobileOpen)}
-                        className="md:hidden p-2 -mr-1 transition-colors duration-200"
-                        style={{ color: "rgba(255,255,255,0.7)" }}
-                        aria-label="Menu"
-                    >
-                        {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-                    </button>
+                    <div className="md:hidden flex items-center gap-2">
+                        {/* Mobile language toggle */}
+                        <div className="lang-toggle">
+                            {LOCALES.map((loc) => (
+                                <button
+                                    key={loc.code}
+                                    className={`lang-btn ${locale === loc.code ? "active" : ""}`}
+                                    onClick={() => setLocale(loc.code)}
+                                >
+                                    {loc.label}
+                                </button>
+                            ))}
+                        </div>
+                        <button
+                            onClick={() => setMobileOpen(!mobileOpen)}
+                            className="p-2 -mr-1 transition-colors duration-200"
+                            style={{ color: "rgba(255,255,255,0.7)" }}
+                            aria-label="Menu"
+                        >
+                            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -273,7 +339,7 @@ export default function Navbar() {
                                     className="text-xl font-medium transition-colors"
                                     style={{ color: "rgba(255,255,255,0.7)" }}
                                 >
-                                    Servicios
+                                    {t("nav.servicios")}
                                 </Link>
                             </motion.div>
 
@@ -289,7 +355,7 @@ export default function Navbar() {
                                     className="text-xl font-medium transition-colors"
                                     style={{ color: "rgba(255,255,255,0.7)" }}
                                 >
-                                    Academy
+                                    {t("nav.academy")}
                                 </Link>
                             </motion.div>
 
@@ -306,7 +372,7 @@ export default function Navbar() {
                                     style={{ color: "rgba(255,255,255,0.7)" }}
                                 >
                                     <Package size={20} strokeWidth={1.8} style={{ opacity: 0.5 }} />
-                                    Rastrear
+                                    {t("nav.rastrear")}
                                 </Link>
                             </motion.div>
 
@@ -325,7 +391,7 @@ export default function Navbar() {
                                     className="nav-cta flex items-center justify-center gap-2.5 text-base py-4 w-full"
                                     style={{ borderRadius: 14 }}
                                 >
-                                    Cotizar envío
+                                    {t("nav.cotizar")}
                                     <ArrowRight size={16} strokeWidth={2} className="nav-cta-arrow" />
                                 </a>
                             </motion.div>

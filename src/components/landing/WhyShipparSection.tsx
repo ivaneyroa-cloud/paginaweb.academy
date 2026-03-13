@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, Eye, Zap, Users, DollarSign, Package } from "lucide-react";
+import { useI18n } from "@/i18n";
 
 /* ══════════════════════════════════════════════════════════
    WHY SHIPPAR — Section 2 (editorial, clean, mockup-driven)
@@ -191,6 +192,7 @@ function PhoneMockupUI() {
 
 /* ════════ Main Section ════════ */
 export default function WhyShipparSection() {
+    const { t } = useI18n();
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, amount: 0.2 });
     const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
@@ -257,7 +259,7 @@ export default function WhyShipparSection() {
                                         color: "#2BC0FF",
                                     }}
                                 >
-                                    Nuestros diferenciales
+                                    {t("why.eyebrow")}
                                 </span>
                             </motion.div>
 
@@ -275,7 +277,7 @@ export default function WhyShipparSection() {
                                     color: "#FFFFFF",
                                 }}
                             >
-                                Tu importación merece{" "}
+                                {t("why.title")}{" "}
                                 <span
                                     style={{
                                         background: "linear-gradient(135deg, #1DA1FF, #2BC0FF)",
@@ -284,9 +286,9 @@ export default function WhyShipparSection() {
                                         backgroundClip: "text",
                                     }}
                                 >
-                                    claridad, control
+                                    {t("why.title_accent")}
                                 </span>{" "}
-                                y rapidez.
+                                {t("why.title_post")}
                             </motion.h2>
 
                             {/* Subheadline */}
@@ -302,7 +304,7 @@ export default function WhyShipparSection() {
                                     maxWidth: "440px",
                                 }}
                             >
-                                Tecnología y criterio operativo real trabajando juntos en cada envío.
+                                {t("why.subtitle")}
                             </motion.p>
 
                             {/* CTA */}
@@ -330,7 +332,7 @@ export default function WhyShipparSection() {
                                         />
                                     </span>
                                     <span className="relative z-10 flex items-center gap-2">
-                                        Hablá con un especialista <ArrowRight size={16} />
+                                        {t("why.cta")} <ArrowRight size={16} />
                                     </span>
                                 </a>
                             </motion.div>
@@ -407,8 +409,8 @@ export default function WhyShipparSection() {
                                                 <card.icon size={14} style={{ color: s.iconColor }} />
                                             </div>
                                             <div>
-                                                <div style={{ fontSize: "12px", fontWeight: 600, color: s.titleColor, lineHeight: 1.3 }}>{card.title}</div>
-                                                <div style={{ fontSize: "10px", color: s.descColor, lineHeight: 1.4, marginTop: "2px" }}>{card.desc}</div>
+                                                <div style={{ fontSize: "12px", fontWeight: 600, color: s.titleColor, lineHeight: 1.3 }}>{t(`why.card.${i}.title`)}</div>
+                                                <div style={{ fontSize: "10px", color: s.descColor, lineHeight: 1.4, marginTop: "2px" }}>{t(`why.card.${i}.desc`)}</div>
                                             </div>
                                         </motion.div>
                                     );
@@ -440,8 +442,8 @@ export default function WhyShipparSection() {
                                                     <card.icon size={15} style={{ color: s.iconColor }} />
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontSize: "13px", fontWeight: 600, color: s.titleColor, lineHeight: 1.3 }}>{card.title}</div>
-                                                    <div style={{ fontSize: "11px", color: s.descColor, lineHeight: 1.45, marginTop: "4px" }}>{card.desc}</div>
+                                                    <div style={{ fontSize: "13px", fontWeight: 600, color: s.titleColor, lineHeight: 1.3 }}>{t(`why.card.${i}.title`)}</div>
+                                                    <div style={{ fontSize: "11px", color: s.descColor, lineHeight: 1.45, marginTop: "4px" }}>{t(`why.card.${i}.desc`)}</div>
                                                 </div>
                                             </motion.div>
                                         );

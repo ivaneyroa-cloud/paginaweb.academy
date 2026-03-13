@@ -8,6 +8,7 @@ import {
     Plane, Radar, FileCheck, ShieldCheck, ClipboardCheck, PackageCheck,
 } from "lucide-react";
 import Link from "next/link";
+import { useI18n } from "@/i18n";
 
 const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: 20 } as const,
@@ -60,6 +61,7 @@ function playDeliveryPing() {
 }
 
 export default function HeroSection() {
+    const { t } = useI18n();
     const [mounted, setMounted] = useState(false);
     const [negocioActivated, setNegocioActivated] = useState(false);
 
@@ -289,7 +291,16 @@ export default function HeroSection() {
                     background: rgba(3,8,18,0.94);
                     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
                     display: flex; flex-direction: column;
-                    align-items: center; justify-content: center;
+                    align-items: center;
+                    overflow-y: auto;
+                    -webkit-overflow-scrolling: touch;
+                    padding: 80px 16px 100px;
+                }
+                @media (min-width: 768px) {
+                    .pipeline-overlay {
+                        justify-content: center;
+                        padding: 40px 16px;
+                    }
                 }
                 .tl-item { transition: all 0.25s ease; }
                 .tl-item.active { opacity: 1 !important; }
@@ -337,15 +348,15 @@ export default function HeroSection() {
                         >
                             {/* "Tu negocio" */}
                             <span style={{ fontSize: "clamp(2.8rem, 6.8vw, 4.9rem)", display: "block" }}>
-                                Tu{" "}
+                                {t("hero.conecta")}{" "}
                                 <span
                                     className={`negocio-word ${negocioActivated ? "activated" : ""}`}
                                     style={{ fontWeight: 950 }}
                                 >
-                                    negocio
+                                    {t("hero.negocio")}
                                 </span>
                             </span>
-                            {/* "conectado al mundo" — 8% larger */}
+                            {/* "con el mundo" — 8% larger */}
                             <span style={{
                                 fontSize: "clamp(3rem, 7.5vw, 5.35rem)",
                                 display: "block",
@@ -353,7 +364,7 @@ export default function HeroSection() {
                                 fontWeight: 900,
                                 letterSpacing: "-0.025em",
                             }}>
-                                conectado al mundo
+                                {t("hero.conectado")}
                             </span>
                         </motion.h1>
 
@@ -368,11 +379,11 @@ export default function HeroSection() {
                                 maxWidth: 540,
                             }}
                         >
-                            Importá desde cualquier origen del mundo con envíos express,{" "}
+                            {t("hero.subtitle_pre")}{" "}
                             <strong style={{ color: "rgba(255,255,255,0.82)", fontWeight: 600 }}>
-                                seguimiento en tiempo real
+                                {t("hero.subtitle_bold")}
                             </strong>{" "}
-                            y cotización en segundos.
+                            {t("hero.subtitle_post")}
                         </motion.p>
 
 
@@ -396,7 +407,7 @@ export default function HeroSection() {
                                         style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%)" }} />
                                 </span>
                                 <span className="relative z-10 flex items-center gap-2.5">
-                                    Cotizar envío <ArrowRight size={19} />
+                                    {t("hero.cta_primary")} <ArrowRight size={19} />
                                 </span>
                             </a>
 
@@ -411,7 +422,7 @@ export default function HeroSection() {
                                     fontWeight: 600,
                                 }}>
                                 <span className="relative z-10 flex items-center gap-2.5">
-                                    <Headset size={19} /> Hablar con un especialista
+                                    <Headset size={19} /> {t("hero.cta_secondary")}
                                 </span>
                             </a>
                         </motion.div>
@@ -455,13 +466,13 @@ export default function HeroSection() {
                                 <div style={{ flex: 1, minWidth: 0 }}>
                                     <div style={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
                                         <span style={{ fontSize: 11, fontWeight: 700, color: "#1a1a2e", letterSpacing: "0.01em", marginRight: "auto" }}>SHIPPAR</span>
-                                        <span style={{ fontSize: 10, color: "rgba(0,0,0,0.25)", fontWeight: 400 }}>ahora</span>
+                                        <span style={{ fontSize: 10, color: "rgba(0,0,0,0.25)", fontWeight: 400 }}>{t("hero.notif_now")}</span>
                                     </div>
                                     <div style={{ fontSize: 13.5, fontWeight: 600, color: "#1c1c1e", lineHeight: 1.35 }}>
-                                        Tu envío <span style={{ color: "#007AFF", fontWeight: 700 }}>SHP-9399</span> fue entregado ✓
+                                        {t("hero.notif_delivered").replace("{code}", "")} <span style={{ color: "#007AFF", fontWeight: 700 }}>SHP-9399</span> ✓
                                     </div>
                                     <div className="push-notif-cta">
-                                        Mirá cómo lo procesamos <span className="push-notif-cta-arrow">→</span>
+                                        {t("hero.notif_cta")} <span className="push-notif-cta-arrow">→</span>
                                     </div>
                                 </div>
                             </div>
@@ -482,13 +493,13 @@ export default function HeroSection() {
                         onClick={(e) => { if (e.target === e.currentTarget) closeOverlay(); }}
                     >
                         <motion.button
-                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
+                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
                             onClick={closeOverlay}
                             style={{
-                                position: "fixed", top: 16, right: 20,
-                                width: 36, height: 36, borderRadius: 10,
-                                background: "rgba(255,255,255,0.08)",
-                                border: "1px solid rgba(255,255,255,0.15)",
+                                position: "fixed", top: 20, right: 20,
+                                width: 44, height: 44, borderRadius: 12,
+                                background: "rgba(255,255,255,0.1)",
+                                border: "1px solid rgba(255,255,255,0.18)",
                                 color: "#FFFFFF",
                                 cursor: "pointer",
                                 display: "flex", alignItems: "center", justifyContent: "center",
@@ -496,7 +507,7 @@ export default function HeroSection() {
                                 backdropFilter: "blur(8px)",
                             }}
                         >
-                            <X size={16} strokeWidth={2.5} />
+                            <X size={18} strokeWidth={2.5} />
                         </motion.button>
 
                         <motion.div
@@ -505,8 +516,8 @@ export default function HeroSection() {
                             style={{ textAlign: "center", marginBottom: 22 }}
                         >
                             <div style={{ fontSize: "clamp(1.1rem, 2.4vw, 1.45rem)", fontWeight: 800, color: "rgba(255,255,255,0.92)", lineHeight: 1.35, letterSpacing: "-0.02em" }}>
-                                Vos solo <strong style={{ color: "#2BC0FF" }}>compraste</strong>.<br />
-                                Nosotros hicimos todo esto.
+                                {t("hero.overlay_you")} <strong style={{ color: "#2BC0FF" }}>{t("hero.overlay_bought")}</strong>.<br />
+                                {t("hero.overlay_we")}
                             </div>
                             <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 5, fontFamily: "'JetBrains Mono', monospace" }}>
                                 SHP-9399 · China → Argentina · 7 días
@@ -574,7 +585,7 @@ export default function HeroSection() {
                                                         fontSize: 8, fontWeight: 700, letterSpacing: "0.14em",
                                                         textTransform: "uppercase" as const, color: "#2BC0FF",
                                                         fontFamily: "'JetBrains Mono', monospace",
-                                                    }}>{pi + 1}. {phase.title}</span>
+                                                    }}>{pi + 1}. {t(`phase.${pi}`)}</span>
                                                     <div style={{ flex: 1, height: 1, background: "rgba(43,192,255,0.08)" }} />
                                                 </div>
 
@@ -625,13 +636,13 @@ export default function HeroSection() {
                                                                     fontSize: 12, fontWeight: 600,
                                                                     color: isActive ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.18)",
                                                                     transition: "all 0.25s", lineHeight: 1.2,
-                                                                }}>{step.name}</div>
+                                                                }}>{t(`pipeline.${idx}.name`)}</div>
                                                                 <div style={{
                                                                     fontSize: 9.5, fontFamily: "'JetBrains Mono', monospace",
                                                                     color: isActive ? "rgba(148,163,184,0.65)" : "rgba(148,163,184,0.15)",
                                                                     marginTop: 2, transition: "all 0.25s",
                                                                     letterSpacing: "0.02em",
-                                                                }}>{step.tag}</div>
+                                                                }}>{t(`pipeline.${idx}.tag`)}</div>
                                                             </div>
                                                         </div>
                                                     );
@@ -664,6 +675,29 @@ export default function HeroSection() {
                                 </div>
                             </div>
                         </motion.div>
+
+                        {/* Mobile bottom close button */}
+                        <motion.button
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                            onClick={closeOverlay}
+                            className="md:hidden"
+                            style={{
+                                position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)",
+                                padding: "12px 32px", borderRadius: 14,
+                                background: "rgba(255,255,255,0.08)",
+                                border: "1px solid rgba(255,255,255,0.15)",
+                                color: "rgba(255,255,255,0.7)",
+                                cursor: "pointer",
+                                fontSize: 14, fontWeight: 600,
+                                zIndex: 10001,
+                                backdropFilter: "blur(8px)",
+                                display: "flex", alignItems: "center", gap: 8,
+                            }}
+                        >
+                            <X size={16} /> Cerrar
+                        </motion.button>
                     </motion.div>
                 )}
             </AnimatePresence>

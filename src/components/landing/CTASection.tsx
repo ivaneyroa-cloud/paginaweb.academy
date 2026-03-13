@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useI18n } from "@/i18n";
 
 /* ══════════════════════════════════════════════════════════
    CTA — Final conversion block with functional form
@@ -47,6 +48,7 @@ const LABEL_CLS = "block text-[11px] font-medium mb-1.5 uppercase tracking-wider
 const LABEL_STYLE: React.CSSProperties = { color: "#adb9cf" };
 
 export default function CTASection() {
+    const { t } = useI18n();
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
 
@@ -60,8 +62,8 @@ export default function CTASection() {
 
     const handleSubmit = async () => {
         /* Basic validation */
-        if (!nombre.trim()) { setErrorMsg("Ingresá tu nombre."); return; }
-        if (!telefono.trim()) { setErrorMsg("Ingresá tu teléfono."); return; }
+        if (!nombre.trim()) { setErrorMsg(t("cta.error_nombre")); return; }
+        if (!telefono.trim()) { setErrorMsg(t("cta.error_telefono")); return; }
         setErrorMsg("");
         setStatus("sending");
 
@@ -138,11 +140,11 @@ export default function CTASection() {
                     className="text-2xl sm:text-3xl lg:text-[2.5rem] font-bold text-white"
                     style={{ letterSpacing: "-0.025em", lineHeight: 1.15 }}
                 >
-                    Estás a un paso de simplificar{" "}
-                    <span style={{ color: "#2BC0FF" }}>tus importaciones</span>
+                    {t("cta.headline")}{" "}
+                    <span style={{ color: "#2BC0FF" }}>{t("cta.headline_accent")}</span>
                 </h2>
                 <p className="mt-3 text-sm sm:text-base" style={{ color: "#adb9cf" }}>
-                    Completá tus datos y recibí tu cotización en minutos.
+                    {t("cta.headline_sub")}
                 </p>
             </motion.div>
 
@@ -169,14 +171,14 @@ export default function CTASection() {
                             letterSpacing: "-0.02em",
                         }}
                     >
-                        Cotizá tu importación
+                        {t("cta.card_title")}
                     </h2>
 
                     <p
                         className="mt-2 text-center text-sm mb-8"
                         style={{ color: "rgba(255,255,255,0.60)" }}
                     >
-                        Calculá el costo y coordiná tu envío internacional en segundos.
+                        {t("cta.card_sub")}
                     </p>
 
                     {/* ═══ Success state ═══ */}
@@ -200,10 +202,10 @@ export default function CTASection() {
                                 </svg>
                             </div>
                             <p className="text-lg font-semibold text-white mb-2">
-                                ¡Cotización enviada!
+                                {t("cta.success_title")}
                             </p>
                             <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
-                                Te contactaremos a la brevedad con la mejor opción para tu envío.
+                                {t("cta.success_desc")}
                             </p>
                             <button
                                 onClick={() => {
@@ -221,7 +223,7 @@ export default function CTASection() {
                                     cursor: "pointer",
                                 }}
                             >
-                                Hacer otra cotización
+                                {t("cta.success_another")}
                             </button>
                         </motion.div>
                     ) : (
@@ -245,13 +247,13 @@ export default function CTASection() {
                                 {/* Nombre */}
                                 <div>
                                     <label className={LABEL_CLS} style={LABEL_STYLE}>
-                                        Nombre
+                                        {t("cta.label_nombre")}
                                     </label>
                                     <input
                                         type="text"
                                         value={nombre}
                                         onChange={(e) => setNombre(e.target.value)}
-                                        placeholder="Tu nombre"
+                                        placeholder={t("cta.placeholder_nombre")}
                                         disabled={isDisabled}
                                         className="w-full px-4 py-3 rounded-lg text-sm transition-all duration-200 focus:outline-none"
                                         style={INPUT_STYLE}
@@ -263,13 +265,13 @@ export default function CTASection() {
                                 {/* Teléfono */}
                                 <div>
                                     <label className={LABEL_CLS} style={LABEL_STYLE}>
-                                        Teléfono
+                                        {t("cta.label_telefono")}
                                     </label>
                                     <input
                                         type="tel"
                                         value={telefono}
                                         onChange={(e) => setTelefono(e.target.value)}
-                                        placeholder="+54 11 1234 5678"
+                                        placeholder={t("cta.placeholder_telefono")}
                                         disabled={isDisabled}
                                         className="w-full px-4 py-3 rounded-lg text-sm transition-all duration-200 focus:outline-none"
                                         style={INPUT_STYLE}
@@ -281,7 +283,7 @@ export default function CTASection() {
                                 {/* Origin */}
                                 <div>
                                     <label className={LABEL_CLS} style={LABEL_STYLE}>
-                                        Origen
+                                        {t("cta.label_origen")}
                                     </label>
                                     <div className="relative">
                                         <select
@@ -313,14 +315,14 @@ export default function CTASection() {
                                 {/* Weight */}
                                 <div>
                                     <label className={LABEL_CLS} style={LABEL_STYLE}>
-                                        Peso estimado
+                                        {t("cta.label_peso")}
                                     </label>
                                     <div className="relative">
                                         <input
                                             type="text"
                                             value={weight}
                                             onChange={(e) => setWeight(e.target.value)}
-                                            placeholder="Ej: 500"
+                                            placeholder={t("cta.placeholder_peso")}
                                             disabled={isDisabled}
                                             className="w-full px-4 py-3 rounded-lg text-sm transition-all duration-200 focus:outline-none"
                                             style={INPUT_STYLE}
@@ -382,11 +384,11 @@ export default function CTASection() {
                                                     <path d="M9 2A7 7 0 0 1 16 9" stroke="white" strokeWidth="2" strokeLinecap="round" />
                                                 </svg>
                                             </motion.span>
-                                            Enviando...
+                                            {t("cta.sending")}
                                         </>
                                     ) : (
                                         <>
-                                            Obtené el precio ahora
+                                            {t("cta.submit")}
                                             <ChevronRightIcon />
                                         </>
                                     )}
@@ -401,9 +403,9 @@ export default function CTASection() {
                                 <ShieldCheckIcon />
                                 <p className="text-[13px]" style={{ lineHeight: 1.5 }}>
                                     <span style={{ fontWeight: 600, color: "rgba(255,255,255,0.70)" }}>
-                                        Sin compromisos.
+                                        {t("cta.trust")}
                                     </span>{" "}
-                                    Recibí tu cotización y nos encargamos del resto.
+                                    {t("cta.trust_desc")}
                                 </p>
                             </div>
 
@@ -414,7 +416,7 @@ export default function CTASection() {
                             >
                                 <SparkleIcon />
                                 <p className="text-[11px] font-medium">
-                                    +2.400 cotizaciones realizadas este mes
+                                    {t("cta.social_proof")}
                                 </p>
                             </div>
                         </>
