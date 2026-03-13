@@ -253,6 +253,8 @@ function Scene_Origin() {
 
         const init = async () => {
             const maplibregl = (await import("maplibre-gl")).default;
+            // @ts-ignore — CSS side-effect import
+            await import("maplibre-gl/dist/maplibre-gl.css");
             if (cancelled || !containerRef.current) return;
 
             const map = new maplibregl.Map({

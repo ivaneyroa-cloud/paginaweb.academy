@@ -1,6 +1,6 @@
-import { createBrowserClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 
-let _supabase: ReturnType<typeof createBrowserClient> | null = null;
+let _supabase: ReturnType<typeof createClient> | null = null;
 
 export function getSupabase() {
     if (!_supabase) {
@@ -9,13 +9,13 @@ export function getSupabase() {
         if (!supabaseUrl || !supabaseAnonKey) {
             throw new Error("Supabase env vars not configured");
         }
-        _supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
+        _supabase = createClient(supabaseUrl, supabaseAnonKey);
     }
     return _supabase;
 }
 
 // Backward-compatible lazy export via Proxy
-export const supabase = new Proxy({} as ReturnType<typeof createBrowserClient>, {
+export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
     get(_target, prop, receiver) {
         const instance = getSupabase();
         const value = Reflect.get(instance, prop, receiver);
