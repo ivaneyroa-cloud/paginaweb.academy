@@ -34,9 +34,9 @@ const ORIGINS = [
 
 /* ── Carrier logos ── */
 const CARRIERS = [
-    { name: "UPS", subtitle: "Entregas express aéreas", logo: "/carriers/ups.png", size: 28 },
-    { name: "FedEx", subtitle: "Cobertura global", logo: "/carriers/fedex.png", size: 30 },
-    { name: "SF Express", subtitle: "Especialista en Asia", logo: "/carriers/sfexpress.png", size: 28 },
+    { name: "UPS", subtitle: "Entregas express aéreas", logo: "/carriers/ups.webp", size: 28 },
+    { name: "FedEx", subtitle: "Cobertura global", logo: "/carriers/fedex.webp", size: 30 },
+    { name: "SF Express", subtitle: "Especialista en Asia", logo: "/carriers/sfexpress.webp", size: 28 },
 ];
 
 /* ── Hub / reception points ── */
@@ -321,6 +321,7 @@ export default function InfrastructureSection() {
                                                     alt={carrier.name}
                                                     width={carrier.size}
                                                     height={carrier.size}
+                                                    loading="lazy"
                                                     className="transition-all duration-300"
                                                     style={{
                                                         objectFit: "contain",

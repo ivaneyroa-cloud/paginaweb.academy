@@ -129,7 +129,7 @@ function PhoneMockupUI() {
                     <line x1="1" y1="7" x2="13" y2="7" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" />
                     <line x1="1" y1="12" x2="10" y2="12" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
-                <img src="/shippar-isotipo.webp" alt="Shippar" style={{ height: "18px", width: "auto", objectFit: "contain" as const }} />
+                <img src="/shippar-isotipo.webp" alt="Shippar" loading="lazy" style={{ height: "18px", width: "auto", objectFit: "contain" as const }} />
                 <div style={{ width: 18 }} />
             </div>
 
