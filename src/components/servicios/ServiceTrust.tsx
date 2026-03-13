@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useI18n } from "@/i18n";
 import {
     ShieldCheck,
     FileText,
@@ -9,42 +10,12 @@ import {
     Globe,
     BookOpenCheck,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 const EASE_OUT = [0.25, 0.1, 0.25, 1] as const;
 
-/* ── Hardcoded trust items — same for every service ── */
-const TRUST_ITEMS = [
-    {
-        icon: ShieldCheck,
-        title: "Empresa registrada",
-        description:
-            "Operamos como empresa formalmente inscripta ante AFIP y habilitada en aduana argentina.",
-    },
-    {
-        icon: FileText,
-        title: "Operación documentada",
-        description:
-            "Cada envío tiene trazabilidad completa, documentación respaldatoria y registros de punta a punta.",
-    },
-    {
-        icon: BookOpenCheck,
-        title: "Gestión integral",
-        description:
-            "Coordinamos toda la cadena logística: recolección, tránsito, despacho y entrega, sin intermediarios desarticulados.",
-    },
-    {
-        icon: Headset,
-        title: "Atención humana real",
-        description:
-            "Soporte personalizado con un equipo que conoce tu operación. Sin bots, sin tickets genéricos.",
-    },
-    {
-        icon: Globe,
-        title: "Conocimiento operativo",
-        description:
-            "Experiencia concreta en el ingreso de mercadería a la Argentina: normativa, tiempos y particularidades del proceso.",
-    },
-];
+/* ── Trust items — icons are shared, text comes from i18n ── */
+const TRUST_ICONS: LucideIcon[] = [ShieldCheck, FileText, BookOpenCheck, Headset, Globe];
 
 /* ═══════════════════════════════════════════════════════
    SERVICE TRUST — Credibility block (same for all services)
@@ -52,6 +23,35 @@ const TRUST_ITEMS = [
 export default function ServiceTrust() {
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, amount: 0.15 });
+    const { t } = useI18n();
+
+    const TRUST_ITEMS = [
+        {
+            icon: TRUST_ICONS[0],
+            title: t("trust.0.title", "Empresa registrada"),
+            description: t("trust.0.desc", "Operamos como empresa formalmente inscripta ante AFIP y habilitada en aduana argentina."),
+        },
+        {
+            icon: TRUST_ICONS[1],
+            title: t("trust.1.title", "Operación documentada"),
+            description: t("trust.1.desc", "Cada envío tiene trazabilidad completa, documentación respaldatoria y registros de punta a punta."),
+        },
+        {
+            icon: TRUST_ICONS[2],
+            title: t("trust.2.title", "Gestión integral"),
+            description: t("trust.2.desc", "Coordinamos toda la cadena logística: recolección, tránsito, despacho y entrega, sin intermediarios desarticulados."),
+        },
+        {
+            icon: TRUST_ICONS[3],
+            title: t("trust.3.title", "Atención humana real"),
+            description: t("trust.3.desc", "Soporte personalizado con un equipo que conoce tu operación. Sin bots, sin tickets genéricos."),
+        },
+        {
+            icon: TRUST_ICONS[4],
+            title: t("trust.4.title", "Conocimiento operativo"),
+            description: t("trust.4.desc", "Experiencia concreta en el ingreso de mercadería a la Argentina: normativa, tiempos y particularidades del proceso."),
+        },
+    ];
 
     return (
         <section
@@ -90,7 +90,7 @@ export default function ServiceTrust() {
                                 color: "#2BC0FF",
                             }}
                         >
-                            Respaldo
+                            {t("trust.eyebrow", "Respaldo")}
                         </span>
                     </motion.div>
                     <motion.h2
@@ -110,7 +110,7 @@ export default function ServiceTrust() {
                             color: "#FFFFFF",
                         }}
                     >
-                        Operación seria, documentada y acompañada
+                        {t("trust.title", "Operación seria, documentada y acompañada")}
                     </motion.h2>
                 </div>
 

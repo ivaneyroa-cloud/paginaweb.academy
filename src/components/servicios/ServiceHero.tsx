@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useI18n } from "@/i18n";
 import { ArrowRight, Headset, Activity } from "lucide-react";
 import type { ServiceLandingData, FlowNode } from "./types";
 
@@ -212,6 +213,7 @@ export default function ServiceHero({
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, amount: 0.15 });
     const hasStats = data.stats && data.stats.length > 0;
+    const { t } = useI18n();
 
     return (
         <section
@@ -496,7 +498,7 @@ export default function ServiceHero({
                                                 letterSpacing: "0.02em",
                                             }}
                                         >
-                                            Panel operativo
+                                            {t("svc_landing.panel", "Panel operativo")}
                                         </span>
                                     </div>
 
@@ -540,7 +542,7 @@ export default function ServiceHero({
                                                 letterSpacing: "0.03em",
                                             }}
                                         >
-                                            Operativo
+                                            {t("svc_landing.operative", "Operativo")}
                                         </span>
                                     </motion.div>
                                 </motion.div>
@@ -572,7 +574,7 @@ export default function ServiceHero({
                                             color: "rgba(255,255,255,0.2)",
                                         }}
                                     >
-                                        Flujo operativo
+                                        {t("svc_landing.flow", "Flujo operativo")}
                                     </span>
                                     <div
                                         style={{

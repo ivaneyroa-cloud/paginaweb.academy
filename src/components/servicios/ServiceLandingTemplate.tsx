@@ -1,6 +1,8 @@
 "use client";
 
 import type { ServiceLandingData } from "./types";
+import type { Locale } from "@/i18n";
+import { useI18n } from "@/i18n";
 import ServiceHero from "./ServiceHero";
 import ServiceBenefits from "./ServiceBenefits";
 import ServiceProcess from "./ServiceProcess";
@@ -14,9 +16,14 @@ import ServiceCTA from "./ServiceCTA";
    Orchestrator component. Composes all 6 section blocks
    in a fixed order. Content is injected via the data prop.
 
+   Supports i18n: pass a map of { es: data, en: data }
+   and the template will pick based on the current locale.
+
    Usage:
      <ServiceLandingTemplate data={courierData} />
    ═══════════════════════════════════════════════════════ */
+
+export type LocalizedServiceData = Partial<Record<Locale, ServiceLandingData>>;
 
 const SCOPED_STYLES = `
     @keyframes servicios-shimmer {
@@ -35,14 +42,24 @@ const SCOPED_STYLES = `
 export default function ServiceLandingTemplate({
     data,
 }: {
-    data: ServiceLandingData;
+    data: ServiceLandingData | LocalizedServiceData;
 }) {
+    const { locale } = useI18n();
+
+    // Determine resolved data: if it has "meta", it's a plain ServiceLandingData
+    // Otherwise it's a locale map
+    const resolved: ServiceLandingData =
+        "meta" in data
+            ? (data as ServiceLandingData)
+            : ((data as LocalizedServiceData)[locale] ??
+               (data as LocalizedServiceData).es!);
+
     return (
         <div style={{ background: "var(--bg-deep)" }}>
             <style>{SCOPED_STYLES}</style>
 
             {/* 1. Hero */}
-            <ServiceHero data={data.hero} />
+            <ServiceHero data={resolved.hero} />
 
             {/* Subtle section divider */}
             <div
@@ -55,10 +72,10 @@ export default function ServiceLandingTemplate({
             />
 
             {/* 2. Benefits */}
-            <ServiceBenefits data={data.benefits} />
+            <ServiceBenefits data={resolved.benefits} />
 
             {/* 3. Process */}
-            <ServiceProcess data={data.process} />
+            <ServiceProcess data={resolved.process} />
 
             {/* Divider */}
             <div
@@ -71,13 +88,14 @@ export default function ServiceLandingTemplate({
             />
 
             {/* 4. Ideal For */}
-            <ServiceIdealFor data={data.idealFor} />
+            <ServiceIdealFor data={resolved.idealFor} />
 
             {/* 5. Trust */}
             <ServiceTrust />
 
             {/* 6. Final CTA */}
-            <ServiceCTA data={data.cta} />
+            <ServiceCTA data={resolved.cta} />
         </div>
     );
 }
+

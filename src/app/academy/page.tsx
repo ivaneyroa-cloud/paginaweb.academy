@@ -54,7 +54,7 @@ const COURSE = {
   lessons: 4,
   duration: "11 min",
   level: "Principiante",
-  image: "/images/courses/course-importar-china.png",
+  image: "/images/courses/course-importar-china.webp",
 };
 
 export default function HomePage() {
@@ -148,7 +148,7 @@ export default function HomePage() {
           <div className="relative">
             <div className="rounded-xl overflow-hidden border border-white/10 shadow-2xl">
               <Image
-                src="/images/dashboard-preview.png"
+                src="/images/dashboard-preview.webp"
                 alt="Shippar Academy — Dashboard real"
                 width={1400}
                 height={900}

@@ -74,7 +74,7 @@ export default function RegisterPage() {
 
                 <div className="glass-card w-full max-w-md p-8 relative z-10 animate-fade-in">
                     <div className="text-center mb-8">
-                        <img src="/logo-shippar.png" alt="Shippar" className="h-10 w-auto mx-auto mb-4" />
+                        <img src="/logo-shippar.webp" alt="Shippar" className="h-10 w-auto mx-auto mb-4" />
                         <h1 className="text-2xl font-bold text-white mb-2">Creá tu cuenta gratis</h1>
                         <p className="text-text-secondary text-sm">
                             Empezá hoy mismo a importar como un profesional

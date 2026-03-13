@@ -14,7 +14,7 @@ const STEPS = [
     {
         id: "alibaba",
         name: "Alibaba",
-        logo: "/logos/alibaba_clean.png",
+        logo: "/logos/alibaba_clean.webp",
         title: "Proveedores verificados",
         desc: "Contacto directo con fábricas verificadas. Comprás en origen de manera 100% virtual.",
         accent: "#FF6A00",
@@ -22,7 +22,7 @@ const STEPS = [
     {
         id: "sfexpress",
         name: "SF Express",
-        logo: "/logos/sfexpress_clean.png",
+        logo: "/logos/sfexpress_clean.webp",
         title: "Recolección en China",
         desc: "Recolección remota en cualquier ciudad de China. Gestionamos los envíos internos con tu proveedor.",
         accent: "#FF0000",
@@ -30,7 +30,7 @@ const STEPS = [
     {
         id: "openai",
         name: "OpenAI",
-        logo: "/logos/openai_white.png",
+        logo: "/logos/openai_white.webp",
         title: "Logística con IA",
         desc: "Seguimiento 100% real, cotizaciones instantáneas, asistencia y traducción en nuestro panel. Todo potenciado por IA.",
         accent: "#10A37F",
@@ -38,7 +38,7 @@ const STEPS = [
     {
         id: "ups",
         name: "UPS",
-        logo: "/logos/ups_clean.png",
+        logo: "/logos/ups_clean.webp",
         title: "Red global de envíos",
         desc: "La red más grande del mundo, al servicio de tu envío. Cobertura internacional al mejor costo.",
         accent: "#FFB500",
@@ -46,7 +46,7 @@ const STEPS = [
     {
         id: "shippar",
         name: "Shippar",
-        logo: "/shippar-logo.png",
+        logo: "/shippar-logo.webp",
         title: "Tu solución integral",
         desc: "Tu aliado de confianza, centralizando todo lo anterior en una solución integral para vos.",
         accent: "#2BC0FF",

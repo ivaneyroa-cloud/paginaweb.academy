@@ -251,4 +251,38 @@ registerTranslations("en", {
     "tracking.cta": "Track",
     "tracking.not_found": "No results found for that code.",
     "tracking.error": "An error occurred. Please try again.",
+
+    /* ── Service Landing (shared UI) ── */
+    "svc_landing.panel": "Operations panel",
+    "svc_landing.operative": "Operative",
+    "svc_landing.flow": "Operational flow",
+
+    /* ── Trust Section ── */
+    "trust.eyebrow": "Trust",
+    "trust.title": "Serious, documented, and supported operations",
+    "trust.0.title": "Registered company",
+    "trust.0.desc": "We operate as a formally registered company with AFIP and authorized by Argentine customs.",
+    "trust.1.title": "Documented operations",
+    "trust.1.desc": "Every shipment has full traceability, supporting documentation, and end-to-end records.",
+    "trust.2.title": "End-to-end management",
+    "trust.2.desc": "We coordinate the entire logistics chain: pickup, transit, clearance, and delivery — no fragmented intermediaries.",
+    "trust.3.title": "Real human support",
+    "trust.3.desc": "Personalized support with a team that knows your operation. No bots, no generic tickets.",
+    "trust.4.title": "Operational expertise",
+    "trust.4.desc": "Hands-on experience with cargo imports to Argentina: regulations, timelines, and process specifics.",
+
+    /* ── Service Landing Form ── */
+    "svc_form.name": "Your name",
+    "svc_form.phone": "Phone / WhatsApp",
+    "svc_form.weight": "Estimated kg",
+    "svc_form.usa": "United States",
+    "svc_form.europe": "Europe",
+    "svc_form.already_importing": "Already importing?",
+    "svc_form.yes": "Yes",
+    "svc_form.no": "No",
+    "svc_form.submit": "Send inquiry",
+    "svc_form.sending": "Sending...",
+    "svc_form.success": "We received your inquiry!",
+    "svc_form.success_desc": "We'll get back to you shortly.",
+    "svc_form.error": "Error sending. Please try again.",
 });

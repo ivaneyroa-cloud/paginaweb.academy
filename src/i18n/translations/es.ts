@@ -251,4 +251,38 @@ registerTranslations("es", {
     "tracking.cta": "Rastrear",
     "tracking.not_found": "No encontramos resultados para ese código.",
     "tracking.error": "Ocurrió un error. Intentá de nuevo.",
+
+    /* ── Service Landing (shared UI) ── */
+    "svc_landing.panel": "Panel operativo",
+    "svc_landing.operative": "Operativo",
+    "svc_landing.flow": "Flujo operativo",
+
+    /* ── Trust Section ── */
+    "trust.eyebrow": "Respaldo",
+    "trust.title": "Operación seria, documentada y acompañada",
+    "trust.0.title": "Empresa registrada",
+    "trust.0.desc": "Operamos como empresa formalmente inscripta ante AFIP y habilitada en aduana argentina.",
+    "trust.1.title": "Operación documentada",
+    "trust.1.desc": "Cada envío tiene trazabilidad completa, documentación respaldatoria y registros de punta a punta.",
+    "trust.2.title": "Gestión integral",
+    "trust.2.desc": "Coordinamos toda la cadena logística: recolección, tránsito, despacho y entrega, sin intermediarios desarticulados.",
+    "trust.3.title": "Atención humana real",
+    "trust.3.desc": "Soporte personalizado con un equipo que conoce tu operación. Sin bots, sin tickets genéricos.",
+    "trust.4.title": "Conocimiento operativo",
+    "trust.4.desc": "Experiencia concreta en el ingreso de mercadería a la Argentina: normativa, tiempos y particularidades del proceso.",
+
+    /* ── Service Landing Form ── */
+    "svc_form.name": "Tu nombre",
+    "svc_form.phone": "Teléfono / WhatsApp",
+    "svc_form.weight": "Kg estimados",
+    "svc_form.usa": "Estados Unidos",
+    "svc_form.europe": "Europa",
+    "svc_form.already_importing": "¿Ya estás importando?",
+    "svc_form.yes": "Sí",
+    "svc_form.no": "No",
+    "svc_form.submit": "Enviar consulta",
+    "svc_form.sending": "Enviando...",
+    "svc_form.success": "¡Recibimos tu consulta!",
+    "svc_form.success_desc": "Te contactamos a la brevedad.",
+    "svc_form.error": "Error al enviar. Intentá nuevamente.",
 });

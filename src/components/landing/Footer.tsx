@@ -78,7 +78,7 @@ export default function Footer() {
                     {/* ── Col 1: Brand + Social ── */}
                     <div className="sm:col-span-2 lg:col-span-1">
                         <div className="flex items-center gap-2 mb-2">
-                            <img src="/shippar-logo.png" alt="Shippar" className="h-5 w-auto" />
+                            <img src="/shippar-logo.webp" alt="Shippar" className="h-5 w-auto" />
                         </div>
                         <p
                             className="text-[13px] font-medium tracking-wide"

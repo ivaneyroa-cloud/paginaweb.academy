@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight, Send, CheckCircle, Loader2 } from "lucide-react";
+import { useI18n } from "@/i18n";
 import type { ServiceLandingData } from "./types";
 
 const EASE_OUT = [0.25, 0.1, 0.25, 1] as const;
@@ -29,6 +30,7 @@ const INPUT_FOCUS: Partial<React.CSSProperties> = {
 
 /* ── Quote Form ── */
 function QuoteForm({ isInView }: { isInView: boolean }) {
+    const { t } = useI18n();
     const [form, setForm] = useState({
         nombre: "",
         telefono: "",
@@ -70,10 +72,10 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
             >
                 <CheckCircle size={40} style={{ color: "#2BC0FF" }} />
                 <p style={{ fontSize: "16px", fontWeight: 600, color: "#FFFFFF" }}>
-                    ¡Recibimos tu consulta!
+                    {t("svc_form.success", "¡Recibimos tu consulta!")}
                 </p>
                 <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)" }}>
-                    Te contactamos a la brevedad.
+                    {t("svc_form.success_desc", "Te contactamos a la brevedad.")}
                 </p>
             </motion.div>
         );
@@ -104,7 +106,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                 {/* Nombre */}
                 <input
                     type="text"
-                    placeholder="Tu nombre"
+                    placeholder={t("svc_form.name", "Tu nombre")}
                     required
                     value={form.nombre}
                     onChange={(e) => setForm({ ...form, nombre: e.target.value })}
@@ -119,7 +121,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                 {/* Teléfono */}
                 <input
                     type="tel"
-                    placeholder="Teléfono / WhatsApp"
+                    placeholder={t("svc_form.phone", "Teléfono / WhatsApp")}
                     required
                     value={form.telefono}
                     onChange={(e) => setForm({ ...form, telefono: e.target.value })}
@@ -135,7 +137,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                 <div className="grid grid-cols-2 gap-3">
                     <input
                         type="number"
-                        placeholder="Kg estimados"
+                        placeholder={t("svc_form.weight", "Kg estimados")}
                         min="0"
                         value={form.peso}
                         onChange={(e) => setForm({ ...form, peso: e.target.value })}
@@ -164,8 +166,8 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                         }}
                     >
                         <option value="china">China</option>
-                        <option value="usa">Estados Unidos</option>
-                        <option value="europa">Europa</option>
+                        <option value="usa">{t("svc_form.usa", "Estados Unidos")}</option>
+                        <option value="europa">{t("svc_form.europe", "Europa")}</option>
                     </select>
                 </div>
 
@@ -186,7 +188,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                             flex: 1,
                         }}
                     >
-                        ¿Ya estás importando?
+                        {t("svc_form.already_importing", "¿Ya estás importando?")}
                     </span>
                     <div className="flex gap-2">
                         {[true, false].map((val) => (
@@ -216,7 +218,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                                     transition: "all 0.15s",
                                 }}
                             >
-                                {val ? "Sí" : "No"}
+                                {val ? t("svc_form.yes", "Sí") : t("svc_form.no", "No")}
                             </button>
                         ))}
                     </div>
@@ -258,12 +260,12 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                         {status === "sending" ? (
                             <>
                                 <Loader2 size={16} className="animate-spin" />
-                                Enviando...
+                                {t("svc_form.sending", "Enviando...")}
                             </>
                         ) : (
                             <>
                                 <Send size={16} />
-                                Enviar consulta
+                                {t("svc_form.submit", "Enviar consulta")}
                             </>
                         )}
                     </span>
@@ -271,7 +273,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
 
                 {status === "error" && (
                     <p style={{ fontSize: "13px", color: "#ff6b6b", textAlign: "center", marginTop: "4px" }}>
-                        Error al enviar. Intentá nuevamente.
+                        {t("svc_form.error", "Error al enviar. Intentá nuevamente.")}
                     </p>
                 )}
             </div>

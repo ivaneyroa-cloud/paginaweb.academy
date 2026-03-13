@@ -36,7 +36,7 @@ export default function Navbar() {
                     {/* Logo */}
                     <Link href={user ? "/academy/dashboard" : "/"} className="flex items-center gap-2 group">
                         <img
-                            src="/logo-shippar.png"
+                            src="/logo-shippar.webp"
                             alt="Shippar"
                             className="h-7 w-auto group-hover:scale-105 transition-transform"
                         />

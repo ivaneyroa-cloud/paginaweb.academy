@@ -375,7 +375,7 @@ export default function CommunityPage() {
                                                     <div className="flex items-start gap-3">
                                                         {reply.author === "Personal Shippar" ? (
                                                             <img
-                                                                src="/logo-shippar.png"
+                                                                src="/logo-shippar.webp"
                                                                 alt="Shippar"
                                                                 className="w-8 h-8 rounded-full shrink-0 object-cover bg-white/10 p-0.5"
                                                             />

@@ -229,14 +229,28 @@ export default function Navbar() {
                 }}
             >
                 <div className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-16 md:h-[68px]">
-                    {/* ── Logo ── */}
-                    <Link href="/" className="flex items-center group select-none">
-                        <img
-                            src="/shippar-logo.png"
-                            alt="Shippar"
-                            className="h-[26px] md:h-[30px] w-auto transition-opacity duration-200 group-hover:opacity-85"
-                        />
-                    </Link>
+                    {/* ── Logo + Language Switcher ── */}
+                    <div className="flex items-center gap-3">
+                        <Link href="/" className="flex items-center group select-none">
+                            <img
+                                src="/shippar-logo.webp"
+                                alt="Shippar"
+                                className="h-[26px] md:h-[30px] w-auto transition-opacity duration-200 group-hover:opacity-85"
+                            />
+                        </Link>
+                        <div className="lang-toggle">
+                            {LOCALES.map((loc) => (
+                                <button
+                                    key={loc.code}
+                                    className={`lang-btn ${locale === loc.code ? "active" : ""}`}
+                                    onClick={() => setLocale(loc.code)}
+                                    aria-label={`Switch to ${loc.label}`}
+                                >
+                                    {loc.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
                     {/* ── Desktop Nav ── */}
                     <nav className="hidden md:flex items-center gap-2">
@@ -258,20 +272,6 @@ export default function Navbar() {
 
                         {/* Separator */}
                         <div className="nav-sep" />
-
-                        {/* Language toggle */}
-                        <div className="lang-toggle mr-1">
-                            {LOCALES.map((loc) => (
-                                <button
-                                    key={loc.code}
-                                    className={`lang-btn ${locale === loc.code ? "active" : ""}`}
-                                    onClick={() => setLocale(loc.code)}
-                                    aria-label={`Switch to ${loc.label}`}
-                                >
-                                    {loc.label}
-                                </button>
-                            ))}
-                        </div>
 
                         {/* Cotizar — CTA principal */}
                         <a
