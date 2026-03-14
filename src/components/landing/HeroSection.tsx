@@ -562,8 +562,57 @@ export default function HeroSection() {
                                 </div>
                             </div>
 
-                            {/* Timeline */}
-                            <div style={{ padding: "16px 28px 12px" }}>
+                            {/* ── MOBILE: Compact 2x3 grid of milestones ── */}
+                            <div className="md:hidden" style={{ padding: "16px 14px 12px" }}>
+                                <div style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "1fr 1fr",
+                                    gap: "8px",
+                                }}>
+                                    {PIPELINE_STEPS.filter(s => s.milestone).slice(0, 6).map((step, i) => {
+                                        const StepIcon = step.icon;
+                                        const isActive = activeSteps.length > i * 2;
+                                        return (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: isActive ? 1 : 0.3, scale: 1 }}
+                                                transition={{ delay: 0.3 + i * 0.15, duration: 0.25 }}
+                                                style={{
+                                                    padding: "12px 10px",
+                                                    borderRadius: 10,
+                                                    background: isActive ? "rgba(43,192,255,0.06)" : "rgba(255,255,255,0.02)",
+                                                    border: `1px solid ${isActive ? "rgba(43,192,255,0.15)" : "rgba(255,255,255,0.04)"}`,
+                                                    display: "flex",
+                                                    flexDirection: "column" as const,
+                                                    alignItems: "center",
+                                                    gap: 6,
+                                                    textAlign: "center" as const,
+                                                    transition: "all 0.25s",
+                                                }}
+                                            >
+                                                <div style={{
+                                                    width: 28, height: 28, borderRadius: 8,
+                                                    background: isActive ? "rgba(43,192,255,0.1)" : "rgba(255,255,255,0.03)",
+                                                    border: `1px solid ${isActive ? "rgba(43,192,255,0.2)" : "rgba(255,255,255,0.05)"}`,
+                                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                                }}>
+                                                    <StepIcon size={13} style={{ color: isActive ? "#2BC0FF" : "rgba(255,255,255,0.2)" }} />
+                                                </div>
+                                                <div style={{
+                                                    fontSize: 10, fontWeight: 600, lineHeight: 1.25,
+                                                    color: isActive ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.25)",
+                                                }}>
+                                                    {step.name}
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* ── DESKTOP: Full animated timeline ── */}
+                            <div className="hidden md:block" style={{ padding: "16px 28px 12px" }}>
                                 <div ref={timelineRef} style={{ position: "relative", padding: "2px 0" }}>
                                     {/* Background track */}
                                     <div style={{ position: "absolute", left: 15, top: 0, bottom: 0, width: 2, background: "rgba(255,255,255,0.025)", borderRadius: 1 }} />
