@@ -211,7 +211,7 @@ export default function ServiceIdealFor({
                                             style={{
                                                 fontSize: "13px",
                                                 lineHeight: 1.6,
-                                                color: "rgba(255,255,255,0.4)",
+                                                color: "rgba(255,255,255,0.58)",
                                             }}
                                         >
                                             {profile.description}

@@ -179,7 +179,7 @@ export default function ServiceTrust() {
                                     style={{
                                         fontSize: "12px",
                                         lineHeight: 1.55,
-                                        color: "rgba(255,255,255,0.38)",
+                                        color: "rgba(255,255,255,0.58)",
                                     }}
                                 >
                                     {item.description}

@@ -197,7 +197,7 @@ export default function ServiceProcess({
                                         style={{
                                             fontSize: "14px",
                                             lineHeight: 1.65,
-                                            color: "rgba(255,255,255,0.45)",
+                                            color: "rgba(255,255,255,0.60)",
                                             maxWidth: "440px",
                                         }}
                                     >

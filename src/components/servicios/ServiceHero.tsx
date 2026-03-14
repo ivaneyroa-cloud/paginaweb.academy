@@ -77,7 +77,7 @@ function HeroFlow({ nodes }: { nodes: FlowNode[] }) {
                                         style={{
                                             fontSize: "10px",
                                             fontWeight: 500,
-                                            color: "rgba(255,255,255,0.3)",
+                                            color: "rgba(255,255,255,0.55)",
                                             marginTop: "1px",
                                         }}
                                     >
@@ -190,7 +190,7 @@ function StatsBar({
                             fontWeight: 600,
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
-                            color: "rgba(255,255,255,0.3)",
+                            color: "rgba(255,255,255,0.55)",
                             marginTop: "4px",
                         }}
                     >
@@ -494,7 +494,7 @@ export default function ServiceHero({
                                             style={{
                                                 fontSize: "12px",
                                                 fontWeight: 600,
-                                                color: "rgba(255,255,255,0.5)",
+                                                color: "rgba(255,255,255,0.65)",
                                                 letterSpacing: "0.02em",
                                             }}
                                         >

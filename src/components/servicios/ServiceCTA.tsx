@@ -74,7 +74,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                 <p style={{ fontSize: "16px", fontWeight: 600, color: "#FFFFFF" }}>
                     {t("svc_form.success", "¡Recibimos tu consulta!")}
                 </p>
-                <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)" }}>
+                <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.65)" }}>
                     {t("svc_form.success_desc", "Te contactamos a la brevedad.")}
                 </p>
             </motion.div>
@@ -184,7 +184,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                     <span
                         style={{
                             fontSize: "13px",
-                            color: "rgba(255,255,255,0.5)",
+                            color: "rgba(255,255,255,0.65)",
                             flex: 1,
                         }}
                     >
@@ -213,7 +213,7 @@ function QuoteForm({ isInView }: { isInView: boolean }) {
                                     color:
                                         form.yaImporta === val
                                             ? "#2BC0FF"
-                                            : "rgba(255,255,255,0.4)",
+                                            : "rgba(255,255,255,0.55)",
                                     cursor: "pointer",
                                     transition: "all 0.15s",
                                 }}
@@ -387,7 +387,7 @@ export default function ServiceCTA({
                             style={{
                                 fontSize: "clamp(14px, 2vw, 16px)",
                                 lineHeight: 1.7,
-                                color: "rgba(255,255,255,0.5)",
+                                color: "rgba(255,255,255,0.65)",
                                 maxWidth: "480px",
                                 margin: "16px auto 0",
                             }}

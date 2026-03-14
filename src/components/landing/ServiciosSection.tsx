@@ -350,7 +350,7 @@ function FlowVisual({
                                         style={{
                                             fontSize: compact ? "10px" : "10px",
                                             fontWeight: 500,
-                                            color: "rgba(255,255,255,0.4)",
+                                            color: "rgba(255,255,255,0.55)",
                                             marginTop: "1px",
                                             letterSpacing: "0.01em",
                                         }}
@@ -554,7 +554,7 @@ export default function ServiciosSection() {
                         </motion.div>
 
                         {/* Headline */}
-                        <motion.h1
+                        <motion.h2
                             initial={{ opacity: 0, y: 14 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{
@@ -583,7 +583,7 @@ export default function ServiciosSection() {
                             >
                                 {t("servicios.title_accent", "internacionales")}
                             </span>
-                        </motion.h1>
+                        </motion.h2>
 
                         {/* Subtitle */}
                         <motion.p
@@ -597,7 +597,7 @@ export default function ServiciosSection() {
                             style={{
                                 fontSize: "clamp(14px, 2.5vw, 16px)",
                                 lineHeight: 1.7,
-                                color: "#adb9cf",
+                                color: "#c0c8d4",
                                 maxWidth: "600px",
                                 margin: "clamp(8px, 1vw, 12px) auto 0",
                             }}
@@ -896,7 +896,7 @@ export default function ServiciosSection() {
                                             </div>
 
                                             {/* Title */}
-                                            <h2
+                                            <h3
                                                 style={{
                                                     fontSize: isMobile
                                                         ? "clamp(20px, 5vw, 24px)"
@@ -911,7 +911,7 @@ export default function ServiciosSection() {
                                                 }}
                                             >
                                                 {t(`svc.${activeService.id}.title`)}
-                                            </h2>
+                                            </h3>
 
                                             {/* Description */}
                                             <p
@@ -922,7 +922,7 @@ export default function ServiciosSection() {
                                                     lineHeight: isMobile
                                                         ? 1.65
                                                         : 1.7,
-                                                    color: "rgba(255,255,255,0.5)",
+                                                    color: "rgba(255,255,255,0.65)",
                                                     marginBottom: isMobile
                                                         ? "20px"
                                                         : "28px",
@@ -1045,7 +1045,7 @@ export default function ServiciosSection() {
                                                                         isMobile
                                                                             ? "13.5px"
                                                                             : "14px",
-                                                                    color: "rgba(255,255,255,0.6)",
+                                                                    color: "rgba(255,255,255,0.72)",
                                                                     fontWeight: 500,
                                                                     lineHeight: 1.4,
                                                                 }}

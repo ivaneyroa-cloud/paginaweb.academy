@@ -218,8 +218,8 @@ export default function ServiceBenefits({
                                         fontSize: "14px",
                                         lineHeight: 1.65,
                                         color: isHero
-                                            ? "rgba(255,255,255,0.5)"
-                                            : "rgba(255,255,255,0.45)",
+                                            ? "rgba(255,255,255,0.65)"
+                                            : "rgba(255,255,255,0.58)",
                                         maxWidth: isHero ? "540px" : undefined,
                                     }}
                                 >
