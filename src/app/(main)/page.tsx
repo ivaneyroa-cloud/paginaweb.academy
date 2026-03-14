@@ -1,8 +1,10 @@
 import HeroSection from "@/components/landing/HeroSection";
-import WhyShipparSection from "@/components/landing/WhyShipparSection";
-import HowItWorksSection from "@/components/landing/HowItWorksSection";
-import TestimonialSection from "@/components/landing/TestimonialsSection";
-import CTASection from "@/components/landing/CTASection";
+import dynamic from "next/dynamic";
+
+const WhyShipparSection = dynamic(() => import("@/components/landing/WhyShipparSection"), { ssr: true });
+const HowItWorksSection = dynamic(() => import("@/components/landing/HowItWorksSection"), { ssr: true });
+const TestimonialSection = dynamic(() => import("@/components/landing/TestimonialsSection"), { ssr: true });
+const CTASection = dynamic(() => import("@/components/landing/CTASection"), { ssr: true });
 
 export default function HomePage() {
     return (
@@ -15,4 +17,3 @@ export default function HomePage() {
         </>
     );
 }
-

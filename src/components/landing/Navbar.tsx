@@ -235,6 +235,8 @@ export default function Navbar() {
                             <img
                                 src="/shippar-logo.webp"
                                 alt="Shippar — Logística internacional y courier express"
+                                width={154}
+                                height={30}
                                 className="h-[26px] md:h-[30px] w-auto transition-opacity duration-200 group-hover:opacity-85"
                             />
                         </Link>
