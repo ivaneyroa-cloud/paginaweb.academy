@@ -127,12 +127,12 @@ export default function Footer() {
 
                     {/* ── Col 2: Contacto ── */}
                     <div>
-                        <h4
+                        <p
                             className="text-[10px] font-bold uppercase tracking-[0.16em] mb-5"
                             style={{ color: "#b0bdd0" }}
                         >
                             {t("footer.contact")}
-                        </h4>
+                        </p>
 
                         {/* Emails */}
                         <div className="space-y-1.5 mb-4">
@@ -152,14 +152,14 @@ export default function Footer() {
                         <div className="space-y-1 mb-4">
                             {CONTACT_PHONES.map((p, i) => (
                                 <div key={i} className="flex items-center gap-2">
-                                    <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color: "#6075a0", minWidth: 58 }}>
+                                    <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color: "#8090b0", minWidth: 58 }}>
                                         {p.label}
                                     </span>
                                     <a
                                         href={p.href}
                                         target={p.label === "WhatsApp" ? "_blank" : undefined}
                                         rel={p.label === "WhatsApp" ? "noopener noreferrer" : undefined}
-                                        className="text-[12px] transition-colors duration-300 hover:text-white font-mono"
+                                        className="text-[12px] transition-colors duration-300 hover:text-white font-mono py-1"
                                         style={{ color: "#a0b0cc" }}
                                     >
                                         {p.number}
@@ -171,7 +171,7 @@ export default function Footer() {
                         {/* Hours */}
                         <div className="space-y-2.5 mt-1">
                             <div>
-                                <span className="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style={{ color: "#6075a0" }}>
+                                <span className="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style={{ color: "#8090b0" }}>
                                     Warehouse Argentina
                                 </span>
                                 <span className="text-[12px]" style={{ color: "#a0b0cc" }}>
@@ -179,7 +179,7 @@ export default function Footer() {
                                 </span>
                             </div>
                             <div>
-                                <span className="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style={{ color: "#6075a0" }}>
+                                <span className="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style={{ color: "#8090b0" }}>
                                     Warehouse China
                                 </span>
                                 <span className="text-[12px]" style={{ color: "#a0b0cc" }}>
@@ -191,12 +191,12 @@ export default function Footer() {
 
                     {/* ── Col 3: Navegación ── */}
                     <div>
-                        <h4
+                        <p
                             className="text-[10px] font-bold uppercase tracking-[0.16em] mb-5"
                             style={{ color: "#b0bdd0" }}
                         >
                             {t("footer.navigation")}
-                        </h4>
+                        </p>
                         <ul className="space-y-2.5">
                             {NAV_LINKS.map((l) => (
                                 <li key={l.label}>
@@ -214,12 +214,12 @@ export default function Footer() {
 
                     {/* ── Col 4: Legal ── */}
                     <div>
-                        <h4
+                        <p
                             className="text-[10px] font-bold uppercase tracking-[0.16em] mb-5"
                             style={{ color: "#b0bdd0" }}
                         >
                             {t("footer.legal")}
-                        </h4>
+                        </p>
 
                         <div className="space-y-2 mb-4">
                             <p className="text-[12px] font-medium" style={{ color: "#8b9dc3" }}>
@@ -258,10 +258,10 @@ export default function Footer() {
                     className="mt-10 pt-5 flex flex-col sm:flex-row items-center justify-between gap-2"
                     style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
                 >
-                    <p className="text-[11px]" style={{ color: "#5a6e8a" }}>
+                    <p className="text-[11px]" style={{ color: "#7a8ea8" }}>
                         © {new Date().getFullYear()} Shippar Global Logistics S.R.L — {t("footer.copyright")}
                     </p>
-                    <p className="text-[10px] tracking-wide" style={{ color: "#3a4a66" }}>
+                    <p className="text-[10px] tracking-wide" style={{ color: "#5a6e8a" }}>
                         {t("footer.tagline")}
                     </p>
                 </div>

@@ -236,7 +236,7 @@ registerTranslations("es", {
     "footer.nav.academy": "Academy",
     "footer.nav.contacto": "Contacto",
     "footer.nav.rastrear": "Rastrear envío",
-    "footer.nav.cotizar": "Cotizar envío",
+    "footer.nav.cotizar": "Solicitar cotización",
     "footer.warehouse_ar": "Warehouse Argentina",
     "footer.warehouse_ar_hours": "Lun a Vie · 9:00 a 17:00 hs",
     "footer.warehouse_cn": "Warehouse China",

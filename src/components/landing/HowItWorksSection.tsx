@@ -272,7 +272,7 @@ function MobileHowItWorks() {
                                     style={{
                                         color: isActive
                                             ? "rgba(255,255,255,0.7)"
-                                            : "rgba(255,255,255,0.2)",
+                                            : "rgba(255,255,255,0.45)",
                                     }}
                                 >
                                     {t(`how.step.${s.id}.labelShort`, t(`how.step.${s.id}.label`))}
@@ -373,7 +373,7 @@ function MobileHowItWorks() {
                             onClick={() => setActiveStep(prev => Math.min(3, prev + 1))}
                             className="flex items-center gap-2 text-xs font-medium transition-all"
                             style={{
-                                color: "rgba(255,255,255,0.3)",
+                                color: "rgba(255,255,255,0.45)",
                                 background: "none",
                                 border: "none",
                                 cursor: "pointer",
@@ -426,7 +426,7 @@ function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                                         }`,
                                     color: i <= step.panel.activeConnection
                                         ? "var(--primary)"
-                                        : "rgba(255,255,255,0.25)",
+                                        : "rgba(255,255,255,0.45)",
                                 }}
                             >
                                 {React.cloneElement(NODE_ICONS[nodeKey] as React.ReactElement<{ size: number }>, { size: 14 })}
@@ -436,7 +436,7 @@ function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                                 style={{
                                     color: i <= step.panel.activeConnection
                                         ? "rgba(255,255,255,0.55)"
-                                        : "rgba(255,255,255,0.2)",
+                                        : "rgba(255,255,255,0.45)",
                                     maxWidth: 60,
                                 }}
                             >
@@ -579,7 +579,7 @@ function DesktopHowItWorks() {
                     <span
                         className="text-[10px] uppercase tracking-[0.15em] font-semibold"
                         style={{
-                            color: "rgba(255,255,255,0.25)",
+                            color: "rgba(255,255,255,0.45)",
                             writingMode: "vertical-rl",
                             textOrientation: "mixed",
                         }}
@@ -787,7 +787,7 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
             >
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.3)" }}>
+                        <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.5)" }}>
                             {t("how.panel.origin")}
                         </p>
                         <p className="text-sm font-semibold text-white">{step.panel.origin}</p>
@@ -798,7 +798,7 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
                         <div className="h-px flex-1" style={{ width: 40, background: "linear-gradient(to right, rgba(255,255,255,0.1), rgba(43,192,255,0.3), rgba(255,255,255,0.1))" }} />
                     </div>
                     <div className="text-right">
-                        <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.3)" }}>
+                        <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.5)" }}>
                             {t("how.panel.destination")}
                         </p>
                         <p className="text-sm font-semibold text-white">{step.panel.destination}</p>
@@ -808,7 +808,7 @@ function DesktopOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
 
             {/* Process nodes */}
             <div className="mb-5">
-                <p className="text-[10px] uppercase tracking-[0.15em] font-semibold mb-3" style={{ color: "rgba(255,255,255,0.25)" }}>
+                <p className="text-[10px] uppercase tracking-[0.15em] font-semibold mb-3" style={{ color: "rgba(255,255,255,0.45)" }}>
                     {t("how.panel.status_label")}
                 </p>
                 <div className="flex items-center gap-0">
@@ -922,7 +922,7 @@ function ProcessNode({
                 style={{
                     background: isActive ? "rgba(43,192,255,0.1)" : "rgba(255,255,255,0.03)",
                     border: `1px solid ${isActive ? "rgba(43,192,255,0.25)" : "rgba(255,255,255,0.06)"}`,
-                    color: isActive ? "var(--primary)" : "rgba(255,255,255,0.25)",
+                    color: isActive ? "var(--primary)" : "rgba(255,255,255,0.45)",
                     boxShadow: isActive ? "0 0 20px rgba(43,192,255,0.08)" : "none",
                 }}
             >
