@@ -4,37 +4,30 @@ import { Button } from "@/shared/components/ui/Button";
 import { useClipboard } from "@/shared/hooks/useClipboard";
 import * as CalcsV2 from "../lib/calculationsV2";
 
-// Icons
 import { IoCalculatorOutline as CalculatorIcon } from "react-icons/io5";
-import { CopyIcon, DownloadIcon } from "@/shared/components/icons";
+import { CopyIcon } from "@/shared/components/icons";
 
-// Componente para una fila del desglose
-const CostRow = ({ label, value, isSubtle = false, indent = false }) => (
+const CostRow = ({ label, value, subtle = false, indent = false }) => (
   <div
-    className={`flex justify-between ${isSubtle ? "text-slate-600" : "text-slate-700"
-      } ${indent ? "pl-4" : ""}`}
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "4px 0",
+      paddingLeft: indent ? "14px" : "0",
+      fontSize: "0.8125rem",
+      color: subtle ? "var(--ctz-text-secondary)" : "var(--ctz-text-primary)",
+      fontVariantNumeric: "tabular-nums",
+    }}
   >
     <span>{label}</span>
-    <span className="font-medium text-right">{value}</span>
+    <span style={{ fontWeight: subtle ? 500 : 600, textAlign: "right" }}>{value}</span>
   </div>
 );
 
 /**
- * SummaryCardV2 - Tarjeta de resumen para el Cotizador V2
- * 
- * @param {Object} props - Props del componente
- * @param {number} props.valorFob - Valor FOB
- * @param {Object} props.impuestos - Objeto con desglose de impuestos
- * @param {number} props.totalImpuestos - Total de impuestos
- * @param {number} props.gastoDocumental - Gasto documental
- * @param {number} props.costoImportacion - Costo total de importación (sin FOB)
- * @param {number} props.costoFinalTotal - Costo final total (con FOB)
- * @param {Object} props.categoriaSeleccionada - Categoría seleccionada
- * @param {Array} props.cajas - Array de cajas
- * @param {number} props.pesoComputableTotal - Peso computable total
- * @param {Object} props.envioInfo - Objeto de info de envío { standard, express, valorCrudoOriginal, aplicoDescuento }
- * @param {string} props.tipoEnvio - "standard" o "express"
- * @param {string} props.codigoDescuento - Código de descuento aplicado
+ * SummaryCardV2 — The ONLY premium accent card in results.
+ * Accent border, elevated shadow, the visual "destination" of the cotizador.
  */
 export const SummaryCardV2 = ({
   valorFob,
@@ -51,266 +44,268 @@ export const SummaryCardV2 = ({
   codigoDescuento = "",
 }) => {
   const { copy: copyTotal, copied: copiedTotal } = useClipboard();
-  const { copy: copyImportacion, copied: copiedImportacion } = useClipboard();
-
-  // Calcular el valor del envío actual según el tipo seleccionado
   const costoEnvioActual = envioInfo[tipoEnvio];
 
   const formatCurrency = (value) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(value);
+    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
 
   return (
     <Card
       title="Resumen Final"
-      icon={<CalculatorIcon size={24} />}
-      className="transition-all duration-300 hover:shadow-xl"
+      icon={<CalculatorIcon size={20} />}
+      accent={true}
     >
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full">
-        {/* Columna Izquierda: Desglose Detallado */}
-        <div className="md:col-span-2 space-y-6 text-sm">
-          {/* Sección 1: Datos del Producto */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "24px" }}>
+
+        {/* Breakdown sections */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px", fontSize: "0.8125rem" }}>
+
+          {/* Product */}
           <div>
-            <h3 className="font-bold text-base text-slate-800 mb-3">
+            <h3 style={{
+              margin: "0 0 8px",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              color: "var(--ctz-text-muted)",
+            }}>
               Datos del Producto
             </h3>
-            <div className="space-y-2 pl-2 border-l-2 border-slate-200">
+            <div style={{ borderLeft: "2px solid var(--ctz-border-hover)", paddingLeft: "12px" }}>
               <CostRow label="Categoría" value={categoriaSeleccionada.nombre} />
               <CostRow label="Precio FOB" value={formatCurrency(valorFob)} />
             </div>
           </div>
 
-          {/* Sección 2: Impuestos y Tasas de Aduana */}
+          {/* Taxes */}
           <div>
-            <h3 className="font-bold text-base text-slate-800 mb-3">
-              Impuestos y Tasas de Aduana
+            <h3 style={{
+              margin: "0 0 8px",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              color: "var(--ctz-text-muted)",
+            }}>
+              Impuestos y Tasas
             </h3>
-            <div className="space-y-2 pl-2 border-l-2 border-slate-200">
+            <div style={{ borderLeft: "2px solid var(--ctz-border-hover)", paddingLeft: "12px" }}>
               <CostRow
                 label={`Derechos de Importación (${impuestos.importDuty.percentage.toFixed(1)}%)`}
                 value={formatCurrency(impuestos.importDuty.amount)}
-                isSubtle
+                subtle
               />
               <CostRow
                 label={`Tasa Estadística (${impuestos.statisticalFee.percentage.toFixed(1)}%)`}
                 value={formatCurrency(impuestos.statisticalFee.amount)}
-                isSubtle
+                subtle
               />
               <CostRow
                 label={`${impuestos.iva.name} (${impuestos.iva.percentage.toFixed(1)}%)`}
                 value={formatCurrency(impuestos.iva.amount)}
-                isSubtle
+                subtle
               />
               <CostRow
-                label="Gasto Documental Aduana"
+                label="Gasto Documental"
                 value={formatCurrency(gastoDocumental)}
-                isSubtle
+                subtle
               />
-              <div className="flex justify-between items-center text-slate-800 font-bold pt-2 mt-2 border-t border-slate-200">
-                <span>Total Impuestos y Tasas</span>
-                <span>{formatCurrency(totalImpuestos)}</span>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingTop: "8px",
+                marginTop: "6px",
+                borderTop: "1px solid var(--ctz-border)",
+                fontWeight: 700,
+                color: "var(--ctz-text-primary)",
+                fontSize: "0.8125rem",
+              }}>
+                <span>Total Impuestos</span>
+                <span style={{ fontVariantNumeric: "tabular-nums" }}>{formatCurrency(totalImpuestos)}</span>
               </div>
             </div>
           </div>
 
-          {/* Sección 3: Envío Internacional */}
+          {/* Shipping */}
           <div>
-            <h3 className="font-bold text-base text-slate-800 mb-3">
+            <h3 style={{
+              margin: "0 0 8px",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              color: "var(--ctz-text-muted)",
+            }}>
               Envío Internacional
             </h3>
-            <div className="space-y-2 pl-2 border-l-2 border-slate-200">
-              <CostRow
-                label="Cantidad de cajas"
-                value={cajas.length.toString()}
-              />
+            <div style={{ borderLeft: "2px solid var(--ctz-border-hover)", paddingLeft: "12px" }}>
+              <CostRow label="Cantidad de cajas" value={cajas.length.toString()} />
               {cajas.map((caja, index) => {
-                const volumetrico = CalcsV2.calcularPesoVolumetrico(
-                  caja.length,
-                  caja.width,
-                  caja.height
-                );
-                const computable = CalcsV2.calcularPesoComputable(
-                  caja.weight,
-                  volumetrico
-                );
-                const dims = `${caja.length}x${caja.width}x${caja.height}cm`;
+                const volumetrico = CalcsV2.calcularPesoVolumetrico(caja.length, caja.width, caja.height);
+                const computable = CalcsV2.calcularPesoComputable(caja.weight, volumetrico);
                 return (
                   <CostRow
                     key={caja.id}
-                    label={`- Caja ${index + 1}`}
-                    value={`${computable.toFixed(2)}kg (${dims})`}
-                    isSubtle
+                    label={`Caja ${index + 1}`}
+                    value={`${computable.toFixed(2)}kg (${caja.length}×${caja.width}×${caja.height}cm)`}
+                    subtle
                     indent
                   />
                 );
               })}
-              <CostRow
-                label="Peso Facturable (Vol)"
-                value={`${pesoComputableTotal.toFixed(2)} kg`}
-              />
+              <CostRow label="Peso Facturable" value={`${pesoComputableTotal.toFixed(2)} kg`} />
 
-              {/* Información de Servicio */}
-              <div className="flex justify-between items-center text-sm pt-2 border-t border-slate-200 mt-2">
-                <span className="font-medium text-slate-700">Servicio Seleccionado</span>
-                <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase ${tipoEnvio === "standard" ? "bg-sky-100 text-sky-700" : "bg-purple-100 text-purple-700"
-                  }`}>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingTop: "6px",
+                marginTop: "4px",
+                fontSize: "0.75rem",
+              }}>
+                <span style={{ color: "var(--ctz-text-muted)" }}>Servicio</span>
+                <span style={{
+                  padding: "2px 10px",
+                  borderRadius: "var(--ctz-radius-pill)",
+                  background: tipoEnvio === "standard" ? "var(--ctz-accent-light)" : "rgba(168, 85, 247, 0.08)",
+                  color: tipoEnvio === "standard" ? "var(--ctz-accent)" : "rgb(168, 85, 247)",
+                  fontSize: "0.6875rem",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.04em",
+                }}>
                   {tipoEnvio === "standard" ? "Standard" : "Express"}
                 </span>
               </div>
 
-              {/* Subtotal Flete - Solo se muestra si hay descuento para visualizar el tachado */}
               {envioInfo.aplicoDescuento && (
-                <div className="flex justify-between items-center text-sm pt-2">
-                  <span className="font-medium text-slate-700">Tarifa Base</span>
-                  <span
-                    className="relative inline-block font-semibold transition-all duration-300 text-red-500 opacity-80"
-                  >
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  paddingTop: "4px",
+                  fontSize: "0.8125rem",
+                }}>
+                  <span style={{ color: "var(--ctz-text-muted)" }}>Tarifa Base</span>
+                  <span style={{
+                    textDecoration: "line-through",
+                    color: "var(--ctz-error)",
+                    fontVariantNumeric: "tabular-nums",
+                    opacity: 0.7,
+                  }}>
                     {formatCurrency(envioInfo.valorCrudoOriginal)}
-
-                    {/* Línea diagonal tachado */}
-                    <span className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-                      <span className="w-[110%] h-[1px] bg-red-500 rotate-[-10deg] origin-center"></span>
-                    </span>
                   </span>
                 </div>
               )}
 
-              {/* Fila del descuento */}
-              {envioInfo.aplicoDescuento && (
-                <div className="flex justify-between items-center text-sm bg-emerald-50 text-emerald-700 px-2 py-1 rounded">
-                  <span className="font-medium">Cupón {codigoDescuento}</span>
-                  <span className="font-semibold">Aplicado</span>
-                </div>
-              )}
-
-              <div className="flex justify-between items-center text-slate-800 font-bold pt-2 mt-2 border-t border-slate-200">
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingTop: "8px",
+                marginTop: "6px",
+                borderTop: "1px solid var(--ctz-border)",
+                fontWeight: 700,
+                color: envioInfo.aplicoDescuento ? "var(--ctz-success)" : "var(--ctz-text-primary)",
+                fontSize: "0.8125rem",
+              }}>
                 <span>
-                  Costo Envío Internacional
+                  Costo Envío
                   {envioInfo.aplicoDescuento && (
-                    <span className="text-emerald-600 ml-1 text-sm font-semibold">
+                    <span style={{ fontWeight: 500, fontSize: "0.75rem", marginLeft: "6px", opacity: 0.8 }}>
                       c/ descuento
                     </span>
                   )}
                 </span>
-                <span className={envioInfo.aplicoDescuento ? 'text-emerald-600' : ''}>
-                  {formatCurrency(costoEnvioActual)}
-                </span>
-              </div>
-              <CostRow
-                label="Tarifa Efectiva por kg"
-                value={pesoComputableTotal > 0 ? `${formatCurrency(costoEnvioActual / pesoComputableTotal)} / kg` : "N/A"}
-                isSubtle
-              />
-            </div>
-          </div>
-
-          {/* Sección 4: Totales Finales */}
-          <div className="pt-4 mt-6 border-t border-slate-300">
-            <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl p-4 space-y-3 shadow-sm border border-blue-100">
-              {/* FOB */}
-              <div className="flex justify-between items-baseline">
-                <span className="text-md font-medium text-slate-800">
-                  Precio FOB
-                </span>
-                <span className="text-base font-semibold text-slate-900">
-                  {formatCurrency(valorFob)}
-                </span>
-              </div>
-
-              {/* Costos de Importación */}
-              <div className="flex justify-between items-baseline">
-                <span className="text-md font-medium text-slate-800">
-                  Costos de Importación (Impuestos y Tasas + Envío)
-                </span>
-                <span className="text-base font-semibold text-slate-900">
-                  {formatCurrency(costoImportacion)}
-                </span>
-              </div>
-
-              <hr className="my-2 border-blue-200" />
-
-              {/* Costo Final Total */}
-              <div className="flex justify-between items-baseline">
-                <span className="text-lg font-bold text-slate-800">
-                  Costo Final Total
-                </span>
-                <span className="text-xl font-bold text-slate-900">
-                  {formatCurrency(costoFinalTotal)}
-                </span>
+                <span style={{ fontVariantNumeric: "tabular-nums" }}>{formatCurrency(costoEnvioActual)}</span>
               </div>
             </div>
           </div>
-
         </div>
 
-        {/* Columna Derecha: Totales y Acciones */}
-        <div className="md:col-span-1 flex flex-col justify-end">
-          <div className="space-y-4 bg-slate-50 rounded-lg p-4 text-center border border-slate-200/80">
-            {/* Costo de Importación */}
-            <div>
-              <h3 className="text-base text-slate-600 font-medium">
-                Costos de Importación
-              </h3>
-              <div className="flex items-center justify-center gap-2">
-                <p className="text-2xl text-sky-800 font-bold">
-                  {formatCurrency(costoImportacion)}
-                </p>
-                <button
-                  onClick={() => copyImportacion(costoImportacion.toFixed(2))}
-                  className="relative text-slate-500 hover:text-sky-600 transition-colors p-1"
-                  aria-label="Copiar costo de importación"
-                >
-                  {copiedImportacion ? (
-                    <span className="text-sm text-sky-600 font-semibold">
-                      ¡Copiado!
-                    </span>
-                  ) : (
-                    <CopyIcon className="cursor-pointer h-5 w-5" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Costo Final Total */}
-            <div className="pt-2 border-t border-slate-200/80">
-              <h3 className="text-base text-slate-600 font-medium">
-                Costo Final Total
-              </h3>
-              <div className="flex items-center justify-center gap-2">
-                <p className="text-2xl text-blue-700 font-bold">
-                  {formatCurrency(costoFinalTotal)}
-                </p>
-                <button
-                  onClick={() => copyTotal(costoFinalTotal.toFixed(2))}
-                  className="relative text-slate-500 hover:text-blue-600 transition-colors p-1"
-                  aria-label="Copiar costo final total"
-                >
-                  {copiedTotal ? (
-                    <span className="text-sm text-blue-600 font-semibold">
-                      ¡Copiado!
-                    </span>
-                  ) : (
-                    <CopyIcon className="cursor-pointer h-5 w-5" />
-                  )}
-                </button>
-              </div>
-            </div>
+        {/* ═══ TOTALS BOX ═══ */}
+        <div
+          style={{
+            background: "var(--ctz-bg-secondary)",
+            borderRadius: "var(--ctz-radius-sm)",
+            padding: "20px",
+            border: "1px solid var(--ctz-border)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              marginBottom: "8px",
+              fontSize: "0.875rem",
+            }}
+          >
+            <span style={{ color: "var(--ctz-text-secondary)", fontWeight: 500 }}>Precio FOB</span>
+            <span style={{ fontWeight: 600, color: "var(--ctz-text-primary)", fontVariantNumeric: "tabular-nums" }}>
+              {formatCurrency(valorFob)}
+            </span>
           </div>
 
-          {/* Botones de acción */}
-          <div className="pt-6 space-y-3">
-            <Button
-              onClick={() => copyTotal(costoFinalTotal.toFixed(2))}
-              variant="secondary"
-              className="w-full"
-              icon={<CopyIcon size={18} />}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              marginBottom: "14px",
+              fontSize: "0.875rem",
+            }}
+          >
+            <span style={{ color: "var(--ctz-text-secondary)", fontWeight: 500 }}>Costos de Importación</span>
+            <span style={{ fontWeight: 600, color: "var(--ctz-text-primary)", fontVariantNumeric: "tabular-nums" }}>
+              {formatCurrency(costoImportacion)}
+            </span>
+          </div>
+
+          <div
+            style={{
+              borderTop: "2px solid var(--ctz-accent)",
+              paddingTop: "14px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "1rem",
+                fontWeight: 800,
+                color: "var(--ctz-text-primary)",
+                letterSpacing: "-0.01em",
+              }}
             >
-              {copiedTotal ? "¡Copiado!" : "Copiar Total"}
-            </Button>
-
+              Costo Final Total
+            </span>
+            <span
+              style={{
+                fontSize: "1.375rem",
+                fontWeight: 800,
+                color: "var(--ctz-accent)",
+                fontVariantNumeric: "tabular-nums",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {formatCurrency(costoFinalTotal)}
+            </span>
           </div>
+        </div>
+
+        {/* Copy button */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            onClick={() => copyTotal(costoFinalTotal.toFixed(2))}
+            variant="secondary"
+            icon={<CopyIcon size={16} />}
+          >
+            {copiedTotal ? "¡Copiado!" : "Copiar Total"}
+          </Button>
         </div>
       </div>
     </Card>

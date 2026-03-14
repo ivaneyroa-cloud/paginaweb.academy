@@ -389,60 +389,65 @@ export default function CotizadorV2App({ datosCotizacion }) {
         {/* =========================== */}
         {/* ZONA DE ACCIÓN Y TRANSICIÓN */}
         {/* =========================== */}
-        <div className="relative my-8" id="resultados-seccion">
+        <div style={{ position: "relative", margin: "32px 0" }} id="resultados-seccion">
           
-          {/* Línea separadora de fondo (Siempre visible para estructurar la página) */}
-          <div className="absolute inset-0 flex items-center" aria-hidden="true">
-            <div className="w-full border-t border-dashed border-slate-300"></div>
+          {/* Divider line */}
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center" }} aria-hidden="true">
+            <div style={{ width: "100%", borderTop: "1px solid var(--ctz-border)" }} />
           </div>
           
-          {/* Contenedor central dinámico */}
-          <div className="relative flex justify-center">
+          {/* CTA / Badge */}
+          <div style={{ position: "relative", display: "flex", justifyContent: "center" }}>
             {!mostrarResultados ? (
-          // ESTADO 1: Botón principal de Cotizar (Estilo Sólido Oscuro Premium)
               <button
                 type="button"
                 onClick={handleCotizar}
-                // Usamos bg-sky-600 (azul sólido) y text-white.
-                className="group cursor-pointer flex items-center gap-4 pl-8 pr-2 py-2 text-[17px] font-bold text-white bg-sky-600 border border-transparent rounded-full shadow-md hover:shadow-lg hover:bg-sky-700 hover:-translate-y-0.5 transition-all duration-300"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "12px 28px",
+                  fontSize: "0.9375rem",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                  background: "var(--ctz-accent-gradient)",
+                  border: "none",
+                  borderRadius: "var(--ctz-radius-pill)",
+                  cursor: "pointer",
+                  transition: "all 250ms ease-out",
+                  boxShadow: "var(--ctz-shadow-md)",
+                  letterSpacing: "-0.01em",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "var(--ctz-shadow-lg)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "var(--ctz-shadow-md)"; }}
               >
-                <span className="tracking-tight">Cotizar Importación</span>
-                
-                {/* Ícono de ancla visual (Círculo un tono más oscuro) */}
-                {/* Usamos bg-sky-700 para generar profundidad dentro del botón */}
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-sky-700 text-white transition-colors duration-300 group-hover:bg-sky-800">
-                  <svg 
-                    className="w-5 h-5 transform group-hover:translate-x-0.5 transition-transform duration-300" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </div>
+                Cotizar Importación
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </button>
             ) : (
-              // ESTADO 2: Badge indicando que el formulario ahora reacciona en vivo
-              <span className="bg-slate-50 px-6 py-2 rounded-full text-sm font-semibold text-sky-700 shadow-sm border border-slate-200 flex items-center gap-2 animate-fade-in">
-                {/* Ícono de rayo en SVG */}
-                <svg 
-                  className="w-4 h-4 text-sky-500" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2.5} 
-                    d="M13 10V3L4 14h7v7l9-11h-7z" 
-                  />
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 16px",
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  color: "var(--ctz-accent)",
+                  background: "var(--ctz-bg-elevated)",
+                  border: "1px solid var(--ctz-border)",
+                  borderRadius: "var(--ctz-radius-pill)",
+                }}
+              >
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Cálculos Automáticos
+                Cálculos en tiempo real
               </span>
             )}
           </div>
-          
         </div>
 
 
@@ -452,12 +457,29 @@ export default function CotizadorV2App({ datosCotizacion }) {
         {mostrarResultados && (
           <div className="animate-fade-in space-y-8" id="resultados-seccion">
             
-            {/* Encabezado de la Sección de Resultados */}
-            <div className="flex flex-col items-center sm:items-start text-center sm:text-left border-l-4 border-sky-500 pl-4 py-1">
-              <h2 className="text-2xl font-extrabold text-slate-800">
+            {/* Section header */}
+            <div
+              style={{
+                borderLeft: "3px solid var(--ctz-accent)",
+                paddingLeft: "14px",
+                paddingTop: "2px",
+                paddingBottom: "2px",
+              }}
+            >
+              <h2 style={{
+                margin: 0,
+                fontSize: "1.25rem",
+                fontWeight: 800,
+                color: "var(--ctz-text-primary)",
+                letterSpacing: "-0.02em",
+              }}>
                 Resultados de la Cotización
               </h2>
-              <p className="text-sm text-slate-700 mt-1">
+              <p style={{
+                margin: "4px 0 0",
+                fontSize: "0.8125rem",
+                color: "var(--ctz-text-secondary)",
+              }}>
                 Desglose detallado de costos logísticos y tasas aduaneras estimadas.
               </p>
             </div>

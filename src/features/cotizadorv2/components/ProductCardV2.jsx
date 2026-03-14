@@ -33,7 +33,7 @@ export const ProductCardV2 = ({
       title="Paso 1: Producto"
       icon={<ProductIcon size={22} />}
       tooltip="Seleccioná la categoría de tu producto e ingresá el valor FOB total."
-      className="transition-all duration-300 hover:shadow-xl border-1 border-sky-200 h-full"
+      className="h-full"
     >
       {/* Badge instructivo
       <div className="mb-4 p-3 bg-sky-50 border border-sky-200 rounded-lg">
