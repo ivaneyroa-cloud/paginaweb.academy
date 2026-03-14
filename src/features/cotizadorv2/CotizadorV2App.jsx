@@ -421,7 +421,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
                 onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "var(--ctz-shadow-lg)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "var(--ctz-shadow-md)"; }}
               >
-                Cotizar Importación
+                Calcular costos
                 <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
@@ -444,7 +444,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
                 <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Cálculos en tiempo real
+                Actualización en tiempo real
               </span>
             )}
           </div>
@@ -474,14 +474,14 @@ export default function CotizadorV2App({ datosCotizacion }) {
                 color: "var(--ctz-text-primary)",
                 letterSpacing: "-0.02em",
               }}>
-                Resultados de la Cotización
+                Desglose de costos
               </h2>
               <p style={{
                 margin: "4px 0 0",
                 fontSize: "0.8125rem",
                 color: "var(--ctz-text-secondary)",
               }}>
-                Desglose detallado de costos logísticos y tasas aduaneras estimadas.
+                Costos logísticos e impuestos estimados para tu operación.
               </p>
             </div>
 

@@ -53,7 +53,7 @@ export const ShippingCostsCardV2 = ({
             letterSpacing: "-0.01em",
           }}
         >
-          Envío Internacional Shippar
+          Envío Internacional
         </h2>
       </div>
 
@@ -100,7 +100,7 @@ export const ShippingCostsCardV2 = ({
           <div>
             <p style={{ margin: 0, fontWeight: 600 }}>Tarifa preferencial aplicada</p>
             <p style={{ margin: "2px 0 0", opacity: 0.85 }}>
-              Precio sobre tarifa de <span style={{ textDecoration: "line-through" }}>{formatCurrency(envioInfo.valorCrudoOriginal)}</span>.
+              Precio sobre tarifa regular de <span style={{ textDecoration: "line-through" }}>{formatCurrency(envioInfo.valorCrudoOriginal)}</span>.
             </p>
           </div>
         </div>
@@ -117,7 +117,7 @@ export const ShippingCostsCardV2 = ({
           marginBottom: "10px",
         }}
       >
-        Seleccioná tu método de envío
+        Método de envío
       </p>
 
       <div className="ctz-shipping-options" style={{ display: "grid" }}>
@@ -138,7 +138,7 @@ export const ShippingCostsCardV2 = ({
               </span>
             </div>
             <p style={{ fontSize: "0.75rem", color: "var(--ctz-text-muted)", margin: "2px 0 0" }}>
-              Tiempo de tránsito normal.
+              Tránsito estándar
             </p>
           </div>
           <div style={{ textAlign: "right", flexShrink: 0 }}>
@@ -180,7 +180,7 @@ export const ShippingCostsCardV2 = ({
               </span>
             </div>
             <p style={{ fontSize: "0.75rem", color: "var(--ctz-text-muted)", margin: "2px 0 0" }}>
-              Prioridad aduanera y operativa.
+              Prioridad operativa
             </p>
           </div>
           <div style={{ textAlign: "right", flexShrink: 0 }}>

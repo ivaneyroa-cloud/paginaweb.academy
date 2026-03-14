@@ -111,7 +111,7 @@ export const ImpuestosTasasCardV2 = ({
             marginBottom: "6px",
           }}
         >
-          Total Impuestos y Tasas
+          Total impositivo
         </span>
         <span
           style={{
@@ -155,7 +155,7 @@ export const ImpuestosTasasCardV2 = ({
           e.currentTarget.style.color = "var(--ctz-text-muted)";
         }}
       >
-        <span>{isOpen ? "Ocultar desglose" : "Ver desglose detallado"}</span>
+        <span>{isOpen ? "Ocultar detalle" : "Ver detalle"}</span>
         <HiChevronDown
           size={16}
           style={{
@@ -295,7 +295,7 @@ export const ImpuestosTasasCardV2 = ({
                 }}
               >
                 <HiOutlineInformationCircle size={13} />
-                <span>Cómo se calculó</span>
+                <span>Base de cálculo</span>
               </button>
 
               <div
@@ -320,9 +320,7 @@ export const ImpuestosTasasCardV2 = ({
                       transition: "opacity 200ms ease-out 50ms",
                     }}
                   >
-                    Tasa estadística y Derechos de Importación se calculan sobre el Valor
-                    CIF ({formatCurrency(valorCif)}). El IVA se calcula sobre el Valor CIF +
-                    Derechos de Importación.
+                    Derechos e I.E. se calculan sobre CIF ({formatCurrency(valorCif)}). IVA se aplica sobre CIF + Derechos.
                   </p>
                 </div>
               </div>

@@ -48,12 +48,12 @@ export const DiscountCardV2 = forwardRef(({
       } else {
         onDescuentoChange(0);
         onCodigoChange("");
-        setMensajeError(response.message || "Código inválido");
+        setMensajeError(response.message || "Código no válido");
         return false;
       }
     } catch (error) {
       console.error("Error validando cupón", error);
-      setMensajeError("Hubo un error al validar. Intentá de nuevo más tarde.");
+      setMensajeError("No se pudo validar el código. Intentá nuevamente.");
       return false;
     } finally {
       setIsApplying(false);
@@ -111,7 +111,7 @@ export const DiscountCardV2 = forwardRef(({
                   color: "var(--ctz-text-primary)",
                 }}
               >
-                Tarifa aplicada correctamente
+                Condición tarifaria aplicada
               </span>
               <span
                 style={{
@@ -121,7 +121,7 @@ export const DiscountCardV2 = forwardRef(({
                   marginTop: "1px",
                 }}
               >
-                Tu cotización ya contempla la condición asignada.
+                Los valores reflejan tu tarifa preferencial.
               </span>
             </div>
           </div>
@@ -142,7 +142,7 @@ export const DiscountCardV2 = forwardRef(({
             onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
           >
-            Quitar
+            Remover
           </button>
         </div>
       ) : (
@@ -178,7 +178,7 @@ export const DiscountCardV2 = forwardRef(({
                   marginTop: "1px",
                 }}
               >
-                Si tenés un código asignado, ingresalo antes de cotizar para aplicar tu tarifa.
+                Si tenés un código asignado, ingresalo para aplicar tu tarifa.
               </span>
             </div>
           </div>

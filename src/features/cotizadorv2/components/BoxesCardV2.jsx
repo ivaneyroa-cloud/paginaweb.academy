@@ -46,9 +46,9 @@ export const BoxesCardV2 = ({ boxes, onBoxesChange, erroresCajas = {} }) => {
 
   return (
     <Card
-      title="Paso 2: Dimensiones y Peso"
+      title="Dimensiones y Peso"
       icon={<BoxIcon size={22} />}
-      tooltip="Ingresá las dimensiones (largo × ancho × alto en cm) y el peso de cada caja."
+      tooltip="Dimensiones en cm y peso en kg de cada bulto."
       className="h-full"
     >
       {/* Badge instructivo
@@ -79,7 +79,7 @@ export const BoxesCardV2 = ({ boxes, onBoxesChange, erroresCajas = {} }) => {
           className="cursor-pointer p-3 rounded-lg border-2 border-dashed border-slate-300 hover:border-sky-400 hover:bg-sky-50/50 transition-all flex flex-col items-center justify-center text-slate-500 hover:text-sky-600 h-full min-h-[180px]"
         >
           <PlusIcon className="h-8 w-8 mb-2" />
-          <span className="font-semibold">Agregar Caja</span>
+          <span className="font-semibold">Agregar bulto</span>
         </button>
       </div>
     </Card>

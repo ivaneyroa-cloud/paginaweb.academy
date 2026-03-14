@@ -30,9 +30,9 @@ export const ProductCardV2 = ({
 }) => {
   return (
     <Card
-      title="Paso 1: Producto"
+      title="Producto"
       icon={<ProductIcon size={22} />}
-      tooltip="Seleccioná la categoría de tu producto e ingresá el valor FOB total."
+      tooltip="Categoría del producto y valor FOB (Free On Board)."
       className="h-full"
     >
       {/* Badge instructivo
@@ -48,17 +48,17 @@ export const ProductCardV2 = ({
           categories={categories}
           selectedCategory={categoriaSeleccionada}
           onCategoryChange={onCategoriaChange}
-          label="Categoría del Producto"
+          label="Categoría"
         />
 
         {/* Valor FOB */}
         <div>
           <Input
-            label="Valor FOB Total"
+            label="Valor FOB"
             value={valorFob}
             onChange={onFobChange}
             prefix="$"
-            tip="Valor de los productos sin incluir envío ni impuestos (Free On Board)"
+            tip="Declarado en factura comercial, sin flete ni seguro."
             className={errores.fob ? "mb-1" : "mb-4"}
           />
           {errores.fob && (
@@ -85,7 +85,7 @@ export const ProductCardV2 = ({
           {/* Contenido de texto */}
           <div className="flex flex-col">
             <p className="text-sm text-slate-800">
-              <span className="font-semibold">Categoría seleccionada:   </span> <span className="uppercase">{categoriaSeleccionada.nombre}</span> 
+              <span className="font-semibold">Categoría:   </span> <span className="uppercase">{categoriaSeleccionada.nombre}</span> 
             </p>
             {/* Convertimos los porcentajes en metadatos técnicos (chiquitos, en mayúscula y con separación clara) */}
             <p className="text-[11px] text-slate-700 font-medium mt-1.5 leading-relaxed uppercase tracking-widest">

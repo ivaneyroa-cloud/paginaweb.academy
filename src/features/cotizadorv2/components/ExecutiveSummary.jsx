@@ -102,7 +102,7 @@ export const ExecutiveSummary = ({
           color: "var(--ctz-text-muted)",
         }}
       >
-        Resumen de Cotización
+        Resumen
       </h3>
 
       {/* ═══ GROUP 1: Producto ═══ */}
@@ -175,14 +175,14 @@ export const ExecutiveSummary = ({
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12" />
           </svg>
-          Tarifa preferencial aplicada
+          Tarifa preferencial
         </div>
       )}
 
       <div style={divider} />
 
       {/* ═══ GROUP 3: Impuestos ═══ */}
-      <p style={groupTitle}>Impuestos & Tasas</p>
+      <p style={groupTitle}>Impuestos y tasas</p>
       <div style={row}>
         <span style={label}>Total impositivo</span>
         <span style={value}>{fmt(totalImpuestos + gastoDocumental)}</span>
@@ -194,7 +194,7 @@ export const ExecutiveSummary = ({
       <p style={groupTitle}>Totales</p>
       <div style={row}>
         <span style={{ ...label, fontWeight: 600, color: "var(--ctz-text-primary)" }}>
-          Costos de Importación
+          Costo de importación
         </span>
         <span style={{ ...value, fontWeight: 700 }}>{fmt(costoImportacion)}</span>
       </div>
@@ -218,7 +218,7 @@ export const ExecutiveSummary = ({
             letterSpacing: "-0.01em",
           }}
         >
-          Costo Final
+          Total estimado
         </span>
         <span
           style={{
@@ -275,7 +275,7 @@ export const ExecutiveSummary = ({
         }}
       >
         <CopyIcon style={{ width: "15px", height: "15px" }} />
-        {copied ? "¡Copiado!" : "Copiar Total"}
+        {copied ? "Copiado ✓" : "Copiar total"}
       </button>
     </div>
   );

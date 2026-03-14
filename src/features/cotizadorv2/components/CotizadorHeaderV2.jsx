@@ -10,7 +10,7 @@ export default function CotizadorHeaderV2() {
   const steps = [
     { num: 1, label: "Producto" },
     { num: 2, label: "Envío" },
-    { num: 3, label: "Resultado" },
+    { num: 3, label: "Cotización" },
   ];
 
   return (
@@ -48,7 +48,7 @@ export default function CotizadorHeaderV2() {
               lineHeight: 1.2,
             }}
           >
-            Cotizador de Importaciones
+            Cotizador de Importación
           </h1>
           <p
             className="ctz-header-desc"
@@ -59,7 +59,7 @@ export default function CotizadorHeaderV2() {
               lineHeight: 1.5,
             }}
           >
-            Calculá en segundos el costo estimado de tu operación con el valor FOB, peso y dimensiones del envío.
+            Estimá el costo total de tu importación ingresando valor FOB, peso y dimensiones.
           </p>
         </div>
       </div>
