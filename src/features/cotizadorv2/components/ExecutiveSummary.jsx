@@ -3,9 +3,27 @@ import { useClipboard } from "@/shared/hooks/useClipboard";
 import { CopyIcon } from "@/shared/components/icons";
 
 /**
- * ExecutiveSummary — Sticky sidebar panel showing the cost breakdown at a glance.
- * This is the visual "destination" of the cotizador flow.
- * All inline styles with CSS variables for dark/light parity.
+ * ExecutiveSummary — Sticky sidebar with grouped cost breakdown.
+ *
+ * Layout:
+ *   ┌─────────────────────────┐
+ *   │  RESUMEN EJECUTIVO      │
+ *   ├── Producto ─────────────┤
+ *   │  Valor FOB     $100.00  │
+ *   │  Categoría   Acc. Pers  │
+ *   ├── Envío ────────────────┤
+ *   │  Standard       $608.00 │
+ *   │  ▸ Tarifa pref. aplicada│
+ *   ├── Impuestos ────────────┤
+ *   │  Imp+Tasas      $140.62 │
+ *   ├── Totales ──────────────┤
+ *   │  Costos Imp.    $750.42 │
+ *   │  ═══════════════════════│
+ *   │  COSTO FINAL   $850.42  │
+ *   │  [  Copiar Total  ]     │
+ *   └─────────────────────────┘
+ *
+ * All CSS variables, dark/light parity.
  */
 export const ExecutiveSummary = ({
   costoEnvio = 0,
@@ -17,29 +35,50 @@ export const ExecutiveSummary = ({
   tipoEnvio = "standard",
   aplicoDescuento = false,
   codigoDescuento = "",
+  categoriaSeleccionada = null,
+  pesoComputableTotal = 0,
+  cantidadCajas = 0,
 }) => {
   const { copy, copied } = useClipboard();
 
-  const formatCurrency = (value) =>
-    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
+  const fmt = (v) =>
+    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(v);
 
-  const lineStyle = {
+  /* ─── Shared styles ─── */
+  const groupTitle = {
+    margin: 0,
+    padding: "0 0 6px",
+    fontSize: "0.625rem",
+    fontWeight: 700,
+    textTransform: "uppercase",
+    letterSpacing: "0.08em",
+    color: "var(--ctz-text-muted)",
+  };
+
+  const row = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "baseline",
-    padding: "8px 0",
+    padding: "5px 0",
     fontSize: "0.8125rem",
   };
 
-  const labelStyle = {
+  const label = {
     fontWeight: 500,
     color: "var(--ctz-text-secondary)",
   };
 
-  const valueStyle = {
+  const value = {
     fontWeight: 600,
     color: "var(--ctz-text-primary)",
     fontVariantNumeric: "tabular-nums",
+    textAlign: "right",
+  };
+
+  const divider = {
+    height: "1px",
+    background: "var(--ctz-border)",
+    margin: "14px 0",
   };
 
   return (
@@ -50,153 +89,177 @@ export const ExecutiveSummary = ({
         background: "var(--ctz-bg-elevated)",
         border: "1px solid var(--ctz-accent)",
         borderRadius: "var(--ctz-radius-md)",
-        padding: "24px",
+        padding: "20px",
         boxShadow: "var(--ctz-shadow-md)",
       }}
     >
-      {/* Title */}
+      {/* ═══ HEADER ═══ */}
       <h3
         style={{
-          margin: "0 0 16px",
-          fontSize: "0.75rem",
+          margin: "0 0 14px",
+          fontSize: "0.6875rem",
           fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.06em",
           color: "var(--ctz-text-muted)",
         }}
       >
-        Resumen ejecutivo
+        Resumen de Cotización
       </h3>
 
-      {/* Line items */}
-      <div style={lineStyle}>
-        <span style={labelStyle}>Precio FOB</span>
-        <span style={valueStyle}>{formatCurrency(valorFob)}</span>
+      {/* ═══ GROUP 1: Producto ═══ */}
+      <p style={groupTitle}>Producto</p>
+      <div style={row}>
+        <span style={label}>Valor FOB</span>
+        <span style={value}>{fmt(valorFob)}</span>
       </div>
+      {categoriaSeleccionada && (
+        <div style={row}>
+          <span style={label}>Categoría</span>
+          <span
+            style={{
+              ...value,
+              fontWeight: 500,
+              fontSize: "0.75rem",
+              maxWidth: "140px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {categoriaSeleccionada.nombre}
+          </span>
+        </div>
+      )}
+      {pesoComputableTotal > 0 && (
+        <div style={row}>
+          <span style={label}>Peso Facturable</span>
+          <span style={{ ...value, fontWeight: 500 }}>
+            {pesoComputableTotal.toFixed(2)} kg
+            {cantidadCajas > 0 && (
+              <span style={{ color: "var(--ctz-text-muted)", fontSize: "0.6875rem", marginLeft: "4px" }}>
+                ({cantidadCajas} {cantidadCajas === 1 ? "caja" : "cajas"})
+              </span>
+            )}
+          </span>
+        </div>
+      )}
 
-      <div
-        style={{
-          height: "1px",
-          background: "var(--ctz-border)",
-          margin: "4px 0",
-        }}
-      />
+      <div style={divider} />
 
-      <div style={lineStyle}>
-        <span style={labelStyle}>
-          Envío {tipoEnvio === "express" ? "Express" : "Standard"}
-          {aplicoDescuento && (
-            <span
-              style={{
-                display: "inline-block",
-                marginLeft: "6px",
-                fontSize: "0.625rem",
-                fontWeight: 600,
-                color: "var(--ctz-success)",
-                background: "var(--ctz-success-light)",
-                padding: "1px 6px",
-                borderRadius: "var(--ctz-radius-pill)",
-                textTransform: "uppercase",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Dto
-            </span>
-          )}
+      {/* ═══ GROUP 2: Envío ═══ */}
+      <p style={groupTitle}>Envío Internacional</p>
+      <div style={row}>
+        <span style={label}>
+          {tipoEnvio === "express" ? "Express" : "Standard"}
         </span>
-        <span style={{
-          ...valueStyle,
-          color: aplicoDescuento ? "var(--ctz-success)" : "var(--ctz-text-primary)",
-        }}>
-          {formatCurrency(costoEnvio)}
-        </span>
-      </div>
-
-      <div style={lineStyle}>
-        <span style={labelStyle}>Impuestos y Tasas</span>
-        <span style={valueStyle}>{formatCurrency(totalImpuestos + gastoDocumental)}</span>
-      </div>
-
-      <div
-        style={{
-          height: "1px",
-          background: "var(--ctz-border)",
-          margin: "4px 0",
-        }}
-      />
-
-      <div style={lineStyle}>
-        <span style={{ ...labelStyle, fontWeight: 600, color: "var(--ctz-text-primary)" }}>
-          Costos de Importación
-        </span>
-        <span style={{ ...valueStyle, fontWeight: 700 }}>
-          {formatCurrency(costoImportacion)}
+        <span
+          style={{
+            ...value,
+            color: aplicoDescuento ? "var(--ctz-success)" : "var(--ctz-text-primary)",
+          }}
+        >
+          {fmt(costoEnvio)}
         </span>
       </div>
-
-      {/* Total — the hero number */}
-      <div
-        style={{
-          marginTop: "12px",
-          paddingTop: "16px",
-          borderTop: "2px solid var(--ctz-accent)",
-        }}
-      >
+      {aplicoDescuento && (
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "baseline",
-          }}
-        >
-          <span
-            style={{
-              fontSize: "0.875rem",
-              fontWeight: 800,
-              color: "var(--ctz-text-primary)",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            Costo Final Total
-          </span>
-          <span
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: 800,
-              color: "var(--ctz-accent)",
-              fontVariantNumeric: "tabular-nums",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {formatCurrency(costoFinalTotal)}
-          </span>
-        </div>
-
-        <p
-          style={{
-            margin: "4px 0 0",
+            alignItems: "center",
+            gap: "5px",
+            marginTop: "2px",
             fontSize: "0.6875rem",
-            color: "var(--ctz-text-muted)",
-            textAlign: "right",
+            fontWeight: 600,
+            color: "var(--ctz-success)",
           }}
         >
-          FOB + Envío + Impuestos
-        </p>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Tarifa preferencial aplicada
+        </div>
+      )}
+
+      <div style={divider} />
+
+      {/* ═══ GROUP 3: Impuestos ═══ */}
+      <p style={groupTitle}>Impuestos & Tasas</p>
+      <div style={row}>
+        <span style={label}>Total impositivo</span>
+        <span style={value}>{fmt(totalImpuestos + gastoDocumental)}</span>
       </div>
+
+      <div style={divider} />
+
+      {/* ═══ GROUP 4: Totales ═══ */}
+      <p style={groupTitle}>Totales</p>
+      <div style={row}>
+        <span style={{ ...label, fontWeight: 600, color: "var(--ctz-text-primary)" }}>
+          Costos de Importación
+        </span>
+        <span style={{ ...value, fontWeight: 700 }}>{fmt(costoImportacion)}</span>
+      </div>
+
+      {/* Hero total */}
+      <div
+        style={{
+          marginTop: "12px",
+          paddingTop: "14px",
+          borderTop: "2px solid var(--ctz-accent)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "0.8125rem",
+            fontWeight: 800,
+            color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          Costo Final
+        </span>
+        <span
+          style={{
+            fontSize: "1.375rem",
+            fontWeight: 800,
+            color: "var(--ctz-accent)",
+            fontVariantNumeric: "tabular-nums",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {fmt(costoFinalTotal)}
+        </span>
+      </div>
+
+      <p
+        style={{
+          margin: "3px 0 0",
+          fontSize: "0.625rem",
+          color: "var(--ctz-text-muted)",
+          textAlign: "right",
+          letterSpacing: "0.02em",
+        }}
+      >
+        FOB + Envío + Impuestos
+      </p>
 
       {/* Copy button */}
       <button
         onClick={() => copy(costoFinalTotal.toFixed(2))}
         style={{
           width: "100%",
-          marginTop: "16px",
-          padding: "10px",
+          marginTop: "14px",
+          padding: "9px",
           fontSize: "0.8125rem",
           fontWeight: 600,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "8px",
+          gap: "7px",
           background: "var(--ctz-bg-secondary)",
           color: "var(--ctz-text-primary)",
           border: "1px solid var(--ctz-border)",
@@ -213,7 +276,7 @@ export const ExecutiveSummary = ({
           e.currentTarget.style.background = "var(--ctz-bg-secondary)";
         }}
       >
-        <CopyIcon style={{ width: "16px", height: "16px" }} />
+        <CopyIcon style={{ width: "15px", height: "15px" }} />
         {copied ? "¡Copiado!" : "Copiar Total"}
       </button>
     </div>

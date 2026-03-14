@@ -523,6 +523,9 @@ export default function CotizadorV2App({ datosCotizacion }) {
                   tipoEnvio={tipoEnvio}
                   aplicoDescuento={envioInfo.aplicoDescuento}
                   codigoDescuento={codigoDescuento}
+                  categoriaSeleccionada={categoriaSeleccionada}
+                  pesoComputableTotal={pesoComputableTotal}
+                  cantidadCajas={cajas.length}
                 />
               </div>
             </div>
