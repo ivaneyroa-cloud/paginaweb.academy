@@ -1,38 +1,52 @@
 import React from "react";
-
-// Icons
-import { ArrowUpIcon } from "@/shared/components/icons";
-
-// Formatters
 import { formatCurrency } from "@/shared/lib/formatters";
 
 /**
- * Componente para mostrar el punto de equilibrio de precio
- * @param {Object} props
- * @param {number} props.breakEvenPrice - Precio de punto de equilibrio
+ * BreakEvenPriceCard — Now a compact KPI card that sits inline with ResultCards.
+ * No more fuchsia gradient. Uses --ctz-* tokens.
  */
 const BreakEvenPriceCard = ({ breakEvenPrice }) => (
-  <div className="bg-gradient-to-br from-sky-100 to-fuchsia-200 p-8 rounded-2xl shadow-md border border-fuchsia-200 text-center my-6">
-    {/* Header con título e info */}
-    <div className="flex items-center justify-center gap-2">
-      <h3 className="text-xl font-bold text-slate-700">
-        Punto de Equilibrio de Precio
-      </h3>
-    </div>
-
-    {/* Descripción */}
-    <p className="text-sm text-slate-700 mt-1 max-w-md mx-auto">
-      Precio de venta mínimo necesario para cubrir todos los costos y no perder
-      dinero.
-    </p>
-
-    {/* Valor destacado */}
-    <div className="mt-6 flex items-center justify-center gap-4">
-      <ArrowUpIcon className="h-14 w-14 text-fuchsia-500" />
-      <span className="text-4xl sm:text-5xl lg:text-5xl font-extrabold text-fuchsia-700">
-        {formatCurrency(breakEvenPrice)}
-      </span>
-    </div>
+  <div
+    style={{
+      background: "var(--ctz-bg-elevated)",
+      border: "1px solid var(--ctz-border)",
+      borderRadius: "var(--ctz-radius-md)",
+      padding: "16px 18px",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      boxShadow: "var(--ctz-shadow-sm)",
+      transition: "border-color 250ms",
+    }}
+  >
+    <span style={{
+      fontSize: "0.75rem",
+      fontWeight: 600,
+      textTransform: "uppercase",
+      letterSpacing: "0.04em",
+      color: "var(--ctz-text-muted)",
+    }}>
+      Precio mínimo
+    </span>
+    <span style={{
+      fontSize: "1.75rem",
+      fontWeight: 800,
+      color: "var(--ctz-warning)",
+      marginTop: "6px",
+      fontVariantNumeric: "tabular-nums",
+      letterSpacing: "-0.02em",
+      lineHeight: 1.1,
+    }}>
+      {formatCurrency(breakEvenPrice)}
+    </span>
+    <span style={{
+      fontSize: "0.6875rem",
+      color: "var(--ctz-text-muted)",
+      marginTop: "4px",
+    }}>
+      Para cubrir costos
+    </span>
   </div>
 );
 

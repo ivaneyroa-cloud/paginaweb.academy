@@ -1,86 +1,129 @@
 import React from "react";
 import { Input } from "@/shared/components/ui/Input";
-import { formatCurrency, formatUnits } from "@/shared/lib/formatters";
-import { BarChartIcon } from "@/shared/components/icons";
+import { formatCurrency } from "@/shared/lib/formatters";
 
 /**
- * Componente para mostrar métricas individuales
+ * MetricDisplay — Compact projection metric.
  */
-const MetricDisplay = ({
-  label,
-  totalValue,
-  unitValue,
-  valueColorClass = "text-slate-800",
-  bgClass = "bg-slate-50/80",
-}) => (
-  <div
-    className={`text-center ${bgClass} p-5 rounded-xl border border-slate-200`}
-  >
-    <p className="text-sm text-slate-600 truncate">{label}</p>
-    <p className={`text-4xl font-extrabold ${valueColorClass} truncate`}>
+const MetricDisplay = ({ label, totalValue, unitValue, valueColor = "var(--ctz-text-primary)" }) => (
+  <div style={{
+    textAlign: "center",
+    background: "var(--ctz-bg-secondary)",
+    padding: "14px 12px",
+    borderRadius: "var(--ctz-radius-sm)",
+    border: "1px solid var(--ctz-border)",
+  }}>
+    <span style={{
+      display: "block",
+      fontSize: "0.6875rem",
+      fontWeight: 600,
+      textTransform: "uppercase",
+      letterSpacing: "0.04em",
+      color: "var(--ctz-text-muted)",
+      marginBottom: "4px",
+    }}>
+      {label}
+    </span>
+    <span style={{
+      display: "block",
+      fontSize: "1.375rem",
+      fontWeight: 800,
+      color: valueColor,
+      fontVariantNumeric: "tabular-nums",
+      letterSpacing: "-0.02em",
+      lineHeight: 1.1,
+    }}>
       {totalValue}
-    </p>
-    <p className="text-xs text-slate-500">{unitValue}</p>
+    </span>
+    <span style={{
+      display: "block",
+      fontSize: "0.6875rem",
+      color: "var(--ctz-text-muted)",
+      marginTop: "4px",
+    }}>
+      {unitValue}
+    </span>
   </div>
 );
 
 /**
- * Card de Análisis de Volumen e Inversión
+ * VolumeAnalysisCard — Projection section.
+ * Uses --ctz-* tokens. Clean, integrated, no pastel gradients.
  */
 const VolumeAnalysisCard = (props) => (
-  <div className="bg-gradient-to-br from-slate-50 to-sky-50/50 p-6 rounded-2xl shadow-lg border border-sky-200/40">
+  <div
+    style={{
+      background: "var(--ctz-bg-elevated)",
+      borderRadius: "var(--ctz-radius-md)",
+      border: "1px solid var(--ctz-border)",
+      boxShadow: "var(--ctz-shadow-sm)",
+      padding: "20px",
+    }}
+  >
     {/* Header */}
-    <h3 className="text-xl font-bold text-slate-800 text-center mb-4">
-      Análisis de Volumen e Inversión
-    </h3>
-    
-    {/* Descripción */}
-    <p className="text-sm text-slate-600 text-center mb-6 max-w-2xl mx-auto leading-relaxed">
-      Ingresá la cantidad de unidades que planeás vender para ver la proyección completa de tu negocio: 
-      ingresos totales, inversión necesaria y ganancia esperada para ese volumen.
-    </p>
-
-    {/* Paso 1: Input */}
-    <div className="flex flex-col items-center justify-center mb-6">
-      <div className="flex items-end gap-2">
+    <div style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      marginBottom: "16px", flexWrap: "wrap", gap: "12px",
+    }}>
+      <div>
+        <span style={{
+          fontSize: "0.9375rem",
+          fontWeight: 700,
+          color: "var(--ctz-text-primary)",
+          letterSpacing: "-0.01em",
+        }}>
+          Proyección
+        </span>
+        <span style={{
+          display: "block",
+          fontSize: "0.75rem",
+          color: "var(--ctz-text-muted)",
+          marginTop: "2px",
+        }}>
+          Ingresos, inversión y ganancia para el volumen proyectado.
+        </span>
+      </div>
+      <div style={{ width: "160px" }}>
         <Input
-          label="Cantidad de Unidades a Proyectar"
+          label="Unidades"
           value={props.quantity}
           onChange={props.onQuantityChange}
-          placeholder="Ingrese cantidad"
           prefix="u."
-          className="font-bold"
         />
       </div>
     </div>
 
-    {/* Paso 3: Métricas */}
-    <div className="pt-6 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    {/* Metrics grid */}
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gap: "10px",
+    }}
+      className="calc-metrics-grid"
+    >
       <MetricDisplay
-        label="Facturación Proyectada"
+        label="Facturación"
         totalValue={formatCurrency(props.projectedRevenue)}
-        unitValue={`US$ ${formatCurrency(props.unitSellingPrice)}`}
-        valueColorClass="text-slate-800"
+        unitValue={`${formatCurrency(props.unitSellingPrice)} /u`}
+        valueColor="var(--ctz-text-primary)"
       />
       <MetricDisplay
-        label="Ingresos Netos Proyectados"
+        label="Ingresos netos"
         totalValue={formatCurrency(props.projectedNetIncome)}
-        unitValue={`US$ ${formatCurrency(props.unitNetIncome)}`}
-        valueColorClass="text-sky-700"
+        unitValue={`${formatCurrency(props.unitNetIncome)} /u`}
+        valueColor="var(--ctz-accent)"
       />
       <MetricDisplay
-        label="Costo de Inversión"
+        label="Inversión"
         totalValue={formatCurrency(props.totalInvestment)}
-        unitValue={`US$ ${formatCurrency(props.unitCost)}`}
-        valueColorClass="text-rose-600"
+        unitValue={`${formatCurrency(props.unitCost)} /u`}
+        valueColor="var(--ctz-error)"
       />
       <MetricDisplay
-        label="Ganancia Neta Proyectada"
+        label="Ganancia neta"
         totalValue={formatCurrency(props.projectedNetProfit)}
-        unitValue={`US$ ${formatCurrency(props.netProfitPerSale)}`}
-        valueColorClass={
-          props.projectedNetProfit >= 0 ? "text-emerald-600" : "text-red-600"
-        }
+        unitValue={`${formatCurrency(props.netProfitPerSale)} /u`}
+        valueColor={props.projectedNetProfit >= 0 ? "var(--ctz-success)" : "var(--ctz-error)"}
       />
     </div>
   </div>

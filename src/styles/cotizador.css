@@ -1323,3 +1323,30 @@
   border-color: var(--ctz-border) !important;
 }
 
+/* ═══════════════════════════════════════════════════════
+   Calculadora — Responsive Layout Rules
+   ═══════════════════════════════════════════════════════ */
+
+/* Inputs grid: 2-col desktop, 1-col mobile */
+@media (max-width: 767px) {
+  .calc-inputs-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+/* KPI grid: 4-col desktop, 2-col tablet, 2-col mobile */
+@media (max-width: 767px) {
+  .calc-kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+}
+
+/* Projection metrics: 4-col desktop, 2-col mobile */
+@media (max-width: 767px) {
+  .calc-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+}

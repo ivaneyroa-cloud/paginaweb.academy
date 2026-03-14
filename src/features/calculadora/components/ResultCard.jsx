@@ -1,105 +1,120 @@
-/**
- * ResultCard.jsx
- *
- * Componente de tarjeta para mostrar un KPI financiero (métrica clave)
- * dentro de la calculadora de rentabilidad.
- *
- * Características:
- * - Muestra un label (nombre de la métrica), el valor principal y un subtítulo opcional.
- * - Diseño centrado, minimalista y con colores personalizables según el estado (ej: verde para positivo, rojo para negativo).
- * - Incluye un ícono de información que despliega un tooltip explicativo:
- *    • En desktop: el tooltip aparece al hacer hover.
- *    • En mobile: el tooltip aparece al hacer tap (click).
- * - El tooltip se cierra automáticamente al hacer click fuera del ícono.
- * - Animaciones suaves con TailwindCSS (fade/scale).
- *
- */
-
 import React, { useState, useRef, useEffect } from "react";
 import { IoInformationCircleOutline as InfoIcon } from "react-icons/io5";
 
 /**
- * ResultCard con tooltip.
- * - Desktop: aparece con hover.
- * - Mobile: aparece con click/tap en el ícono.
- * - Se cierra automáticamente al hacer click fuera.
+ * ResultCard — KPI card for the calculadora results row.
+ * Uses --ctz-* design tokens. Compact, dark-mode-first.
  */
 export const ResultCard = ({
   label,
   value,
   subtitle,
-  valueColorClass = "text-slate-800",
-  className,
+  valueColorClass, // legacy support — we'll use valueColor instead
+  valueColor,
   infoText,
 }) => {
-  const [isOpen, setIsOpen] = useState(false); // estado del tooltip
+  const [isOpen, setIsOpen] = useState(false);
   const tooltipRef = useRef(null);
 
-  // Hook para cerrar el tooltip si clickeo fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    if (isOpen) document.addEventListener("mousedown", handleClickOutside);
+    else document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
+
+  // Derive color from valueColor prop or map legacy class to color var
+  const resolvedColor = valueColor || "var(--ctz-text-primary)";
 
   return (
     <div
-      className={`bg-white p-6 rounded-2xl shadow-lg border border-slate-200/60 
-      text-center flex flex-col justify-center ${className}`}
+      style={{
+        background: "var(--ctz-bg-elevated)",
+        border: "1px solid var(--ctz-border)",
+        borderRadius: "var(--ctz-radius-md)",
+        padding: "16px 18px",
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        boxShadow: "var(--ctz-shadow-sm)",
+        transition: "border-color 250ms",
+      }}
     >
-      {/* Header con label + info */}
-      <div className="flex items-center justify-center gap-2 relative">
-        <h3 className="text-base font-semibold text-slate-700">{label}</h3>
+      {/* Label + info */}
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
+        position: "relative",
+      }}>
+        <span style={{
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: "0.04em",
+          color: "var(--ctz-text-muted)",
+        }}>
+          {label}
+        </span>
 
         {infoText && (
-          <div className="relative flex items-center" ref={tooltipRef}>
-            {/* Ícono: hover en desktop, click en mobile */}
+          <div style={{ position: "relative", display: "flex", alignItems: "center" }} ref={tooltipRef}>
             <InfoIcon
-              className="h-5 w-5 text-slate-500 cursor-pointer hover:text-slate-600"
+              size={14}
+              style={{ color: "var(--ctz-text-muted)", cursor: "pointer" }}
               onClick={() => setIsOpen(!isOpen)}
             />
-
-            {/* Tooltip */}
-            <div
-              className={`
-                absolute bottom-full mb-2 left-1/2 -translate-x-1/2 
-                w-56 rounded-lg bg-slate-800 text-white text-xs p-2 text-center
-                shadow-lg z-10 transition-all duration-200 ease-out
-
-                opacity-0 scale-95 pointer-events-none
-                group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto
-                ${isOpen ? "opacity-100 scale-100 pointer-events-auto" : ""}
-              `}
-            >
-              {infoText}
-              {/* Flechita */}
-              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-6 border-x-transparent border-t-6 border-t-slate-800" />
-            </div>
+            {isOpen && (
+              <div style={{
+                position: "absolute",
+                bottom: "calc(100% + 8px)",
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "220px",
+                padding: "8px 10px",
+                borderRadius: "var(--ctz-radius-sm)",
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                boxShadow: "var(--ctz-shadow-md)",
+                fontSize: "0.75rem",
+                color: "var(--ctz-text-secondary)",
+                textAlign: "center",
+                lineHeight: 1.4,
+                zIndex: 20,
+                animation: "ctz-fade-in 150ms ease-out",
+              }}>
+                {infoText}
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Valor principal */}
-      <div className="my-2">
-        <p
-          className={`text-4xl lg:text-5xl font-bold ${valueColorClass} truncate`}
-        >
-          {value}
-        </p>
-        {subtitle && <p className="text-sm text-slate-500 mt-1">{subtitle}</p>}
-      </div>
+      {/* Value */}
+      <span style={{
+        fontSize: "1.75rem",
+        fontWeight: 800,
+        color: resolvedColor,
+        marginTop: "6px",
+        fontVariantNumeric: "tabular-nums",
+        letterSpacing: "-0.02em",
+        lineHeight: 1.1,
+      }}>
+        {value}
+      </span>
+
+      {subtitle && (
+        <span style={{
+          fontSize: "0.6875rem",
+          color: "var(--ctz-text-muted)",
+          marginTop: "4px",
+        }}>
+          {subtitle}
+        </span>
+      )}
     </div>
   );
 };

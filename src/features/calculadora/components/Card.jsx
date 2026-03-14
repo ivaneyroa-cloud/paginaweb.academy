@@ -1,35 +1,67 @@
 import React from "react";
 
 /**
- * Componente Card Premium para layout Bento.
- * Diseño ultra nítido, bordes suaves y padding compacto.
+ * Card — Base card component for the Calculadora.
+ * Uses cotizador design tokens (--ctz-*) for brand consistency.
  */
 export const Card = ({ title, icon, children, className = "", noPadding = false }) => {
   return (
     <div
-      className={`relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col antialiased overflow-hidden group ${className}`}
+      className={className}
+      style={{
+        position: "relative",
+        background: "var(--ctz-bg-elevated)",
+        borderRadius: "var(--ctz-radius-md)",
+        border: "1px solid var(--ctz-border)",
+        boxShadow: "var(--ctz-shadow-sm)",
+        display: "flex",
+        flexDirection: "column",
+        transition: "border-color 250ms ease-out, box-shadow 250ms ease-out",
+        overflow: "hidden",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "var(--ctz-border-hover)";
+        e.currentTarget.style.boxShadow = "var(--ctz-shadow-md)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "var(--ctz-border)";
+        e.currentTarget.style.boxShadow = "var(--ctz-shadow-sm)";
+      }}
     >
-      {/* 🪄 MAGIA 1: Destello superior sutil (Efecto cristal/luz) */}
-      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-sky-300/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-      {/* Header Condicional (Padding reducido de px-6/pt-6 a px-5/pt-5) */}
+      {/* Header */}
       {(title || icon) && (
-        <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-slate-100/60">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            padding: "14px 20px 12px",
+            borderBottom: "1px solid var(--ctz-border)",
+          }}
+        >
           {icon && (
-            <div className="flex-shrink-0 bg-sky-50 text-sky-600 rounded-xl p-2.5 border border-sky-100/50">
+            <span style={{ color: "var(--ctz-accent)", display: "flex", alignItems: "center", flexShrink: 0 }}>
               {icon}
-            </div>
+            </span>
           )}
           {title && (
-            <h2 className="text-lg font-bold text-slate-800 tracking-tight">
+            <h2
+              style={{
+                margin: 0,
+                fontSize: "0.9375rem",
+                fontWeight: 700,
+                color: "var(--ctz-text-primary)",
+                letterSpacing: "-0.01em",
+              }}
+            >
               {title}
             </h2>
           )}
         </div>
       )}
 
-      {/* 🪄 MAGIA 2: Flex-grow con padding dinámico (Reducido de p-6 a p-5) */}
-      <div className={`flex-grow ${noPadding ? "" : "p-5"}`}>
+      {/* Body */}
+      <div style={{ flexGrow: 1, padding: noPadding ? 0 : "20px" }}>
         {children}
       </div>
     </div>

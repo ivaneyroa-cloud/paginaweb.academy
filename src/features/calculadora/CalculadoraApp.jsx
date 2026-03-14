@@ -19,8 +19,8 @@ import { ResultCard } from "./components/ResultCard";
 import VolumeAnalysisCard from "./components/VolumeAnalysisCard";
 import BreakEvenPriceCard from "./components/BreakEvenPriceCard";
 
-// UI Compartida
-import { Button } from "@/shared/components/ui/Button";
+// UI Compartida — no longer using Button component
+// import { Button } from "@/shared/components/ui/Button";
 
 // Hooks
 import { useClipboard } from "@/shared/hooks/useClipboard";
@@ -28,22 +28,11 @@ import { formatProfitabilityAnalysis } from "./lib/formatProfitabilityAnalysis";
 import {
   formatCurrency,
   formatPercent,
-  formatUnits,
 } from "@/shared/lib/formatters";
 
 // Icons
 import { CopyIcon } from "@/shared/components/icons";
-import {
-  ArrowUpIcon,
-  BarChartIcon,
-  DollarIcon,
-  ROIIcon,
-  RefreshIcon,
-  BalanceIcon,
-} from "@/shared/components/icons";
 import { IoInformationCircleOutline as InfoIcon } from "react-icons/io5";
-
-import { Input } from "@/shared/components/ui/Input";
 
 /**
  * Componente principal de la calculadora de rentabilidad
@@ -548,35 +537,42 @@ export const CalculadoraApp = () => {
   ]);
 
   return (
-    <main className="min-h-screen p-4 py-14 lg:py-18 text-slate-800">
+    <main className="ctz-main min-h-screen">
       <div className="max-w-7xl mx-auto">
         <CalculadoraHeader />
 
-        {/* Botón para mostrar mensaje de transferencia si fue ocultado */}
+        {/* Transfer data mini-button */}
         {!showTransferMessage && transferData && messageTemporarilyHidden && (
-          <div className="mb-4">
+          <div style={{ marginBottom: "12px" }}>
             <button
               onClick={() => {
                 setShowTransferMessage(true);
                 setMessageTemporarilyHidden(false);
-                try {
-                  sessionStorage.removeItem("shippar:transfer-message-hidden");
-                } catch (error) {
-                  console.error(
-                    "Error limpiando estado de mensaje oculto:",
-                    error
-                  );
-                }
+                try { sessionStorage.removeItem("shippar:transfer-message-hidden"); }
+                catch (e) { console.error(e); }
               }}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 14px",
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                color: "var(--ctz-accent)",
+                background: "var(--ctz-accent-light)",
+                border: "1px solid var(--ctz-accent-ring)",
+                borderRadius: "var(--ctz-radius-sm)",
+                cursor: "pointer",
+                transition: "all 200ms",
+              }}
             >
               <InfoIcon size={16} />
-              Tienes datos del cotizador disponibles - Haz clic para verlos
+              Datos del cotizador disponibles
             </button>
           </div>
         )}
 
-        {/* Mensaje de datos transferidos */}
+        {/* Transfer message */}
         {showTransferMessage && transferData && (
           <DataTransferMessage
             transferData={transferData}
@@ -586,113 +582,121 @@ export const CalculadoraApp = () => {
           />
         )}
 
-        {/* --- Fila 1: Entradas de Costos y Ventas --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-20 gap-6">
-          <div className="lg:col-span-10">
-            <TotalCostsCard
-              // Mode
-              mode={calculationMode}
-              onModeChange={setCalculationMode}
-              // Unit State
-              unitProductCost={unitProductCost}
-              onUnitProductCostChange={handleNumericChange(setUnitProductCost)}
-              unitShippingCost={unitShippingCost}
-              onUnitShippingCostChange={handleNumericChange(
-                setUnitShippingCost
-              )}
-              unitAdditionalCosts={unitAdditionalCosts}
-              onAddUnitAdditionalCost={unitCostHandlers.add}
-              onRemoveUnitAdditionalCost={unitCostHandlers.remove}
-              onUpdateUnitAdditionalCost={unitCostHandlers.update}
-              // Batch State
-              batchTotalCost={batchTotalCost}
-              onBatchTotalCostChange={handleNumericChange(setBatchTotalCost)}
-              batchShippingCost={batchShippingCost}
-              onBatchShippingCostChange={handleNumericChange(
-                setBatchShippingCost
-              )}
-              batchQuantity={batchQuantity}
-              onBatchQuantityChange={handleNumericChange(setBatchQuantity)}
-              batchAdditionalCosts={batchAdditionalCosts}
-              onAddBatchAdditionalCost={batchCostHandlers.add}
-              onRemoveBatchAdditionalCost={batchCostHandlers.remove}
-              onUpdateBatchAdditionalCost={batchCostHandlers.update}
-              // Multiplier State
-              globalMultiplier={globalMultiplier}
-              onGlobalMultiplierChange={handleNumericChange(
-                setGlobalMultiplier
-              )}
-              // Calculated Values
-              finalUnitCost={finalUnitCost}
-              adjustedUnitCost={adjustedUnitCost}
-            />
+        {/* ═══ ROW 1: INPUTS ═══ */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "20px",
+        }}
+          className="calc-inputs-grid"
+        >
+          <TotalCostsCard
+            mode={calculationMode}
+            onModeChange={setCalculationMode}
+            unitProductCost={unitProductCost}
+            onUnitProductCostChange={handleNumericChange(setUnitProductCost)}
+            unitShippingCost={unitShippingCost}
+            onUnitShippingCostChange={handleNumericChange(setUnitShippingCost)}
+            unitAdditionalCosts={unitAdditionalCosts}
+            onAddUnitAdditionalCost={unitCostHandlers.add}
+            onRemoveUnitAdditionalCost={unitCostHandlers.remove}
+            onUpdateUnitAdditionalCost={unitCostHandlers.update}
+            batchTotalCost={batchTotalCost}
+            onBatchTotalCostChange={handleNumericChange(setBatchTotalCost)}
+            batchShippingCost={batchShippingCost}
+            onBatchShippingCostChange={handleNumericChange(setBatchShippingCost)}
+            batchQuantity={batchQuantity}
+            onBatchQuantityChange={handleNumericChange(setBatchQuantity)}
+            batchAdditionalCosts={batchAdditionalCosts}
+            onAddBatchAdditionalCost={batchCostHandlers.add}
+            onRemoveBatchAdditionalCost={batchCostHandlers.remove}
+            onUpdateBatchAdditionalCost={batchCostHandlers.update}
+            globalMultiplier={globalMultiplier}
+            onGlobalMultiplierChange={handleNumericChange(setGlobalMultiplier)}
+            finalUnitCost={finalUnitCost}
+            adjustedUnitCost={adjustedUnitCost}
+          />
+
+          <SalesCard
+            grossSellingPrice={grossSellingPrice}
+            promotionalDiscount={promotionalDiscount}
+            platformFeePercent={platformFeePercent}
+            paymentFeePercent={paymentFeePercent}
+            installmentFeePercent={installmentFeePercent}
+            taxesAndRetentions={taxesAndRetentions}
+            sellerShippingCost={sellerShippingCost}
+            onGrossSellingPriceChange={handleNumericChange(setGrossSellingPrice)}
+            onPromotionalDiscountChange={handleNumericChange(setPromotionalDiscount)}
+            onPlatformFeeChange={handleNumericChange(setPlatformFeePercent)}
+            onPaymentFeeChange={handleNumericChange(setPaymentFeePercent)}
+            onInstallmentFeeChange={handleNumericChange(setInstallmentFeePercent)}
+            onTaxesAndRetentionsChange={handleNumericChange(setTaxesAndRetentions)}
+            onSellerShippingCostChange={handleNumericChange(setSellerShippingCost)}
+            finalSellingPrice={finalSellingPrice}
+            totalDeductions={totalDeductions}
+            netIncomePerSale={netIncomePerSale}
+          />
+        </div>
+
+        {/* ═══ ROW 2: RESULTS — 4 KPIs in one row ═══ */}
+        <div style={{ marginTop: "20px" }}>
+          {/* Section label */}
+          <div style={{
+            borderLeft: "3px solid var(--ctz-accent)",
+            paddingLeft: "14px",
+            paddingTop: "2px",
+            paddingBottom: "2px",
+            marginBottom: "16px",
+          }}>
+            <h2 style={{
+              margin: 0,
+              fontSize: "1.125rem",
+              fontWeight: 800,
+              color: "var(--ctz-text-primary)",
+              letterSpacing: "-0.02em",
+            }}>
+              Resultados
+            </h2>
+            <p style={{
+              margin: "2px 0 0",
+              fontSize: "0.8125rem",
+              color: "var(--ctz-text-secondary)",
+            }}>
+              Métricas clave de tu operación por unidad.
+            </p>
           </div>
 
-          <div className="lg:col-span-10">
-            <SalesCard
-              grossSellingPrice={grossSellingPrice}
-              promotionalDiscount={promotionalDiscount}
-              platformFeePercent={platformFeePercent}
-              paymentFeePercent={paymentFeePercent}
-              installmentFeePercent={installmentFeePercent}
-              taxesAndRetentions={taxesAndRetentions}
-              sellerShippingCost={sellerShippingCost}
-              onGrossSellingPriceChange={handleNumericChange(
-                setGrossSellingPrice
-              )}
-              onPromotionalDiscountChange={handleNumericChange(
-                setPromotionalDiscount
-              )}
-              onPlatformFeeChange={handleNumericChange(setPlatformFeePercent)}
-              onPaymentFeeChange={handleNumericChange(setPaymentFeePercent)}
-              onInstallmentFeeChange={handleNumericChange(
-                setInstallmentFeePercent
-              )}
-              onTaxesAndRetentionsChange={handleNumericChange(
-                setTaxesAndRetentions
-              )}
-              onSellerShippingCostChange={handleNumericChange(
-                setSellerShippingCost
-              )}
-              finalSellingPrice={finalSellingPrice}
-              totalDeductions={totalDeductions}
-              netIncomePerSale={netIncomePerSale}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "12px",
+          }}
+            className="calc-kpi-grid"
+          >
+            <ResultCard
+              label="Ganancia neta"
+              value={formatCurrency(netProfitPerSale)}
+              valueColor={netProfitPerSale >= 0 ? "var(--ctz-success)" : "var(--ctz-error)"}
+              infoText="Ganancia por venta después de restar todos los costos y deducciones."
             />
+            <ResultCard
+              label="Margen"
+              value={formatPercent(marginOnRevenue)}
+              valueColor={marginOnRevenue >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)"}
+              infoText="Porcentaje de cada venta que queda como ganancia."
+            />
+            <ResultCard
+              label="ROI"
+              value={formatPercent(roi)}
+              valueColor={roi >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)"}
+              infoText="Retorno sobre el costo invertido por unidad."
+            />
+            <BreakEvenPriceCard breakEvenPrice={breakEvenPrice} />
           </div>
         </div>
 
-        {/* --- Nueva Sección de Resultados --- */}
-        <div className="mt-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 md:gap-6 gap-2">
-            <ResultCard
-              label="Ganancia Neta por Venta"
-              value={formatCurrency(netProfitPerSale)}
-              valueColorClass={
-                netProfitPerSale >= 0 ? "text-emerald-600" : "text-red-600"
-              }
-              className="bg-emerald-50"
-              infoText="Es la ganancia que obtenés en cada venta después de restar todos los costos (producto, envío, adicionales)."
-            />
-            <ResultCard
-              label="Margen sobre Ingresos"
-              value={formatPercent(marginOnRevenue)}
-              valueColorClass={
-                marginOnRevenue >= 0 ? "text-emerald-600" : "text-red-600"
-              }
-              className="bg-sky-50"
-              infoText="Porcentaje de tus ingresos que queda como ganancia. Indica qué parte de cada dólar vendido realmente es beneficio."
-            />
-            <ResultCard
-              label="Rentabilidad sobre Costo (ROI)"
-              value={formatPercent(roi)}
-              valueColorClass={roi >= 0 ? "text-emerald-600" : "text-red-600"}
-              className="bg-purple-50"
-              infoText="Relación entre la ganancia y los costos invertidos. Indica cuántos dólares recuperás en beneficio por cada dólar gastado."
-            />
-          </div>
-
-          <BreakEvenPriceCard breakEvenPrice={breakEvenPrice} />
-
+        {/* ═══ ROW 3: PROJECTION ═══ */}
+        <div style={{ marginTop: "20px" }}>
           <VolumeAnalysisCard
             quantity={projectedQuantity}
             onQuantityChange={handleNumericChange(setProjectedQuantity)}
@@ -707,16 +711,36 @@ export const CalculadoraApp = () => {
           />
         </div>
 
-        {/* --- Botones de Acción --- */}
-        <div className="flex flex-col sm:flex-row justify-end items-center gap-4 mt-8">
-          <Button
+        {/* ═══ COPY BUTTON ═══ */}
+        <div style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginTop: "20px",
+          paddingBottom: "20px",
+        }}>
+          <button
             onClick={handleCopyAnalysis}
-            variant="primary"
-            className="text-sm"
-            icon={<CopyIcon />}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "10px 20px",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+              color: "#ffffff",
+              background: "var(--ctz-accent-gradient)",
+              border: "none",
+              borderRadius: "var(--ctz-radius-sm)",
+              cursor: "pointer",
+              transition: "all 250ms ease-out",
+              boxShadow: "var(--ctz-shadow-sm)",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "var(--ctz-shadow-md)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "var(--ctz-shadow-sm)"; }}
           >
-            {copied ? "¡Análisis Copiado!" : "Copiar análisis completo"}
-          </Button>
+            <CopyIcon style={{ width: "15px", height: "15px" }} />
+            {copied ? "Copiado ✓" : "Copiar análisis"}
+          </button>
         </div>
       </div>
     </main>

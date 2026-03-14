@@ -1,10 +1,31 @@
 import React from "react";
-import { Card } from "../components/Card";
+import { Card } from "./Card";
 import { Input } from "@/shared/components/ui/Input";
 import { formatCurrency } from "@/shared/lib/formatters";
-
-// Icons
 import { StoreIcon } from "@/shared/components/icons";
+
+/* ── Summary Row ── */
+const SummaryRow = ({ label, value, color = "var(--ctz-text-primary)", bold = false }) => (
+  <div style={{
+    display: "flex", justifyContent: "space-between", alignItems: "center",
+  }}>
+    <span style={{
+      fontSize: "0.8125rem",
+      fontWeight: bold ? 600 : 400,
+      color: bold ? "var(--ctz-text-primary)" : "var(--ctz-text-secondary)",
+    }}>
+      {label}
+    </span>
+    <span style={{
+      fontSize: bold ? "1.0625rem" : "0.875rem",
+      fontWeight: bold ? 700 : 500,
+      color,
+      fontVariantNumeric: "tabular-nums",
+    }}>
+      {formatCurrency(value)}
+    </span>
+  </div>
+);
 
 export const SalesCard = ({
   grossSellingPrice,
@@ -26,110 +47,115 @@ export const SalesCard = ({
   netIncomePerSale,
 }) => {
   return (
-    <Card title="Precio de Venta" icon={<StoreIcon size={24} />}>
-      <div className="flex flex-col gap-2">
-        {/* Precio de Venta y Descuento */}
-        <div className="p-3 rounded-lg bg-sky-100/40 border border-sky-200">
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="Precio de Venta Bruto (USD)"
-              value={grossSellingPrice}
-              onChange={onGrossSellingPriceChange}
-              prefix="$"
-              className="text-sky-800 font-bold"
-              tip="Precio al que querés vender antes de descuentos. Ejemplo: $8 por cable USB."
-            />
-
-            <Input
-              label="Descuento por Promoción (%)"
-              value={promotionalDiscount}
-              onChange={onPromotionalDiscountChange}
-              prefix="%"
-              className="text-fuchsia-600 font-bold"
-              tip="Descuento que vas a ofrecer (opcional). Ejemplo: 10% para promoción de lanzamiento."
-            />
-          </div>
+    <Card title="Venta" icon={<StoreIcon size={20} />}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        {/* Precio + Descuento */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+          <Input
+            label="Precio bruto"
+            value={grossSellingPrice}
+            onChange={onGrossSellingPriceChange}
+            prefix="$"
+            tip="Precio al que querés vender antes de descuentos."
+          />
+          <Input
+            label="Descuento promocional"
+            value={promotionalDiscount}
+            onChange={onPromotionalDiscountChange}
+            prefix="%"
+            tip="Descuento que vas a ofrecer (opcional)."
+          />
         </div>
 
-        {/* Demás Costos */}
-        <div className="p-3 pt-5 rounded-lg bg-fuchsia-100/40 border border-fuchsia-200">
-          {/* Comisiones - Responsive grid */}
-          <Input
-            label="Cargo de la plataforma por vender (%)"
-            value={platformFeePercent}
-            onChange={onPlatformFeeChange}
-            prefix="%"
-            className="mb-4"
-            tip={[
-              "<strong>Mercado Libre:</strong> entre 11,80% y 17,14%. Varía por categoría y provincia. Verificá en ML.",
-              "<strong>Tienda Nube:</strong> según el plan → Esencial: 2% · Impulso: 1% · Escala: 0,7%.",
-            ]}
-          />
+        {/* Divider: Comisiones */}
+        <div style={{
+          paddingTop: "12px",
+          borderTop: "1px solid var(--ctz-border)",
+        }}>
+          <span style={{
+            display: "block",
+            fontSize: "0.6875rem",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            color: "var(--ctz-text-muted)",
+            marginBottom: "10px",
+          }}>
+            Comisiones y deducciones
+          </span>
 
-          {/* Impuestos y Envío - Responsive grid */}
-          <div className="grid grid-cols-1 gap-0">
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             <Input
-              label="Comisión Medio de Pago (%)"
+              label="Comisión de plataforma"
+              value={platformFeePercent}
+              onChange={onPlatformFeeChange}
+              prefix="%"
+              tip="Mercado Libre: 11–17%. Tienda Nube: 0.7–2%."
+            />
+            <Input
+              label="Comisión medio de pago"
               value={paymentFeePercent}
               onChange={onPaymentFeeChange}
               prefix="%"
-              className="mb-4"
-              tip="<strong>Tienda Nube:</strong> sumá la comisión de la pasarela de pago (PagoNube, Mercado Pago, etc.). Suele estar entre 3% y 6% + IVA, según plan y plazo de acreditación. Verificá en TiendaNube."
+              tip="Comisión de la pasarela de pago. Suele estar entre 3% y 6%."
             />
-
             <Input
-              label="Costo Por Ofrecer Cuotas (en ML) (%)"
+              label="Costo por cuotas"
               value={installmentFeePercent}
               onChange={onInstallmentFeeChange}
               prefix="%"
-              placeholder="de 4% a 18,3% en ML"
-              className="mb-4"
-              tip="<strong>Mercado Libre:</strong> costo adicional cuando ofreces el pago en cuotas sin interés. Verificá en ML según tu categoría."
+              tip="Costo adicional al ofrecer cuotas sin interés (4–18% en ML)."
             />
-
-            <div className="grid grid-cols-2 gap-4">
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <Input
-                label="Impuestos estimados sobre la Venta (%)"
+                label="Impuestos sobre venta"
                 value={taxesAndRetentions}
                 onChange={onTaxesAndRetentionsChange}
                 prefix="%"
-                className="mb-0"
-                tip="Impuestos que podés tener que pagar sobre las ventas. Ejemplo: IIBB (1-4%), retenciones, etc. Consultalo en la plataforma donde vendas."
+                tip="IIBB, retenciones, etc."
               />
-
               <Input
-                label="Costo de Envío Asumido por Vendedor (USD)"
+                label="Envío a cargo del vendedor"
                 value={sellerShippingCost}
                 onChange={onSellerShippingCostChange}
                 prefix="$"
-                className="mb-0"
-                tip="Parte del envío que pagás vos como vendedor."
+                tip="Parte del envío que pagás vos."
               />
             </div>
           </div>
         </div>
 
-        {/* Resultados de Ventas */}
-        <div className="mt-2 pt-3 border-t border-slate-300 space-y-3 text-sm">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-600">Precio Final de Venta</span>
-            <span className="text-base font-semibold text-slate-800">
-              {formatCurrency(finalSellingPrice)}
-            </span>
-          </div>
+        {/* Summary */}
+        <div style={{
+          paddingTop: "12px",
+          borderTop: "1px solid var(--ctz-border)",
+          display: "flex", flexDirection: "column", gap: "6px",
+        }}>
+          <SummaryRow label="Precio final de venta" value={finalSellingPrice} />
+          <SummaryRow label="Total deducciones" value={totalDeductions} color="var(--ctz-error)" />
 
-          <div className="flex justify-between items-center">
-            <span className="text-slate-600">Total Deducciones</span>
-            <span className="text-base font-semibold text-red-600">
-              {formatCurrency(totalDeductions)}
+          {/* Hero: Ingreso Neto */}
+          <div style={{
+            marginTop: "6px",
+            padding: "10px 14px",
+            background: "var(--ctz-accent-light)",
+            borderRadius: "var(--ctz-radius-sm)",
+            border: "1px solid var(--ctz-accent-ring)",
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+          }}>
+            <span style={{
+              fontSize: "0.875rem",
+              fontWeight: 700,
+              color: "var(--ctz-text-primary)",
+            }}>
+              Ingreso neto por venta
             </span>
-          </div>
-
-          <div className="flex justify-between items-center bg-sky-50 p-3 rounded-lg border-sky-200 border">
-            <span className="font-bold text-slate-800">
-              Ingreso Neto por Venta
-            </span>
-            <span className="font-extrabold text-2xl text-sky-700">
+            <span style={{
+              fontSize: "1.25rem",
+              fontWeight: 700,
+              color: "var(--ctz-accent)",
+              fontVariantNumeric: "tabular-nums",
+            }}>
               {formatCurrency(netIncomePerSale)}
             </span>
           </div>
