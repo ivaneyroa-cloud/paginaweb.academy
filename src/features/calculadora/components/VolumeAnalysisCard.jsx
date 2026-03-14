@@ -1,33 +1,35 @@
 import React from "react";
+import { Card } from "./Card";
 import { Input } from "@/shared/components/ui/Input";
 import { formatCurrency } from "@/shared/lib/formatters";
+import { IoTrendingUpOutline as TrendIcon } from "react-icons/io5";
 
 /**
  * MetricDisplay — Compact projection metric.
- * Visually quieter than result KPIs (lighter borders, smaller text).
+ * Same card pattern as the rest of the system.
  */
 const MetricDisplay = ({ label, totalValue, unitValue, valueColor = "var(--ctz-text-primary)" }) => (
   <div style={{
     textAlign: "center",
-    padding: "12px 10px",
-    borderRadius: "6px",
+    padding: "14px 12px",
+    borderRadius: "var(--ctz-radius-sm)",
     border: "1px solid var(--ctz-border)",
-    background: "transparent",
+    background: "var(--ctz-bg-secondary)",
   }}>
     <span style={{
       display: "block",
-      fontSize: "0.625rem",
+      fontSize: "0.6875rem",
       fontWeight: 600,
       textTransform: "uppercase",
       letterSpacing: "0.04em",
       color: "var(--ctz-text-muted)",
-      marginBottom: "3px",
+      marginBottom: "4px",
     }}>
       {label}
     </span>
     <span style={{
       display: "block",
-      fontSize: "1.125rem",
+      fontSize: "1.25rem",
       fontWeight: 700,
       color: valueColor,
       fontVariantNumeric: "tabular-nums",
@@ -38,10 +40,9 @@ const MetricDisplay = ({ label, totalValue, unitValue, valueColor = "var(--ctz-t
     </span>
     <span style={{
       display: "block",
-      fontSize: "0.625rem",
+      fontSize: "0.6875rem",
       color: "var(--ctz-text-muted)",
-      marginTop: "3px",
-      opacity: 0.7,
+      marginTop: "4px",
     }}>
       {unitValue}
     </span>
@@ -49,49 +50,28 @@ const MetricDisplay = ({ label, totalValue, unitValue, valueColor = "var(--ctz-t
 );
 
 /**
- * VolumeAnalysisCard — Projection section (Tier 3: complementary).
- * Visually quieter than the result hero. Uses dashed border + no shadow.
+ * VolumeAnalysisCard — Uses the same Card component as everything else.
+ * Visually consistent with cotizador cards.
  */
 const VolumeAnalysisCard = (props) => (
-  <div
-    style={{
-      borderRadius: "var(--ctz-radius-md)",
-      border: "1px dashed var(--ctz-border)",
-      padding: "16px 20px",
-      background: "transparent",
-    }}
+  <Card
+    title="Proyección"
+    icon={<TrendIcon size={20} />}
+    tooltip="Estimación de ingresos y ganancias para el volumen proyectado."
   >
-    {/* Header */}
+    {/* Quantity input */}
     <div style={{
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      marginBottom: "12px", flexWrap: "wrap", gap: "10px",
+      marginBottom: "14px", flexWrap: "wrap", gap: "10px",
     }}>
-      <div>
-        <span style={{
-          fontSize: "0.8125rem",
-          fontWeight: 600,
-          color: "var(--ctz-text-secondary)",
-          letterSpacing: "0.02em",
-          textTransform: "uppercase",
-        }}>
-          Proyección
-        </span>
-        <span style={{
-          display: "block",
-          fontSize: "0.6875rem",
-          color: "var(--ctz-text-muted)",
-          marginTop: "1px",
-        }}>
-          Estimación para el volumen proyectado.
-        </span>
-      </div>
+      <span style={{
+        fontSize: "0.8125rem",
+        color: "var(--ctz-text-muted)",
+      }}>
+        Ingresos, inversión y ganancia para el volumen proyectado.
+      </span>
       <div style={{ width: "140px" }}>
-        <Input
-          label="Unidades"
-          value={props.quantity}
-          onChange={props.onQuantityChange}
-          prefix="u."
-        />
+        <Input label="Unidades" value={props.quantity} onChange={props.onQuantityChange} prefix="u." />
       </div>
     </div>
 
@@ -99,7 +79,7 @@ const VolumeAnalysisCard = (props) => (
     <div style={{
       display: "grid",
       gridTemplateColumns: "repeat(4, 1fr)",
-      gap: "8px",
+      gap: "10px",
     }}
       className="calc-metrics-grid"
     >
@@ -107,7 +87,6 @@ const VolumeAnalysisCard = (props) => (
         label="Facturación"
         totalValue={formatCurrency(props.projectedRevenue)}
         unitValue={`${formatCurrency(props.unitSellingPrice)} /u`}
-        valueColor="var(--ctz-text-primary)"
       />
       <MetricDisplay
         label="Ingresos netos"
@@ -128,7 +107,7 @@ const VolumeAnalysisCard = (props) => (
         valueColor={props.projectedNetProfit >= 0 ? "var(--ctz-success)" : "var(--ctz-error)"}
       />
     </div>
-  </div>
+  </Card>
 );
 
 export default VolumeAnalysisCard;
