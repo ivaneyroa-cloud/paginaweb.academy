@@ -137,7 +137,13 @@ export function UserMenu({ isMobile = false }) {
   if (isLoading) {
     return (
       <div
-        className={`${isMobile ? "w-full" : "w-48"} h-11 rounded-xl bg-slate-100 animate-pulse`}
+        style={{
+          width: isMobile ? '100%' : '120px',
+          height: '40px',
+          borderRadius: 'var(--ctz-radius-sm)',
+          background: 'var(--ctz-bg-tertiary)',
+          animation: 'ctz-shimmer 1.5s infinite linear',
+        }}
       />
     );
   }
@@ -146,72 +152,162 @@ export function UserMenu({ isMobile = false }) {
     return (
       <Link
         href="/auth/login"
-        className={`${
-          isMobile ? "w-full justify-center" : ""
-        } flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-xl shadow hover:bg-sky-700 transition`}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '8px 18px',
+          background: 'var(--ctz-accent-gradient)',
+          color: '#ffffff',
+          borderRadius: 'var(--ctz-radius-sm)',
+          textDecoration: 'none',
+          fontSize: '0.875rem',
+          fontWeight: 600,
+          transition: 'opacity 200ms ease-out',
+          width: isMobile ? '100%' : 'auto',
+          justifyContent: isMobile ? 'center' : 'flex-start',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
       >
-        <HiOutlineUserCircle size={20} />
-        <span className="font-semibold">Iniciar Sesión</span>
+        <HiOutlineUserCircle size={18} />
+        Iniciar Sesión
       </Link>
     );
   }
 
-  const buttonClasses = isMobile
-    ? "w-full flex items-center justify-between px-4 py-3 rounded-xl border border-sky-200 bg-white text-sky-700 shadow-sm hover:bg-sky-50 transition"
-    : "flex items-center gap-3 px-3 py-2 rounded-xl border border-sky-200 bg-white text-sky-700 shadow-sm hover:bg-sky-50 transition";
+  const buttonStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    padding: isMobile ? '10px 16px' : '6px 12px',
+    borderRadius: 'var(--ctz-radius-sm)',
+    border: '1px solid var(--ctz-border)',
+    background: 'var(--ctz-bg-elevated)',
+    color: 'var(--ctz-text-primary)',
+    cursor: 'pointer',
+    transition: 'all 200ms ease-out',
+    width: isMobile ? '100%' : 'auto',
+    justifyContent: isMobile ? 'space-between' : 'flex-start',
+  };
 
-  const menuClasses = isMobile
-    ? "absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden"
-    : "absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50";
+  const menuStyle = {
+    position: 'absolute',
+    [isMobile ? 'left' : 'right']: 0,
+    marginTop: '8px',
+    width: isMobile ? '100%' : '260px',
+    background: 'var(--ctz-bg-elevated)',
+    border: '1px solid var(--ctz-border)',
+    borderRadius: 'var(--ctz-radius-md)',
+    boxShadow: 'var(--ctz-shadow-lg)',
+    overflow: 'hidden',
+    zIndex: 50,
+    backdropFilter: 'blur(16px)',
+  };
 
   return (
     <div className={`relative ${isMobile ? "w-full" : ""}`} ref={menuRef}>
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className={buttonClasses}
+        style={buttonStyle}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <div className="cursor-pointer flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+          <div style={{
+            width: '32px',
+            height: '32px',
+            borderRadius: '50%',
+            background: 'var(--ctz-accent-light)',
+            color: 'var(--ctz-accent)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+          }}>
             {initials}
           </div>
-          <div className="flex flex-col text-left">
-            <span className="text-sm font-semibold text-slate-800 line-clamp-1">
+          <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+            <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--ctz-text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '140px' }}>
               {profile?.nombre_completo || user.email}
             </span>
-            <span className="text-xs text-slate-500 uppercase">{profile?.rol || "Usuario"}</span>
+            <span style={{ fontSize: '0.6875rem', color: 'var(--ctz-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              {profile?.rol || "Usuario"}
+            </span>
           </div>
         </div>
-        {isOpen ? <HiChevronUp size={18} /> : <HiChevronDown size={18} />}
+        <HiChevronDown
+          size={16}
+          style={{
+            color: 'var(--ctz-text-muted)',
+            transition: 'transform 200ms ease-out',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+        />
       </button>
 
       {isOpen && (
-        <div className={menuClasses} role="menu">
-          <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
-            <p className="text-sm font-semibold text-slate-800 line-clamp-1">
+        <div style={menuStyle} role="menu">
+          <div style={{
+            padding: '12px 16px',
+            borderBottom: '1px solid var(--ctz-border)',
+            background: 'var(--ctz-bg-secondary)',
+          }}>
+            <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--ctz-text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {profile?.nombre_completo || user.email}
             </p>
-            <p className="text-xs text-slate-500">{user.email}</p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--ctz-text-muted)', margin: '2px 0 0' }}>{user.email}</p>
           </div>
-          <div className="py-1">
+          <div style={{ padding: '4px 0' }}>
             {isAdmin && (
               <Link
                 href="/admin"
-                className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
                 role="menuitem"
                 onClick={() => setIsOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 16px',
+                  fontSize: '0.8125rem',
+                  color: 'var(--ctz-text-secondary)',
+                  textDecoration: 'none',
+                  transition: 'background 200ms ease-out, color 200ms ease-out',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--ctz-accent-light)';
+                  e.currentTarget.style.color = 'var(--ctz-text-primary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'var(--ctz-text-secondary)';
+                }}
               >
-                <MdAdminPanelSettings size={18} className="text-purple-600" />
-                Ir al panel de administración
+                <MdAdminPanelSettings size={18} style={{ color: 'var(--ctz-accent)' }} />
+                Panel de administración
               </Link>
             )}
             <button
               type="button"
               onClick={() => setShowLogoutConfirm(true)}
-              className="cursor-pointer w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
               role="menuitem"
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 16px',
+                fontSize: '0.8125rem',
+                color: 'var(--ctz-error)',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'background 200ms ease-out',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ctz-error-light)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
             >
               <FiLogOut size={18} />
               Cerrar Sesión
