@@ -1,24 +1,43 @@
 "use client";
 
+import { Inter } from "next/font/google";
 import Navbar from "@/shared/components/Navbar";
 import Footer from "@/shared/components/Footer";
 import { DataTransferProvider } from "@/shared/context/DataTransferContext";
 import WhatsAppButton from "@/shared/components/WhatsAppButton";
+import "@/styles/cotizador.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export default function CotizadorLayout({ children }) {
   return (
-    <DataTransferProvider>
-      {/* Background global del cotizador */}
-      <div className="fixed inset-0 -z-10 h-full w-full bg-slate-50">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-sky-200/40 blur-[100px] rounded-full"></div>
-      </div>
-      <Navbar />
-      <main className="flex-grow py-6 pt-16">
-        {children}
-      </main>
-      <WhatsAppButton />
-      <Footer />
-    </DataTransferProvider>
+    <div className={`cotizador-scope ${inter.variable} ${inter.className}`} data-theme="light">
+      <DataTransferProvider>
+        {/* Subtle background pattern */}
+        <div className="fixed inset-0 -z-10 h-full w-full" style={{ background: 'var(--ctz-bg-secondary)' }}>
+          <div
+            className="absolute inset-0 opacity-[0.35]"
+            style={{
+              backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px)',
+              backgroundSize: '24px 24px',
+            }}
+          />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 rounded-full" 
+            style={{ background: 'rgba(29, 161, 255, 0.04)', filter: 'blur(100px)' }}
+          />
+        </div>
+
+        <Navbar />
+        <main className="flex-grow pt-16 min-h-screen">
+          {children}
+        </main>
+        <WhatsAppButton />
+        <Footer />
+      </DataTransferProvider>
+    </div>
   );
 }

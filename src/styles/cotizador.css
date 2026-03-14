@@ -1,0 +1,733 @@
+/* ═══════════════════════════════════════════════════════
+   Cotizador Shippar — Design System
+   Inspired by Wise · Mercury · Linear
+   ═══════════════════════════════════════════════════════ */
+
+/* ──── Design Tokens — Light (default) ──── */
+[data-theme="light"],
+.cotizador-scope {
+  --ctz-bg-primary: #ffffff;
+  --ctz-bg-secondary: #f8fafc;
+  --ctz-bg-tertiary: #f1f5f9;
+  --ctz-bg-elevated: #ffffff;
+  --ctz-bg-input: #ffffff;
+
+  --ctz-text-primary: #0f172a;
+  --ctz-text-secondary: #64748b;
+  --ctz-text-muted: #94a3b8;
+  --ctz-text-inverse: #ffffff;
+
+  --ctz-accent: #1da1ff;
+  --ctz-accent-hover: #0d8ce6;
+  --ctz-accent-light: rgba(29, 161, 255, 0.08);
+  --ctz-accent-ring: rgba(29, 161, 255, 0.12);
+  --ctz-accent-gradient: linear-gradient(135deg, #1da1ff, #2bc0ff);
+
+  --ctz-success: #22c55e;
+  --ctz-success-light: rgba(34, 197, 94, 0.08);
+  --ctz-error: #ef4444;
+  --ctz-error-light: rgba(239, 68, 68, 0.08);
+  --ctz-warning: #f59e0b;
+  --ctz-warning-light: rgba(245, 158, 11, 0.08);
+
+  --ctz-border: rgba(0, 0, 0, 0.06);
+  --ctz-border-hover: rgba(0, 0, 0, 0.12);
+  --ctz-border-focus: #1da1ff;
+
+  --ctz-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --ctz-shadow-md: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --ctz-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.08);
+
+  --ctz-radius-sm: 8px;
+  --ctz-radius-md: 12px;
+  --ctz-radius-lg: 16px;
+  --ctz-radius-pill: 20px;
+
+  --ctz-overlay: rgba(0, 0, 0, 0.4);
+
+  color-scheme: light;
+}
+
+/* ──── Design Tokens — Dark ──── */
+[data-theme="dark"] .cotizador-scope,
+.cotizador-scope[data-theme="dark"] {
+  --ctz-bg-primary: #040916;
+  --ctz-bg-secondary: #050b1f;
+  --ctz-bg-tertiary: #0b1f3a;
+  --ctz-bg-elevated: #0e2445;
+  --ctz-bg-input: #0b1f3a;
+
+  --ctz-text-primary: #e2e8f0;
+  --ctz-text-secondary: #94a3b8;
+  --ctz-text-muted: #64748b;
+  --ctz-text-inverse: #0f172a;
+
+  --ctz-accent: #2bc0ff;
+  --ctz-accent-hover: #1da1ff;
+  --ctz-accent-light: rgba(43, 192, 255, 0.1);
+  --ctz-accent-ring: rgba(43, 192, 255, 0.15);
+  --ctz-accent-gradient: linear-gradient(135deg, #1da1ff, #2bc0ff);
+
+  --ctz-success: #22c55e;
+  --ctz-success-light: rgba(34, 197, 94, 0.1);
+  --ctz-error: #ef4444;
+  --ctz-error-light: rgba(239, 68, 68, 0.1);
+  --ctz-warning: #f59e0b;
+  --ctz-warning-light: rgba(245, 158, 11, 0.1);
+
+  --ctz-border: rgba(255, 255, 255, 0.06);
+  --ctz-border-hover: rgba(255, 255, 255, 0.12);
+  --ctz-border-focus: #2bc0ff;
+
+  --ctz-shadow-sm: none;
+  --ctz-shadow-md: none;
+  --ctz-shadow-lg: none;
+
+  --ctz-overlay: rgba(0, 0, 0, 0.6);
+
+  color-scheme: dark;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Base — Cotizador Scope
+   ═══════════════════════════════════════════════════════ */
+.cotizador-scope {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: var(--ctz-text-primary);
+  background: var(--ctz-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ──── Typography ──── */
+.ctz-heading {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ctz-text-primary);
+  line-height: 1.2;
+}
+
+.ctz-heading-xl {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.ctz-heading-lg {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ctz-heading-md {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.ctz-body {
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ctz-text-primary);
+}
+
+.ctz-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.ctz-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ctz-text-secondary);
+}
+
+.ctz-caption {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ctz-text-muted);
+}
+
+.ctz-mono {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+.ctz-amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ctz-text-primary);
+}
+
+.ctz-amount-lg {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.ctz-gradient-text {
+  background: var(--ctz-accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Components
+   ═══════════════════════════════════════════════════════ */
+
+/* ──── Card ──── */
+.ctz-card {
+  background: var(--ctz-bg-elevated);
+  border: 1px solid var(--ctz-border);
+  border-radius: var(--ctz-radius-md);
+  box-shadow: var(--ctz-shadow-sm);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.ctz-card:hover {
+  border-color: var(--ctz-border-hover);
+  box-shadow: var(--ctz-shadow-md);
+}
+
+.ctz-card-flat {
+  background: var(--ctz-bg-secondary);
+  border: 1px solid var(--ctz-border);
+  border-radius: var(--ctz-radius-md);
+}
+
+/* ──── Input ──── */
+.ctz-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 0.9375rem;
+  font-weight: 450;
+  color: var(--ctz-text-primary);
+  background: var(--ctz-bg-input);
+  border: 1px solid var(--ctz-border);
+  border-radius: var(--ctz-radius-sm);
+  outline: none;
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.ctz-input::placeholder {
+  color: var(--ctz-text-muted);
+}
+
+.ctz-input:hover {
+  border-color: var(--ctz-border-hover);
+}
+
+.ctz-input:focus {
+  border-color: var(--ctz-border-focus);
+  box-shadow: 0 0 0 3px var(--ctz-accent-ring);
+}
+
+.ctz-input-error {
+  border-color: var(--ctz-error);
+}
+
+.ctz-input-error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+/* ──── Select ──── */
+.ctz-select {
+  appearance: none;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 40px 10px 14px;
+  font-size: 0.9375rem;
+  font-weight: 450;
+  color: var(--ctz-text-primary);
+  background: var(--ctz-bg-input) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+  border: 1px solid var(--ctz-border);
+  border-radius: var(--ctz-radius-sm);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.ctz-select:hover {
+  border-color: var(--ctz-border-hover);
+}
+
+.ctz-select:focus {
+  border-color: var(--ctz-border-focus);
+  box-shadow: 0 0 0 3px var(--ctz-accent-ring);
+}
+
+/* ──── Button — Primary ──── */
+.ctz-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 24px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--ctz-accent-gradient);
+  border: none;
+  border-radius: var(--ctz-radius-sm);
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  transition: opacity 200ms ease-out, transform 100ms ease-out;
+}
+
+.ctz-btn-primary:hover {
+  opacity: 0.92;
+}
+
+.ctz-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.ctz-btn-primary:focus-visible {
+  box-shadow: 0 0 0 3px var(--ctz-accent-ring);
+}
+
+.ctz-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Shimmer on hover */
+.ctz-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  transition: left 500ms ease-in-out;
+}
+
+.ctz-btn-primary:hover::after {
+  left: 100%;
+}
+
+/* ──── Button — Secondary ──── */
+.ctz-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 24px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ctz-text-secondary);
+  background: transparent;
+  border: 1px solid var(--ctz-border);
+  border-radius: var(--ctz-radius-sm);
+  cursor: pointer;
+  outline: none;
+  transition: all 200ms ease-out;
+}
+
+.ctz-btn-secondary:hover {
+  border-color: var(--ctz-border-hover);
+  color: var(--ctz-text-primary);
+  background: var(--ctz-bg-secondary);
+}
+
+.ctz-btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.ctz-btn-secondary:focus-visible {
+  box-shadow: 0 0 0 3px var(--ctz-accent-ring);
+}
+
+/* ──── Button — Ghost ──── */
+.ctz-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ctz-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--ctz-radius-sm);
+  cursor: pointer;
+  transition: all 200ms ease-out;
+}
+
+.ctz-btn-ghost:hover {
+  color: var(--ctz-text-primary);
+  background: var(--ctz-accent-light);
+}
+
+/* ──── Badge / Pill ──── */
+.ctz-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--ctz-radius-pill);
+  white-space: nowrap;
+}
+
+.ctz-badge-accent {
+  background: var(--ctz-accent-light);
+  color: var(--ctz-accent);
+}
+
+.ctz-badge-success {
+  background: var(--ctz-success-light);
+  color: var(--ctz-success);
+}
+
+.ctz-badge-error {
+  background: var(--ctz-error-light);
+  color: var(--ctz-error);
+}
+
+.ctz-badge-warning {
+  background: var(--ctz-warning-light);
+  color: var(--ctz-warning);
+}
+
+.ctz-badge-neutral {
+  background: var(--ctz-bg-tertiary);
+  color: var(--ctz-text-secondary);
+}
+
+/* ──── Divider ──── */
+.ctz-divider {
+  border: none;
+  border-top: 1px solid var(--ctz-border);
+  margin: 0;
+}
+
+/* ──── Tooltip ──── */
+.ctz-tooltip {
+  position: relative;
+}
+
+.ctz-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ctz-text-inverse);
+  background: var(--ctz-text-primary);
+  border-radius: var(--ctz-radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  transition-delay: 200ms;
+  z-index: 50;
+}
+
+.ctz-tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Layout Utilities
+   ═══════════════════════════════════════════════════════ */
+.ctz-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 640px) {
+  .ctz-container {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ctz-container {
+    padding: 0 32px;
+  }
+}
+
+.ctz-section {
+  padding: 32px 0;
+}
+
+@media (min-width: 640px) {
+  .ctz-section {
+    padding: 48px 0;
+  }
+}
+
+/* ──── Form Group ──── */
+.ctz-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ctz-form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ctz-text-primary);
+}
+
+.ctz-form-hint {
+  font-size: 0.75rem;
+  color: var(--ctz-text-muted);
+}
+
+.ctz-form-error {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ctz-error);
+}
+
+/* ──── Field Group (card wrapper for related fields) ──── */
+.ctz-field-group {
+  background: var(--ctz-bg-elevated);
+  border: 1px solid var(--ctz-border);
+  border-radius: var(--ctz-radius-md);
+  padding: 20px;
+}
+
+.ctz-field-group-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ctz-text-muted);
+  margin-bottom: 16px;
+}
+
+/* ──── Cost Breakdown Table ──── */
+.ctz-cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 0.875rem;
+}
+
+.ctz-cost-row + .ctz-cost-row {
+  border-top: 1px solid var(--ctz-border);
+}
+
+.ctz-cost-label {
+  color: var(--ctz-text-secondary);
+  font-weight: 450;
+}
+
+.ctz-cost-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ctz-text-primary);
+  text-align: right;
+}
+
+.ctz-cost-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 2px solid var(--ctz-border);
+  margin-top: 4px;
+}
+
+.ctz-cost-total .ctz-cost-label {
+  font-weight: 600;
+  color: var(--ctz-text-primary);
+}
+
+.ctz-cost-total .ctz-cost-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ctz-accent);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes ctz-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ctz-fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ctz-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ctz-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.ctz-animate-in {
+  animation: ctz-fade-in 300ms ease-out both;
+}
+
+.ctz-animate-in-up {
+  animation: ctz-fade-in-up 400ms ease-out both;
+}
+
+.ctz-animate-scale-in {
+  animation: ctz-scale-in 250ms ease-out both;
+}
+
+/* Stagger children */
+.ctz-stagger > * {
+  animation: ctz-fade-in-up 400ms ease-out both;
+}
+.ctz-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.ctz-stagger > *:nth-child(2) { animation-delay: 60ms; }
+.ctz-stagger > *:nth-child(3) { animation-delay: 120ms; }
+.ctz-stagger > *:nth-child(4) { animation-delay: 180ms; }
+.ctz-stagger > *:nth-child(5) { animation-delay: 240ms; }
+.ctz-stagger > *:nth-child(6) { animation-delay: 300ms; }
+
+/* Skeleton shimmer */
+.ctz-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--ctz-bg-tertiary) 25%,
+    var(--ctz-bg-secondary) 50%,
+    var(--ctz-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: ctz-shimmer 1.5s infinite linear;
+  border-radius: var(--ctz-radius-sm);
+}
+
+/* ──── Number Transition ──── */
+.ctz-number-transition {
+  transition: opacity 200ms ease-out;
+}
+
+/* ──── Progress Bar (wizard steps) ──── */
+.ctz-progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+.ctz-progress-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  position: relative;
+}
+
+.ctz-progress-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all 250ms ease-out;
+  border: 2px solid var(--ctz-border);
+  background: var(--ctz-bg-elevated);
+  color: var(--ctz-text-muted);
+}
+
+.ctz-progress-step.active .ctz-progress-dot {
+  background: var(--ctz-accent-gradient);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.ctz-progress-step.completed .ctz-progress-dot {
+  background: var(--ctz-success);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.ctz-progress-line {
+  flex: 1;
+  height: 2px;
+  background: var(--ctz-border);
+  transition: background 250ms ease-out;
+}
+
+.ctz-progress-step.completed + .ctz-progress-step .ctz-progress-line,
+.ctz-progress-step.completed .ctz-progress-line {
+  background: var(--ctz-success);
+}
+
+.ctz-progress-step-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--ctz-text-muted);
+  transition: color 250ms ease-out;
+}
+
+.ctz-progress-step.active .ctz-progress-step-label {
+  color: var(--ctz-accent);
+}
+
+.ctz-progress-step.completed .ctz-progress-step-label {
+  color: var(--ctz-success);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Overrides — hide main site dark theme on cotizador
+   ═══════════════════════════════════════════════════════ */
+.cotizador-scope,
+.cotizador-scope * {
+  /* Remove main site's film grain and dark scrollbar */
+}
+
+/* Number input spinners — hide */
+.cotizador-scope input[type="number"]::-webkit-inner-spin-button,
+.cotizador-scope input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cotizador-scope input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Scrollbar for cotizador scope */
+.cotizador-scope ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cotizador-scope ::-webkit-scrollbar-track {
+  background: var(--ctz-bg-secondary);
+}
+
+.cotizador-scope ::-webkit-scrollbar-thumb {
+  background: var(--ctz-border-hover);
+  border-radius: 3px;
+}
