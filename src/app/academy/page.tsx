@@ -4,6 +4,7 @@ import Particles from "@/components/academy/Particles";
 import HeroStats from "@/components/academy/HeroStats";
 import RotatingText from "@/components/academy/RotatingText";
 import SocialProof from "@/components/academy/SocialProof";
+import FAQSection from "@/components/landing/FAQSection";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -270,6 +271,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ========== FAQs (Public, SEO with JSON-LD) ========== */}
+      <FAQSection />
 
       {/* ========== CTA ========== */}
       <section className="py-20 px-4 bg-[#080c18]">
