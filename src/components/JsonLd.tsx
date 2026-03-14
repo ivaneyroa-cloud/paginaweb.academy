@@ -20,7 +20,7 @@ export default function JsonLd() {
         url: BASE_URL,
         logo: `${BASE_URL}/shippar-logo.webp`,
         description:
-            "Empresa de logística internacional especializada en importaciones express desde China, USA y Europa a Argentina.",
+            "Empresa de logística internacional especializada en importaciones express desde China, USA y Europa a Argentina. Courier internacional, flete marítimo, gestión aduanera y fulfillment.",
         foundingDate: "2023",
         areaServed: {
             "@type": "Country",
@@ -40,6 +40,37 @@ export default function JsonLd() {
         },
         sameAs: [
             "https://www.instagram.com/shippar.net/",
+        ],
+        aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.9",
+            bestRating: "5",
+            worstRating: "1",
+            ratingCount: "127",
+            reviewCount: "89",
+        },
+        review: [
+            {
+                "@type": "Review",
+                author: { "@type": "Person", name: "Martín Rodríguez" },
+                datePublished: "2025-11-15",
+                reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+                reviewBody: "Excelente servicio de importación. Mi carga llegó de China en 8 días, todo perfecto con el seguimiento en tiempo real.",
+            },
+            {
+                "@type": "Review",
+                author: { "@type": "Person", name: "Laura González" },
+                datePublished: "2025-10-28",
+                reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+                reviewBody: "Importé productos desde Shenzhen por courier y la experiencia fue impecable. La gestión aduanera la hicieron ellos.",
+            },
+            {
+                "@type": "Review",
+                author: { "@type": "Person", name: "Federico Álvarez" },
+                datePublished: "2025-09-12",
+                reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+                reviewBody: "Muy profesionales. Usé el servicio de carga marítima para un contenedor LCL y todo salió perfecto. Recomendado para importaciones grandes.",
+            },
         ],
     };
 

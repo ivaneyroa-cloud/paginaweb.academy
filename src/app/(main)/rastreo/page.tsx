@@ -369,10 +369,10 @@ export default function RastreoPage() {
                         className="text-3xl md:text-4xl font-bold text-white"
                         style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
                     >
-                        Rastreá tu envío
+                        Rastreo de envíos internacionales
                     </h1>
                     <p className="mt-3 text-base" style={{ color: "#adb9cf" }}>
-                        Seguimiento 24/7 de tus envíos
+                        Seguimiento en tiempo real de tu paquete UPS, FedEx o courier
                     </p>
                 </motion.div>
 

@@ -61,7 +61,7 @@ registerTranslations("en", {
     "phase.2": "Local Delivery",
 
     /* ── Why Shippar ── */
-    "why.eyebrow": "Our differentiators",
+    "why.eyebrow": "International courier & freight",
     "why.title": "Your imports deserve",
     "why.title_accent": "clarity, control",
     "why.title_post": "and speed.",
@@ -78,7 +78,7 @@ registerTranslations("en", {
     "why.card.3.desc": "More visibility, fewer surprises",
 
     /* ── How It Works ── */
-    "how.title": "How an import works with Shippar",
+    "how.title": "How a courier import works with Shippar",
     "how.subtitle": "Follow every real stage of a shipment, from origin to delivery in Argentina.",
     "how.next_step": "Next step",
     "how.in_progress": "In progress",
@@ -143,7 +143,7 @@ registerTranslations("en", {
     "how.node.complete": "Operation closed",
 
     /* ── Testimonials ── */
-    "testimonials.title": "Real client reviews",
+    "testimonials.title": "Real reviews from importers",
     "testimonials.google": "See all on Google",
 
     /* ── CTA Section (Home) ── */

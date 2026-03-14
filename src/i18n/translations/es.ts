@@ -61,11 +61,11 @@ registerTranslations("es", {
     "phase.2": "Entrega Local",
 
     /* ── Why Shippar ── */
-    "why.eyebrow": "Nuestros diferenciales",
+    "why.eyebrow": "Courier y flete internacional",
     "why.title": "Tu importación merece",
     "why.title_accent": "claridad, control",
     "why.title_post": "y rapidez.",
-    "why.subtitle": "Tecnología y criterio operativo real trabajando juntos en cada envío.",
+    "why.subtitle": "Tecnología y gestión aduanera real trabajando juntos en cada envío internacional.",
     "why.cta": "Hablá con un especialista",
 
     "why.card.0.title": "Seguimiento online",
@@ -78,8 +78,8 @@ registerTranslations("es", {
     "why.card.3.desc": "Más visibilidad, menos sorpresas",
 
     /* ── How It Works ── */
-    "how.title": "Cómo funciona una importación con Shippar",
-    "how.subtitle": "Seguí cada etapa real de una carga, desde el origen hasta la entrega en Argentina.",
+    "how.title": "Cómo funciona una importación courier con Shippar",
+    "how.subtitle": "Seguí cada etapa de tu flete internacional, desde el origen hasta la entrega puerta a puerta en Argentina.",
     "how.next_step": "Siguiente paso",
     "how.in_progress": "En curso",
 
@@ -143,13 +143,13 @@ registerTranslations("es", {
     "how.node.complete": "Operación cerrada",
 
     /* ── Testimonials ── */
-    "testimonials.title": "Opiniones reales de clientes",
+    "testimonials.title": "Opiniones reales de importadores",
     "testimonials.google": "Ver todas en Google",
 
     /* ── CTA Section (Home) ── */
     "cta.headline": "Estás a un paso de simplificar",
-    "cta.headline_accent": "tus importaciones",
-    "cta.headline_sub": "Completá tus datos y recibí tu cotización en minutos.",
+    "cta.headline_accent": "tu importación internacional",
+    "cta.headline_sub": "Cotizá tu flete internacional y recibí tu cotización en minutos.",
     "cta.card_title": "Cotizá tu importación",
     "cta.card_sub": "Calculá el costo y coordiná tu envío internacional en segundos.",
     "cta.label_nombre": "Nombre",
