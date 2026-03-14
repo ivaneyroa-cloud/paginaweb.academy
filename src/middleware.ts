@@ -4,6 +4,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
 
 const FALLBACK_ADMIN_EMAILS = ["ivaneyroa@shippar.net", "abaleani@shippar.net"];
 
@@ -127,6 +128,69 @@ export async function middleware(request: NextRequest) {
         }
     }
 
+    // ═══ Cotizador routes — Supabase SSR session refresh + admin check ═══
+    if (
+        pathname.startsWith("/admin") ||
+        pathname.startsWith("/auth") ||
+        pathname.startsWith("/cotizador") ||
+        pathname.startsWith("/cotizadorv2") ||
+        pathname.startsWith("/calculadora") ||
+        pathname.startsWith("/tools")
+    ) {
+        let supabaseResponse = NextResponse.next({ request });
+
+        const supabaseSSR = createServerClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            {
+                cookies: {
+                    getAll() {
+                        return request.cookies.getAll();
+                    },
+                    setAll(cookiesToSet) {
+                        cookiesToSet.forEach(({ name, value }) =>
+                            request.cookies.set(name, value)
+                        );
+                        supabaseResponse = NextResponse.next({ request });
+                        cookiesToSet.forEach(({ name, value, options }) =>
+                            supabaseResponse.cookies.set(name, value, options)
+                        );
+                    },
+                },
+            }
+        );
+
+        const {
+            data: { user },
+            error: authError,
+        } = await supabaseSSR.auth.getUser();
+
+        // Admin route protection
+        if (pathname.startsWith("/admin")) {
+            if (!user || authError) {
+                const loginUrl = new URL("/auth/login", request.url);
+                loginUrl.searchParams.set("redirectTo", pathname);
+                return NextResponse.redirect(loginUrl);
+            }
+
+            try {
+                const { data: perfil, error: perfilError } = await supabaseSSR
+                    .from("perfiles")
+                    .select("rol")
+                    .eq("id", user.id)
+                    .single();
+
+                if (perfilError || !perfil || perfil.rol?.toLowerCase() !== "admin") {
+                    return NextResponse.redirect(new URL("/tools", request.url));
+                }
+            } catch {
+                return NextResponse.redirect(new URL("/tools", request.url));
+            }
+        }
+
+        return supabaseResponse;
+    }
+
     return NextResponse.next();
 }
 
@@ -139,5 +203,12 @@ export const config = {
         "/api/academy/admin/:path*",
         "/academy/admin/:path*",
         "/academy/dashboard/:path*",
+        // Cotizador routes
+        "/admin/:path*",
+        "/auth/:path*",
+        "/cotizador/:path*",
+        "/cotizadorv2/:path*",
+        "/calculadora/:path*",
+        "/tools/:path*",
     ],
 };
