@@ -28,8 +28,10 @@ export default function JsonLd() {
         },
         address: {
             "@type": "PostalAddress",
-            addressCountry: "AR",
+            streetAddress: "Buenos Aires",
             addressLocality: "Buenos Aires",
+            postalCode: "1001",
+            addressCountry: "AR",
         },
         contactPoint: {
             "@type": "ContactPoint",
