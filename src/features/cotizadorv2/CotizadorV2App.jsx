@@ -348,6 +348,17 @@ export default function CotizadorV2App({ datosCotizacion }) {
         {/* Header V2 */}
         <CotizadorHeaderV2 />
 
+        {/* Acceso preferencial — above inputs */}
+        <div style={{ marginBottom: '16px' }}>
+          <DiscountCardV2
+            ref={discountCardRef}
+            porcentajeDescuento={porcentajeDescuento}
+            codigoDescuento={codigoDescuento}
+            onDescuentoChange={setPorcentajeDescuento}
+            onCodigoChange={setCodigoDescuento}
+          />
+        </div>
+
         {/* =========================== */}
         {/* SECCIÓN 1: INPUTS           */}
         {/* =========================== */}
@@ -374,15 +385,6 @@ export default function CotizadorV2App({ datosCotizacion }) {
               />
             </div>
           </div>
-
-          {/* Paso 3: Código de Descuento */}
-          <DiscountCardV2
-            ref={discountCardRef}
-            porcentajeDescuento={porcentajeDescuento}
-            codigoDescuento={codigoDescuento}
-            onDescuentoChange={setPorcentajeDescuento}
-            onCodigoChange={setCodigoDescuento}
-          />
         </div>
         {/* =========================== */}
         {/* ZONA DE ACCIÓN Y TRANSICIÓN */}

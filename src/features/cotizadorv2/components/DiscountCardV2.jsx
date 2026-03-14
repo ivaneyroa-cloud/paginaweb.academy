@@ -1,16 +1,12 @@
 import React, { useState, forwardRef, useImperativeHandle } from "react";
-import { Card } from "./Card";
-import { LuTag } from "react-icons/lu";
+import { TbKey } from "react-icons/tb";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { validarCuponAction } from "../actions";
 
 /**
- * DiscountCardV2 - Paso 3: Código de descuento de envío
- *
- * @param {number}   props.porcentajeDescuento - Porcentaje de descuento actualmente aplicado
- * @param {string}   props.codigoDescuento     - Código aplicado (para mostrar feedback)
- * @param {function} props.onDescuentoChange   - Callback para actualizar el porcentaje del descuento
- * @param {function} props.onCodigoChange      - Callback para actualizar el código
+ * DiscountCardV2 — "Acceso preferencial"
+ * Compact, premium card for entering a tariff code.
+ * Visual redesign only — internal logic unchanged.
  */
 export const DiscountCardV2 = forwardRef(({
   porcentajeDescuento = 0,
@@ -25,16 +21,13 @@ export const DiscountCardV2 = forwardRef(({
   useImperativeHandle(ref, () => ({
     validarPendiente: async () => {
       const parsedCodigo = codigo.trim();
-      // Si está vacío, limpiamos el padre y avanzamos
       if (!parsedCodigo) {
         if (porcentajeDescuento > 0) handleLimpiar();
         return true;
       }
-      // Si es el mismo código que ya validé, ok
       if (parsedCodigo === codigoDescuento && porcentajeDescuento > 0) {
         return true;
       }
-      // Sino, validarlo ahora mismo
       return await handleAplicarDescuento();
     }
   }));
@@ -81,80 +74,192 @@ export const DiscountCardV2 = forwardRef(({
     setMensajeError("");
   };
 
-  return (
-    <Card
-      title="Paso 3: Código de Descuento"
-      icon={<LuTag size={20} className="text-sky-600" />}
-      className="transition-all duration-300 hover:shadow-xl border-1 border-sky-200"
-    >
-      <div className="space-y-2">
-        {/* Descripción */}
-        <p className="text-sm text-slate-500">
-          Si tenés un código de descuento, ingresalo acá para aplicarlo al costo de envío.
-          Este campo es <span className="font-medium text-slate-600">opcional</span>.
-        </p>
+  const isApplied = porcentajeDescuento > 0;
 
-        {/* Input + Botón */}
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={codigo}
-            onChange={(e) => {
-              setCodigo(e.target.value.toUpperCase());
-              setMensajeError("");
-            }}
-            onKeyDown={handleKeyDown}
-            placeholder="Ej: SH-20"
-            className={`w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500/50 uppercase bg-white transition-all ${mensajeError
-              ? "border-red-400 focus:ring-red-500/50"
-              : porcentajeDescuento > 0
-                ? "border-emerald-400 focus:ring-emerald-500/50"
-                : "border-slate-300"
-              }`}
-          />
+  return (
+    <div
+      style={{
+        background: "var(--ctz-bg-elevated)",
+        border: `1px solid ${isApplied ? "var(--ctz-success)" : "var(--ctz-border)"}`,
+        borderRadius: "var(--ctz-radius-md)",
+        padding: "16px 20px",
+        transition: "border-color 250ms ease-out",
+        opacity: isApplied ? 1 : 0.85,
+      }}
+    >
+      {/* Applied state — compact inline */}
+      {isApplied ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+            flexWrap: "wrap",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <FaRegCircleCheck
+              size={16}
+              style={{ color: "var(--ctz-success)", flexShrink: 0 }}
+            />
+            <div>
+              <span
+                style={{
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  color: "var(--ctz-text-primary)",
+                }}
+              >
+                Tarifa aplicada correctamente
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  fontSize: "0.75rem",
+                  color: "var(--ctz-text-muted)",
+                  marginTop: "1px",
+                }}
+              >
+                Tu cotización ya contempla la condición asignada.
+              </span>
+            </div>
+          </div>
+
           <button
-            onClick={handleAplicarDescuento}
-            disabled={codigo.length === 0 || isApplying}
-            className={`cursor-pointer px-6 md:px-20 py-2 text-sm font-semibold rounded-lg transition-colors whitespace-nowrap flex items-center gap-2 ${codigo.length > 0 && !isApplying
-              ? "bg-sky-600   hover:bg-sky-700 text-white shadow-sm"
-              : "bg-slate-200 text-slate-500 border border-transparent cursor-not-allowed"
-              }`}
+            onClick={handleLimpiar}
+            style={{
+              fontSize: "0.75rem",
+              fontWeight: 500,
+              color: "var(--ctz-text-muted)",
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              textDecoration: "underline",
+              padding: "4px 8px",
+              transition: "color 200ms ease-out",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
           >
-            {isApplying ? (
-              <>
-                <svg className="animate-spin -ml-1 mr-1 h-4 w-4 text-sky-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Validando...
-              </>
-            ) : (
-              "Aplicar"
-            )}
+            Quitar
           </button>
         </div>
+      ) : (
+        /* Default state — input form */
+        <>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            <TbKey
+              size={16}
+              style={{ color: "var(--ctz-accent)", flexShrink: 0 }}
+            />
+            <div>
+              <span
+                style={{
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  color: "var(--ctz-text-primary)",
+                }}
+              >
+                Acceso preferencial
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  fontSize: "0.75rem",
+                  color: "var(--ctz-text-muted)",
+                  marginTop: "1px",
+                }}
+              >
+                Si tenés un código asignado, ingresalo antes de cotizar para aplicar tu tarifa.
+              </span>
+            </div>
+          </div>
 
-        {/* Mensaje de error */}
-        {mensajeError && (
-          <p className="text-xs text-red-500 font-medium">{mensajeError}</p>
-        )}
-
-        {/* Feedback de descuento aplicado */}
-        {porcentajeDescuento > 0 && (
-          <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-2.5 rounded-lg animate-fade-in">
-            <span className="flex items-center gap-2 text-sm font-medium">
-              <FaRegCircleCheck size={16} />
-              Cupón <strong>{codigoDescuento}</strong> aplicado
-            </span>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <input
+              type="text"
+              value={codigo}
+              onChange={(e) => {
+                setCodigo(e.target.value.toUpperCase());
+                setMensajeError("");
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder="Ej: SH-20"
+              style={{
+                flex: 1,
+                padding: "8px 12px",
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                background: "var(--ctz-bg-input)",
+                color: "var(--ctz-text-primary)",
+                border: `1px solid ${mensajeError ? "var(--ctz-error)" : "var(--ctz-border-hover)"}`,
+                borderRadius: "var(--ctz-radius-sm)",
+                outline: "none",
+                textTransform: "uppercase",
+                letterSpacing: "0.04em",
+                transition: "border-color 200ms ease-out",
+                minHeight: "38px",
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = "var(--ctz-border-focus)";
+                e.currentTarget.style.boxShadow = "0 0 0 3px var(--ctz-accent-ring)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = mensajeError ? "var(--ctz-error)" : "var(--ctz-border-hover)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            />
             <button
-              onClick={handleLimpiar}
-              className="text-xs text-emerald-600 hover:text-emerald-800 underline cursor-pointer"
+              onClick={handleAplicarDescuento}
+              disabled={codigo.length === 0 || isApplying}
+              style={{
+                padding: "8px 20px",
+                fontSize: "0.8125rem",
+                fontWeight: 600,
+                borderRadius: "var(--ctz-radius-sm)",
+                border: "none",
+                cursor: codigo.length > 0 && !isApplying ? "pointer" : "not-allowed",
+                whiteSpace: "nowrap",
+                transition: "all 200ms ease-out",
+                minHeight: "38px",
+                ...(codigo.length > 0 && !isApplying
+                  ? {
+                      background: "var(--ctz-accent-gradient)",
+                      color: "#ffffff",
+                    }
+                  : {
+                      background: "var(--ctz-bg-tertiary)",
+                      color: "var(--ctz-text-muted)",
+                    }),
+              }}
             >
-              Quitar
+              {isApplying ? "Validando..." : "Aplicar"}
             </button>
           </div>
-        )}
-      </div>
-    </Card>
+
+          {/* Error message */}
+          {mensajeError && (
+            <p
+              style={{
+                margin: "6px 0 0",
+                fontSize: "0.75rem",
+                fontWeight: 500,
+                color: "var(--ctz-error)",
+              }}
+            >
+              {mensajeError}
+            </p>
+          )}
+        </>
+      )}
+    </div>
   );
 });
