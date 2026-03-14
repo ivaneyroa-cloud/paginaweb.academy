@@ -1,6 +1,25 @@
 import type { NextConfig } from "next";
 
+/* ── CSP directives (permissive but protective) ── */
+const cspDirectives = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob: https://api.dicebear.com https://i.pravatar.cc https://*.supabase.co",
+    "font-src 'self' data:",
+    "connect-src 'self' https://*.supabase.co https://api.dicebear.com wss://*.supabase.co",
+    "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+    "media-src 'self' blob:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+].join("; ");
+
 const nextConfig: NextConfig = {
+    /* ── Remove X-Powered-By header ── */
+    poweredByHeader: false,
+
     headers: async () => [
         {
             source: "/(.*)",
@@ -12,6 +31,16 @@ const nextConfig: NextConfig = {
                 {
                     key: "Permissions-Policy",
                     value: "camera=(), microphone=(), geolocation=()",
+                },
+                /* ── HSTS: force HTTPS for 2 years ── */
+                {
+                    key: "Strict-Transport-Security",
+                    value: "max-age=63072000; includeSubDomains; preload",
+                },
+                /* ── Content Security Policy ── */
+                {
+                    key: "Content-Security-Policy",
+                    value: cspDirectives,
                 },
             ],
         },
