@@ -499,7 +499,7 @@ export default function ServiciosSection() {
                     left: "-5%",
                     background:
                         "radial-gradient(ellipse 70% 60%, rgba(43,192,255,0.015) 0%, transparent 65%)",
-                    filter: "blur(120px)",
+                    filter: "blur(50px)",
                 }}
             />
             <div
@@ -511,7 +511,7 @@ export default function ServiciosSection() {
                     right: "-3%",
                     background:
                         "radial-gradient(circle, rgba(29,161,255,0.01) 0%, transparent 60%)",
-                    filter: "blur(100px)",
+                    filter: "blur(40px)",
                 }}
             />
 

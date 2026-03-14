@@ -43,21 +43,7 @@ const PIPELINE_STEPS = [
 ];
 
 function playDeliveryPing() {
-    try {
-        const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.frequency.value = 880;
-        osc.type = "sine";
-        gain.gain.setValueAtTime(0.04, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 0.25);
-    } catch {
-        // silent
-    }
+    // Removed heavy AudioContext creation — caused frame spikes on mobile
 }
 
 export default function HeroSection() {
@@ -226,7 +212,6 @@ export default function HeroSection() {
                         rgba(43,192,255,0.025) 0%,
                         transparent 60%);
                     pointer-events: none;
-                    filter: blur(40px);
                 }
                 .hero-dot-texture {
                     position: absolute;
@@ -247,8 +232,8 @@ export default function HeroSection() {
                     border-radius: 20px;
                     background: rgba(255,255,255,0.97);
                     border: 1px solid rgba(255,255,255,0.35);
-                    backdrop-filter: blur(24px);
-                    -webkit-backdrop-filter: blur(24px);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     box-shadow:
                         0 8px 30px rgba(0,0,0,0.18),
                         0 1px 3px rgba(0,0,0,0.10);
@@ -288,8 +273,8 @@ export default function HeroSection() {
                 /* ── Pipeline overlay ── */
                 .pipeline-overlay {
                     position: fixed; inset: 0; z-index: 9999;
-                    background: rgba(3,8,18,0.94);
-                    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+                    background: rgba(3,8,18,0.96);
+                    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
                     display: flex; flex-direction: column;
                     align-items: center;
                     overflow-y: auto;
@@ -327,7 +312,6 @@ export default function HeroSection() {
                         "linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
                     backgroundSize: "60px 60px",
                     opacity: 0.18,
-                    animation: "gridMove 35s linear infinite",
                     maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 70%)",
                     WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 70%)",
                 }} />

@@ -226,7 +226,7 @@ export default function WhyShipparSection() {
                     width: "500px",
                     height: "500px",
                     background: "radial-gradient(circle, rgba(15,35,70,0.08) 0%, transparent 70%)",
-                    filter: "blur(80px)",
+                    filter: "blur(40px)",
                 }}
             />
 
@@ -393,8 +393,8 @@ export default function WhyShipparSection() {
                                                 ...CARD_POSITIONS[card.position],
                                                 width: "210px",
                                                 background: s.bg,
-                                                backdropFilter: "blur(20px)",
-                                                WebkitBackdropFilter: "blur(20px)",
+                                                backdropFilter: "blur(10px)",
+                                                WebkitBackdropFilter: "blur(10px)",
                                                 border: s.border,
                                                 borderRadius: "14px",
                                                 padding: "14px 16px",

@@ -62,8 +62,8 @@ export default function Navbar() {
                 /* ── Navbar surface ── */
                 .nav-surface {
                     background: linear-gradient(180deg, rgba(3,7,18,0.92) 0%, rgba(5,10,25,0.88) 100%);
-                    backdrop-filter: blur(24px) saturate(1.2);
-                    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+                    backdrop-filter: blur(12px) saturate(1.2);
+                    -webkit-backdrop-filter: blur(12px) saturate(1.2);
                 }
                 .nav-surface::after {
                     content: '';
@@ -324,8 +324,8 @@ export default function Navbar() {
                         className="fixed inset-0 z-40 md:hidden"
                         style={{
                             background: "rgba(3,7,18,0.96)",
-                            backdropFilter: "blur(24px)",
-                            WebkitBackdropFilter: "blur(24px)",
+                            backdropFilter: "blur(8px)",
+                            WebkitBackdropFilter: "blur(8px)",
                         }}
                     >
                         <div className="flex flex-col items-center justify-center h-full gap-10">

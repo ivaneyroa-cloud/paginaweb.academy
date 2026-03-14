@@ -94,7 +94,7 @@ export default function FAQSection() {
                     left: "20%",
                     background:
                         "radial-gradient(circle, rgba(43,192,255,0.02) 0%, transparent 70%)",
-                    filter: "blur(80px)",
+                    filter: "blur(40px)",
                 }}
             />
 
