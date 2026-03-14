@@ -700,11 +700,109 @@
 }
 
 /* ═══════════════════════════════════════════════════════
-   Overrides — hide main site dark theme on cotizador
+   Background Pattern
+   ═══════════════════════════════════════════════════════ */
+.ctz-bg-pattern {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  background: var(--ctz-bg-secondary);
+  transition: background 300ms ease-out;
+}
+
+.ctz-bg-dots {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: radial-gradient(circle, var(--ctz-border-hover) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.ctz-bg-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 768px;
+  height: 256px;
+  background: var(--ctz-accent-light);
+  filter: blur(100px);
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Navbar (cotizador)
+   ═══════════════════════════════════════════════════════ */
+.ctz-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: var(--ctz-bg-primary);
+  border-bottom: 1px solid var(--ctz-border);
+  backdrop-filter: blur(12px);
+  transition: background 300ms ease-out, border-color 300ms ease-out;
+}
+
+@supports (backdrop-filter: blur(12px)) {
+  .ctz-navbar {
+    background: color-mix(in srgb, var(--ctz-bg-primary) 85%, transparent);
+  }
+}
+
+@media (min-width: 640px) {
+  .ctz-navbar {
+    padding: 0 24px;
+  }
+}
+
+.ctz-navbar-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ctz-text-secondary);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--ctz-radius-sm);
+  transition: color 200ms ease-out, background 200ms ease-out;
+}
+
+.ctz-navbar-link:hover {
+  color: var(--ctz-text-primary);
+  background: var(--ctz-accent-light);
+}
+
+.ctz-navbar-link.active {
+  color: var(--ctz-accent);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Overrides — scope isolation
    ═══════════════════════════════════════════════════════ */
 .cotizador-scope,
 .cotizador-scope * {
-  /* Remove main site's film grain and dark scrollbar */
+  /* Scope isolation */
+}
+
+/* Override main site body styles inside cotizador */
+.cotizador-scope body,
+.cotizador-scope main {
+  background: transparent;
+}
+
+/* Kill film-grain overlay from main site */
+.cotizador-scope::before,
+.cotizador-scope::after {
+  display: none !important;
 }
 
 /* Number input spinners — hide */
