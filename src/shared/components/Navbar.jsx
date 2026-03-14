@@ -7,6 +7,7 @@ import { IoCalculatorOutline } from "react-icons/io5";
 import { TbTruckDelivery } from "react-icons/tb";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { UserMenu } from "@/features/auth";
+import ThemeToggle from "@/shared/components/ThemeToggle";
 
 export const NavBar = () => {
   const pathname = usePathname();
@@ -99,6 +100,7 @@ export const NavBar = () => {
 
           <div className="h-8 w-px bg-sky-200 mx-1"></div>
 
+          <ThemeToggle />
           <UserMenu />
         </div>
 
@@ -139,7 +141,8 @@ export const NavBar = () => {
                );
             })}
             
-            <div className="pt-4 border-t border-sky-100 mt-2">
+            <div className="pt-4 border-t border-sky-100 mt-2 flex items-center justify-between">
+              <ThemeToggle />
               <UserMenu isMobile={true} />
             </div>
           </nav>

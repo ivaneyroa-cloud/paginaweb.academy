@@ -829,3 +829,152 @@
   background: var(--ctz-border-hover);
   border-radius: 3px;
 }
+
+/* ═══════════════════════════════════════════════════════
+   Tailwind Color Overrides for Dark Mode
+   Remaps hardcoded TW classes to CSS variables inside
+   .cotizador-scope so existing components auto-adapt.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Backgrounds ── */
+.cotizador-scope .bg-white { background-color: var(--ctz-bg-elevated) !important; }
+.cotizador-scope .bg-slate-50,
+.cotizador-scope .bg-slate-50\/80 { background-color: var(--ctz-bg-secondary) !important; }
+.cotizador-scope .bg-slate-100 { background-color: var(--ctz-bg-tertiary) !important; }
+.cotizador-scope .bg-slate-200 { background-color: var(--ctz-bg-tertiary) !important; }
+
+/* Sky accent backgrounds */
+.cotizador-scope .bg-sky-50 { background-color: var(--ctz-accent-light) !important; }
+.cotizador-scope .bg-sky-100 { background-color: var(--ctz-accent-light) !important; }
+.cotizador-scope .bg-sky-600 { background: var(--ctz-accent-gradient) !important; }
+.cotizador-scope .bg-sky-700 { background-color: var(--ctz-accent-hover) !important; }
+.cotizador-scope .hover\:bg-sky-700:hover { background-color: var(--ctz-accent-hover) !important; }
+.cotizador-scope .hover\:bg-sky-800:hover { background-color: var(--ctz-accent-hover) !important; }
+.cotizador-scope .hover\:bg-sky-100:hover { background-color: var(--ctz-accent-light) !important; }
+.cotizador-scope .hover\:bg-sky-50:hover { background-color: var(--ctz-accent-light) !important; }
+
+/* Blue info backgrounds */
+.cotizador-scope .bg-blue-50,
+.cotizador-scope .bg-blue-50\/50 { background-color: var(--ctz-accent-light) !important; }
+
+/* Green/emerald success backgrounds */
+.cotizador-scope .bg-emerald-50,
+.cotizador-scope .bg-green-50 { background-color: var(--ctz-success-light) !important; }
+.cotizador-scope .bg-emerald-500 { background-color: var(--ctz-success) !important; }
+.cotizador-scope .bg-green-500 { background-color: var(--ctz-success) !important; }
+
+/* Red/error backgrounds */
+.cotizador-scope .bg-red-50 { background-color: var(--ctz-error-light) !important; }
+.cotizador-scope .bg-red-100 { background-color: var(--ctz-error-light) !important; }
+.cotizador-scope .hover\:bg-red-100:hover { background-color: var(--ctz-error-light) !important; }
+
+/* Yellow/amber warning backgrounds */
+.cotizador-scope .bg-yellow-50 { background-color: var(--ctz-warning-light) !important; }
+.cotizador-scope .bg-amber-100 { background-color: var(--ctz-warning-light) !important; }
+
+/* Purple backgrounds (for express badge) */
+.cotizador-scope .bg-purple-100 { background-color: rgba(168, 85, 247, 0.08) !important; }
+
+/* ── Text Colors ── */
+.cotizador-scope .text-slate-900,
+.cotizador-scope .text-slate-800 { color: var(--ctz-text-primary) !important; }
+.cotizador-scope .text-slate-700 { color: var(--ctz-text-primary) !important; }
+.cotizador-scope .text-slate-600 { color: var(--ctz-text-secondary) !important; }
+.cotizador-scope .text-slate-500 { color: var(--ctz-text-secondary) !important; }
+.cotizador-scope .text-slate-400 { color: var(--ctz-text-muted) !important; }
+.cotizador-scope .text-slate-300 { color: var(--ctz-text-muted) !important; }
+
+/* Sky text */
+.cotizador-scope .text-sky-600 { color: var(--ctz-accent) !important; }
+.cotizador-scope .text-sky-700 { color: var(--ctz-accent) !important; }
+.cotizador-scope .text-sky-500 { color: var(--ctz-accent) !important; }
+.cotizador-scope .hover\:text-sky-700:hover { color: var(--ctz-accent-hover) !important; }
+
+/* Blue text */
+.cotizador-scope .text-blue-800,
+.cotizador-scope .text-blue-700,
+.cotizador-scope .text-blue-600 { color: var(--ctz-accent) !important; }
+
+/* Green text */
+.cotizador-scope .text-emerald-700,
+.cotizador-scope .text-emerald-800,
+.cotizador-scope .text-green-700,
+.cotizador-scope .text-green-800 { color: var(--ctz-success) !important; }
+
+/* Red text */
+.cotizador-scope .text-red-500 { color: var(--ctz-error) !important; }
+.cotizador-scope .text-red-600 { color: var(--ctz-error) !important; }
+.cotizador-scope .hover\:text-red-700:hover { color: var(--ctz-error) !important; }
+
+/* Yellow/amber text */
+.cotizador-scope .text-yellow-800,
+.cotizador-scope .text-yellow-600 { color: var(--ctz-warning) !important; }
+.cotizador-scope .text-amber-800,
+.cotizador-scope .text-amber-700 { color: var(--ctz-warning) !important; }
+
+/* Purple text */
+.cotizador-scope .text-purple-700 { color: rgb(168, 85, 247) !important; }
+
+/* Gray text */
+.cotizador-scope .text-gray-500,
+.cotizador-scope .text-gray-400 { color: var(--ctz-text-muted) !important; }
+
+/* ── Borders ── */
+.cotizador-scope .border-slate-100,
+.cotizador-scope .border-slate-200,
+.cotizador-scope .border-slate-300 { border-color: var(--ctz-border) !important; }
+.cotizador-scope .border-slate-200\/80 { border-color: var(--ctz-border) !important; }
+.cotizador-scope .hover\:border-slate-300:hover { border-color: var(--ctz-border-hover) !important; }
+.cotizador-scope .border-dashed { border-style: dashed !important; }
+
+/* Sky borders */
+.cotizador-scope .border-sky-50 { border-color: var(--ctz-accent-light) !important; }
+.cotizador-scope .border-sky-100 { border-color: var(--ctz-accent-light) !important; }
+.cotizador-scope .border-sky-200 { border-color: var(--ctz-accent) !important; opacity: 0.3; }
+.cotizador-scope .border-sky-200\/80 { border-color: var(--ctz-accent) !important; opacity: 0.3; }
+.cotizador-scope .border-sky-500 { border-color: var(--ctz-accent) !important; }
+.cotizador-scope .focus\:border-sky-500:focus { border-color: var(--ctz-accent) !important; }
+
+/* Blue borders */
+.cotizador-scope .border-blue-100,
+.cotizador-scope .border-blue-200 { border-color: var(--ctz-accent) !important; opacity: 0.2; }
+
+/* Green/emerald borders */
+.cotizador-scope .border-emerald-200 { border-color: var(--ctz-success) !important; opacity: 0.3; }
+
+/* Red borders */
+.cotizador-scope .border-red-400,
+.cotizador-scope .border-red-500 { border-color: var(--ctz-error) !important; }
+
+/* Yellow/amber borders */
+.cotizador-scope .border-yellow-200 { border-color: var(--ctz-warning) !important; opacity: 0.3; }
+.cotizador-scope .border-amber-200,
+.cotizador-scope .border-amber-300 { border-color: var(--ctz-warning) !important; opacity: 0.3; }
+
+/* ── Focus rings ── */
+.cotizador-scope .focus\:ring-sky-500:focus,
+.cotizador-scope .focus\:ring-sky-500\/50:focus {
+  --tw-ring-color: var(--ctz-accent-ring) !important;
+}
+
+/* ── Shadows ── */
+.cotizador-scope .shadow-sm { box-shadow: var(--ctz-shadow-sm) !important; }
+.cotizador-scope .shadow-md { box-shadow: var(--ctz-shadow-md) !important; }
+.cotizador-scope .shadow-lg { box-shadow: var(--ctz-shadow-lg) !important; }
+.cotizador-scope .shadow-xl { box-shadow: var(--ctz-shadow-lg) !important; }
+.cotizador-scope .hover\:shadow-lg:hover { box-shadow: var(--ctz-shadow-lg) !important; }
+.cotizador-scope .hover\:shadow-xl:hover { box-shadow: var(--ctz-shadow-lg) !important; }
+
+/* ── Placeholder ── */
+.cotizador-scope .placeholder\:text-slate-400::placeholder,
+.cotizador-scope .placeholder\:opacity-60::placeholder {
+  color: var(--ctz-text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* ── Divide ── */
+.cotizador-scope .divide-slate-100 > * + *,
+.cotizador-scope .divide-slate-200 > * + * {
+  border-color: var(--ctz-border) !important;
+}
+
