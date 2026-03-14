@@ -17,9 +17,9 @@ import CotizadorHeaderV2 from "./components/CotizadorHeaderV2";
 import { BoxesCardV2 } from "./components/BoxesCardV2";
 import { ProductCardV2 } from "./components/ProductCardV2";
 import { ImpuestosTasasCardV2 } from "./components/ImpuestosTasasCardV2";
-import { SummaryCardV2 } from "./components/SummaryCardV2";
 import { ShippingCostsCardV2 } from "./components/ShippingCostsCardV2";
 import { DiscountCardV2 } from "./components/DiscountCardV2";
+import { ExecutiveSummary } from "./components/ExecutiveSummary";
 
 // UI Compartida
 import { Button } from "@/shared/components/ui/Button";
@@ -455,7 +455,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
         {/* SECCIÓN 2: RESULTADOS       */}
         {/* =========================== */}
         {mostrarResultados && (
-          <div className="animate-fade-in space-y-8" id="resultados-seccion">
+          <div style={{ animation: 'ctz-fade-in 300ms ease-out' }} id="resultados-seccion">
             
             {/* Section header */}
             <div
@@ -464,6 +464,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
                 paddingLeft: "14px",
                 paddingTop: "2px",
                 paddingBottom: "2px",
+                marginBottom: "24px",
               }}
             >
               <h2 style={{
@@ -484,9 +485,11 @@ export default function CotizadorV2App({ datosCotizacion }) {
               </p>
             </div>
 
-            <div className="flex flex-col gap-6">
-              {/* Bloque 1: Envío Internacional (Logística Shippar) */}
-              <div className="w-full">
+            {/* Two-column layout: detail left, summary right sticky */}
+            <div className="ctz-results-grid">
+              {/* LEFT — Detail sections */}
+              <div className="ctz-results-detail" style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+                {/* Shipping method selection */}
                 <ShippingCostsCardV2
                   pesoComputableTotal={pesoComputableTotal}
                   cantidadCajas={cajas.length}
@@ -494,10 +497,11 @@ export default function CotizadorV2App({ datosCotizacion }) {
                   tipoEnvio={tipoEnvio}
                   setTipoEnvio={setTipoEnvio}
                 />
-              </div>
 
-              {/* Bloque 2: Impuestos y Tasas (Costo Aduanero) */}
-              <div className="w-full">
+                {/* Divider */}
+                <div style={{ height: '1px', background: 'var(--ctz-border)' }} />
+
+                {/* Tax breakdown */}
                 <ImpuestosTasasCardV2
                   categoriaSeleccionada={categoriaSeleccionada}
                   valorCif={valorCif}
@@ -507,20 +511,17 @@ export default function CotizadorV2App({ datosCotizacion }) {
                 />
               </div>
 
-              {/* Bloque 3: Resumen Final (Visión 360 de la operación) */}
-              <div className="w-full mt-2">
-                <SummaryCardV2
+              {/* RIGHT — Executive summary (sticky) */}
+              <div className="ctz-results-summary">
+                <ExecutiveSummary
                   valorFob={valorFob}
-                  impuestos={impuestos}
+                  costoEnvio={envioInfo[tipoEnvio]}
                   totalImpuestos={totalImpuestos}
                   gastoDocumental={gastoDocumental}
                   costoImportacion={costoImportacionSeleccionado}
                   costoFinalTotal={costoFinalTotalSeleccionado}
-                  categoriaSeleccionada={categoriaSeleccionada}
-                  cajas={cajas}
-                  pesoComputableTotal={pesoComputableTotal}
-                  envioInfo={envioInfo}
                   tipoEnvio={tipoEnvio}
+                  aplicoDescuento={envioInfo.aplicoDescuento}
                   codigoDescuento={codigoDescuento}
                 />
               </div>

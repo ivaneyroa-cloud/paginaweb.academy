@@ -864,6 +864,26 @@
 }
 
 /* ═══════════════════════════════════════════════════════
+   Results Layout — responsive grid
+   ═══════════════════════════════════════════════════════ */
+.ctz-results-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.ctz-results-detail { order: 2; }
+.ctz-results-summary { order: 1; }
+
+@media (min-width: 1024px) {
+  .ctz-results-grid {
+    grid-template-columns: 1fr 320px;
+  }
+  .ctz-results-detail { order: 1; }
+  .ctz-results-summary { order: 2; }
+}
+
+/* ═══════════════════════════════════════════════════════
    Overrides — scope isolation
    ═══════════════════════════════════════════════════════ */
 .cotizador-scope,
