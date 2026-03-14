@@ -2,8 +2,9 @@ import React from "react";
 import { FaTruckPlane } from "react-icons/fa6";
 
 /**
- * CotizadorHeaderV2 — Compact, premium header with minimal stepper.
- * Uses CSS variables for dark/light parity. Zero hardcoded colors.
+ * CotizadorHeaderV2 — Compact, responsive header with minimal stepper.
+ * Mobile-first: description hidden, smaller icon/stepper on small screens.
+ * Uses CSS classes from cotizador.css for responsive behavior.
  */
 export default function CotizadorHeaderV2() {
   const steps = [
@@ -14,30 +15,20 @@ export default function CotizadorHeaderV2() {
 
   return (
     <div
+      className="ctz-header-card"
       style={{
-        marginBottom: "24px",
         background: "var(--ctz-bg-elevated)",
         border: "1px solid var(--ctz-border)",
         borderRadius: "var(--ctz-radius-md)",
-        padding: "20px 24px",
         transition: "border-color 250ms ease-out",
       }}
     >
       {/* Title row */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "14px",
-          marginBottom: "16px",
-        }}
-      >
+      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
         <div
+          className="ctz-header-icon"
           style={{
             flexShrink: 0,
-            width: "36px",
-            height: "36px",
-            borderRadius: "10px",
             background: "var(--ctz-accent-light)",
             color: "var(--ctz-accent)",
             display: "flex",
@@ -45,13 +36,12 @@ export default function CotizadorHeaderV2() {
             justifyContent: "center",
           }}
         >
-          <FaTruckPlane size={18} />
+          <FaTruckPlane />
         </div>
         <div>
           <h1
             style={{
               margin: 0,
-              fontSize: "1.125rem",
               fontWeight: 700,
               color: "var(--ctz-text-primary)",
               letterSpacing: "-0.02em",
@@ -61,8 +51,9 @@ export default function CotizadorHeaderV2() {
             Cotizador de Importaciones
           </h1>
           <p
+            className="ctz-header-desc"
             style={{
-              margin: "4px 0 0",
+              margin: "3px 0 0",
               fontSize: "0.8125rem",
               color: "var(--ctz-text-secondary)",
               lineHeight: 1.5,
@@ -75,38 +66,21 @@ export default function CotizadorHeaderV2() {
 
       {/* Divider */}
       <div
-        style={{
-          height: "1px",
-          background: "var(--ctz-border)",
-          marginBottom: "14px",
-        }}
+        className="ctz-header-divider"
+        style={{ height: "1px", background: "var(--ctz-border)" }}
       />
 
       {/* Minimal stepper */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0",
-        }}
-      >
+      <div style={{ display: "flex", alignItems: "center" }}>
         {steps.map((step, i) => (
           <React.Fragment key={step.num}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <div
+                className="ctz-stepper-step-num"
                 style={{
-                  width: "22px",
-                  height: "22px",
                   borderRadius: "50%",
                   background: step.num === 3 ? "var(--ctz-success)" : "var(--ctz-accent)",
                   color: "#ffffff",
-                  fontSize: "0.6875rem",
                   fontWeight: 700,
                   display: "flex",
                   alignItems: "center",
@@ -117,8 +91,8 @@ export default function CotizadorHeaderV2() {
                 {step.num}
               </div>
               <span
+                className="ctz-stepper-step-label"
                 style={{
-                  fontSize: "0.75rem",
                   fontWeight: 600,
                   color: "var(--ctz-text-secondary)",
                   letterSpacing: "0.02em",
@@ -130,16 +104,11 @@ export default function CotizadorHeaderV2() {
               </span>
             </div>
 
-            {/* Connector line */}
+            {/* Connector */}
             {i < steps.length - 1 && (
               <div
-                style={{
-                  flex: 1,
-                  height: "1px",
-                  background: "var(--ctz-border-hover)",
-                  margin: "0 12px",
-                  minWidth: "16px",
-                }}
+                className="ctz-stepper-connector"
+                style={{ flex: 1, height: "1px", background: "var(--ctz-border-hover)" }}
               />
             )}
           </React.Fragment>

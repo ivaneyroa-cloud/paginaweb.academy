@@ -343,13 +343,13 @@ export default function CotizadorV2App({ datosCotizacion }) {
   }
 
   return (
-    <main className="min-h-screen p-4 py-14 lg:py-18">
+    <main className="ctz-main min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* Header V2 */}
         <CotizadorHeaderV2 />
 
-        {/* Acceso preferencial — above inputs */}
-        <div style={{ marginBottom: '16px' }}>
+        {/* Acceso preferencial */}
+        <div className="ctz-discount-card">
           <DiscountCardV2
             ref={discountCardRef}
             porcentajeDescuento={porcentajeDescuento}
@@ -362,8 +362,8 @@ export default function CotizadorV2App({ datosCotizacion }) {
         {/* =========================== */}
         {/* SECCIÓN 1: INPUTS           */}
         {/* =========================== */}
-        <div className="mb-8 space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="ctz-inputs-section">
+          <div className="ctz-inputs-grid grid grid-cols-1 lg:grid-cols-5">
             {/* Paso 1: Información del Producto (2/5 del ancho) */}
             <div className="lg:col-span-2">
               <ProductCardV2
@@ -389,7 +389,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
         {/* =========================== */}
         {/* ZONA DE ACCIÓN Y TRANSICIÓN */}
         {/* =========================== */}
-        <div style={{ position: "relative", margin: "32px 0" }} id="resultados-seccion">
+        <div className="ctz-cta-zone" style={{ position: "relative" }} id="resultados-seccion">
           
           {/* Divider line */}
           <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center" }} aria-hidden="true">
@@ -464,8 +464,8 @@ export default function CotizadorV2App({ datosCotizacion }) {
                 paddingLeft: "14px",
                 paddingTop: "2px",
                 paddingBottom: "2px",
-                marginBottom: "24px",
               }}
+              className="ctz-results-header"
             >
               <h2 style={{
                 margin: 0,
@@ -488,7 +488,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
             {/* Two-column layout: detail left, summary right sticky */}
             <div className="ctz-results-grid">
               {/* LEFT — Detail sections */}
-              <div className="ctz-results-detail" style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              <div className="ctz-results-detail" style={{ display: "flex", flexDirection: "column" }}>
                 {/* Shipping method selection */}
                 <ShippingCostsCardV2
                   pesoComputableTotal={pesoComputableTotal}

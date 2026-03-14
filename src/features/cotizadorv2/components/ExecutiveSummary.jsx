@@ -83,13 +83,11 @@ export const ExecutiveSummary = ({
 
   return (
     <div
+      className="ctz-executive-summary"
       style={{
-        position: "sticky",
-        top: "80px",
         background: "var(--ctz-bg-elevated)",
         border: "1px solid var(--ctz-accent)",
         borderRadius: "var(--ctz-radius-md)",
-        padding: "20px",
         boxShadow: "var(--ctz-shadow-md)",
       }}
     >

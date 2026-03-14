@@ -120,9 +120,10 @@ export const ShippingCostsCardV2 = ({
         Seleccioná tu método de envío
       </p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+      <div className="ctz-shipping-options" style={{ display: "grid" }}>
         {/* Standard */}
         <button
+          className="ctz-shipping-option"
           onClick={() => setTipoEnvio("standard")}
           style={optionStyle(tipoEnvio === "standard", "var(--ctz-accent)")}
         >
@@ -164,6 +165,7 @@ export const ShippingCostsCardV2 = ({
 
         {/* Express */}
         <button
+          className="ctz-shipping-option"
           onClick={() => setTipoEnvio("express")}
           style={optionStyle(tipoEnvio === "express", "rgb(168, 85, 247)")}
         >

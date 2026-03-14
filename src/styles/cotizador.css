@@ -869,7 +869,7 @@
 .ctz-results-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 
 .ctz-results-detail { order: 2; }
@@ -878,9 +878,219 @@
 @media (min-width: 1024px) {
   .ctz-results-grid {
     grid-template-columns: 1fr 320px;
+    gap: 24px;
   }
   .ctz-results-detail { order: 1; }
   .ctz-results-summary { order: 2; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Mobile-first density optimization
+   ═══════════════════════════════════════════════════════ */
+
+/* Main container — reduce side padding on mobile */
+.ctz-main {
+  padding: 12px 12px 24px;
+  padding-top: 56px; /* navbar clearance */
+}
+
+@media (min-width: 768px) {
+  .ctz-main {
+    padding: 16px 16px 32px;
+    padding-top: 72px;
+  }
+}
+
+/* Header intro card — compact on mobile */
+.ctz-header-card {
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.ctz-header-card .ctz-header-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.ctz-header-card .ctz-header-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ctz-header-card h1 {
+  font-size: 0.9375rem;
+}
+
+.ctz-header-card .ctz-header-desc {
+  display: none; /* hide description on mobile */
+}
+
+.ctz-header-card .ctz-header-divider {
+  margin-bottom: 10px;
+}
+
+/* Stepper — more compact on mobile */
+.ctz-stepper-step-num {
+  width: 20px;
+  height: 20px;
+  font-size: 0.625rem;
+}
+
+.ctz-stepper-step-label {
+  font-size: 0.6875rem;
+}
+
+.ctz-stepper-connector {
+  margin: 0 8px;
+  min-width: 12px;
+}
+
+@media (min-width: 768px) {
+  .ctz-header-card {
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+
+  .ctz-header-card .ctz-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .ctz-header-card .ctz-header-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ctz-header-card h1 {
+    font-size: 1.125rem;
+  }
+
+  .ctz-header-card .ctz-header-desc {
+    display: block;
+  }
+
+  .ctz-header-card .ctz-header-divider {
+    margin-bottom: 14px;
+  }
+
+  .ctz-stepper-step-num {
+    width: 22px;
+    height: 22px;
+    font-size: 0.6875rem;
+  }
+
+  .ctz-stepper-step-label {
+    font-size: 0.75rem;
+  }
+
+  .ctz-stepper-connector {
+    margin: 0 12px;
+    min-width: 16px;
+  }
+}
+
+/* Discount card — tighter on mobile */
+.ctz-discount-card {
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .ctz-discount-card {
+    margin-bottom: 16px;
+  }
+}
+
+/* Input cards grid — reduce gap on mobile */
+.ctz-inputs-section {
+  margin-bottom: 16px;
+}
+
+.ctz-inputs-section .ctz-inputs-grid {
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .ctz-inputs-section {
+    margin-bottom: 32px;
+  }
+  .ctz-inputs-section .ctz-inputs-grid {
+    gap: 24px;
+  }
+}
+
+/* CTA zone — tighter margin on mobile */
+.ctz-cta-zone {
+  margin: 20px 0;
+}
+
+@media (min-width: 768px) {
+  .ctz-cta-zone {
+    margin: 32px 0;
+  }
+}
+
+/* Results section — tighter spacing on mobile */
+.ctz-results-header {
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .ctz-results-header {
+    margin-bottom: 24px;
+  }
+}
+
+/* Executive summary — non-sticky on mobile, compact padding */
+.ctz-executive-summary {
+  padding: 16px;
+  position: relative;
+  top: auto;
+}
+
+@media (min-width: 1024px) {
+  .ctz-executive-summary {
+    padding: 20px;
+    position: sticky;
+    top: 80px;
+  }
+}
+
+/* Detail sections — reduced gap on mobile */
+.ctz-results-detail {
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .ctz-results-detail {
+    gap: 32px;
+  }
+}
+
+/* Shipping options — stack on very small screens */
+.ctz-shipping-options {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 480px) {
+  .ctz-shipping-options {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+/* Touch targets — minimum 44px on mobile */
+.ctz-shipping-option {
+  min-height: 44px;
+  padding: 14px;
+}
+
+@media (min-width: 768px) {
+  .ctz-shipping-option {
+    padding: 16px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
