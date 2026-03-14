@@ -1,15 +1,5 @@
 @import "tailwindcss";
 
-/* ── MapLibre overrides for premium dark panel ── */
-.maplibregl-ctrl-attrib,
-.maplibregl-ctrl-logo {
-  display: none !important;
-}
-
-.maplibregl-canvas {
-  outline: none;
-}
-
 :root {
   /* Shippar Design System */
   --background: #050b1f;
