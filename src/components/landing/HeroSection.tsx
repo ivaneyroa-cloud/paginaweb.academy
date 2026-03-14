@@ -279,7 +279,7 @@ export default function HeroSection() {
                     align-items: center;
                     overflow-y: auto;
                     -webkit-overflow-scrolling: touch;
-                    padding: 60px 12px 40px;
+                    padding: 80px 12px calc(40px + env(safe-area-inset-bottom));
                 }
                 @media (min-width: 768px) {
                     .pipeline-overlay {
@@ -495,6 +495,26 @@ export default function HeroSection() {
                             }}
                         >
                             <X size={18} strokeWidth={2.5} />
+                        </motion.button>
+
+                        {/* Bottom close button for mobile thumb zone */}
+                        <motion.button
+                            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+                            onClick={closeOverlay}
+                            className="md:hidden"
+                            style={{
+                                position: "fixed", bottom: "calc(20px + env(safe-area-inset-bottom))", left: "50%", transform: "translateX(-50%)",
+                                padding: "12px 32px", borderRadius: 12,
+                                background: "rgba(255,255,255,0.1)",
+                                border: "1px solid rgba(255,255,255,0.18)",
+                                color: "#FFFFFF",
+                                cursor: "pointer",
+                                fontSize: 14, fontWeight: 600,
+                                zIndex: 10001,
+                                display: "flex", alignItems: "center", gap: 8,
+                            }}
+                        >
+                            <X size={16} /> Cerrar
                         </motion.button>
 
                         <motion.div

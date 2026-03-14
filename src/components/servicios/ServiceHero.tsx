@@ -235,7 +235,7 @@ export default function ServiceHero({
                     right: "-15%",
                     background:
                         "radial-gradient(ellipse 60% 50%, rgba(43,192,255,0.02) 0%, transparent 60%)",
-                    filter: "blur(100px)",
+                    filter: "blur(40px)",
                 }}
             />
 
@@ -420,6 +420,13 @@ export default function ServiceHero({
                                 {data.ctaSecondary.label}
                             </motion.a>
                         </motion.div>
+
+                        {/* Mobile-only compact stats */}
+                        {hasStats && (
+                            <div className="lg:hidden mt-6">
+                                <StatsBar stats={data.stats!} isInView={isInView} />
+                            </div>
+                        )}
                     </div>
 
                     {/* RIGHT — Dashboard Visual */}
@@ -433,7 +440,7 @@ export default function ServiceHero({
                             delay: 0.2,
                             ease: EASE_SMOOTH,
                         }}
-                        className="flex items-center justify-center lg:justify-end"
+                        className="flex items-center justify-center lg:justify-end hidden lg:flex"
                     >
                         <div
                             className="w-full max-w-md"
