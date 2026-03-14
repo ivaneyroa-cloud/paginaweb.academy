@@ -176,7 +176,7 @@ export default function CTASection() {
 
                     <p
                         className="mt-2 text-center text-sm mb-8"
-                        style={{ color: "rgba(255,255,255,0.60)" }}
+                        style={{ color: "rgba(255,255,255,0.70)" }}
                     >
                         {t("cta.card_sub")}
                     </p>
@@ -246,10 +246,11 @@ export default function CTASection() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                                 {/* Nombre */}
                                 <div>
-                                    <label className={LABEL_CLS} style={LABEL_STYLE}>
+                                    <label htmlFor="cta-nombre" className={LABEL_CLS} style={LABEL_STYLE}>
                                         {t("cta.label_nombre")}
                                     </label>
                                     <input
+                                        id="cta-nombre"
                                         type="text"
                                         value={nombre}
                                         onChange={(e) => setNombre(e.target.value)}
@@ -264,10 +265,11 @@ export default function CTASection() {
 
                                 {/* Teléfono */}
                                 <div>
-                                    <label className={LABEL_CLS} style={LABEL_STYLE}>
+                                    <label htmlFor="cta-telefono" className={LABEL_CLS} style={LABEL_STYLE}>
                                         {t("cta.label_telefono")}
                                     </label>
                                     <input
+                                        id="cta-telefono"
                                         type="tel"
                                         value={telefono}
                                         onChange={(e) => setTelefono(e.target.value)}
@@ -282,11 +284,12 @@ export default function CTASection() {
 
                                 {/* Origin */}
                                 <div>
-                                    <label className={LABEL_CLS} style={LABEL_STYLE}>
+                                    <label htmlFor="cta-origen" className={LABEL_CLS} style={LABEL_STYLE}>
                                         {t("cta.label_origen")}
                                     </label>
                                     <div className="relative">
                                         <select
+                                            id="cta-origen"
                                             value={origin}
                                             onChange={(e) => setOrigin(e.target.value)}
                                             disabled={isDisabled}
@@ -314,11 +317,12 @@ export default function CTASection() {
 
                                 {/* Weight */}
                                 <div>
-                                    <label className={LABEL_CLS} style={LABEL_STYLE}>
+                                    <label htmlFor="cta-peso" className={LABEL_CLS} style={LABEL_STYLE}>
                                         {t("cta.label_peso")}
                                     </label>
                                     <div className="relative">
                                         <input
+                                            id="cta-peso"
                                             type="text"
                                             value={weight}
                                             onChange={(e) => setWeight(e.target.value)}

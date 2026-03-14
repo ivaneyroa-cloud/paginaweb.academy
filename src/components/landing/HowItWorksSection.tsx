@@ -226,7 +226,7 @@ function MobileHowItWorks() {
                     </h2>
                     <p
                         className="mt-2 text-sm sm:text-base"
-                        style={{ color: "rgba(255,255,255,0.5)" }}
+                        style={{ color: "rgba(255,255,255,0.65)" }}
                     >
                         {t("how.subtitle")}
                     </p>
@@ -398,11 +398,11 @@ function MobileOperationalPanel({ step }: { step: (typeof STEPS)[number] }) {
             {/* Status + Route row */}
             <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.5)" }}>
+                    <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.65)" }}>
                         {step.panel.origin}
                     </span>
                     <ArrowRight size={12} style={{ color: "var(--primary)", opacity: 0.4 }} />
-                    <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.5)" }}>
+                    <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.65)" }}>
                         {step.panel.destination}
                     </span>
                 </div>
@@ -615,7 +615,7 @@ function DesktopHowItWorks() {
                         </h2>
                         <p
                             className="mt-3 text-base"
-                            style={{ color: "rgba(255,255,255,0.5)" }}
+                            style={{ color: "rgba(255,255,255,0.65)" }}
                         >
                             {t("how.subtitle")}
                         </p>

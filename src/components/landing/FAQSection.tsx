@@ -110,7 +110,7 @@ export default function FAQSection() {
                     <p
                         className="text-xs uppercase tracking-widest mb-3"
                         style={{
-                            color: "rgba(255,255,255,0.35)",
+                            color: "rgba(255,255,255,0.50)",
                             fontWeight: 600,
                         }}
                     >
@@ -124,7 +124,7 @@ export default function FAQSection() {
                     </h2>
                     <p
                         className="mt-3 text-base max-w-lg mx-auto"
-                        style={{ color: "rgba(255,255,255,0.45)" }}
+                        style={{ color: "rgba(255,255,255,0.55)" }}
                     >
                         Las dudas más comunes sobre courier internacional,
                         aduana, costos y proveedores.
@@ -147,9 +147,12 @@ export default function FAQSection() {
                                 }}
                             >
                                 <button
+                                    id={`faq-btn-${i}`}
                                     onClick={() =>
                                         setOpenIdx(isOpen ? null : i)
                                     }
+                                    aria-expanded={isOpen}
+                                    aria-controls={`faq-panel-${i}`}
                                     className="w-full text-left flex items-center justify-between gap-4 px-5 py-4 rounded-xl transition-all duration-300"
                                     style={{
                                         background: isOpen
@@ -194,6 +197,9 @@ export default function FAQSection() {
                                 <AnimatePresence>
                                     {isOpen && (
                                         <motion.div
+                                            id={`faq-panel-${i}`}
+                                            role="region"
+                                            aria-labelledby={`faq-btn-${i}`}
                                             initial={{
                                                 height: 0,
                                                 opacity: 0,
@@ -215,7 +221,7 @@ export default function FAQSection() {
                                             <p
                                                 className="text-sm leading-relaxed px-5 py-3"
                                                 style={{
-                                                    color: "rgba(255,255,255,0.55)",
+                                                    color: "rgba(255,255,255,0.65)",
                                                     lineHeight: 1.7,
                                                 }}
                                             >

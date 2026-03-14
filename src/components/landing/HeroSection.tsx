@@ -366,7 +366,7 @@ export default function HeroSection() {
                                 marginTop: 36,
                                 fontSize: "clamp(1.05rem, 2vw, 1.22rem)",
                                 lineHeight: 1.78,
-                                color: "rgba(255,255,255,0.62)",
+                                color: "rgba(255,255,255,0.72)",
                                 maxWidth: 580,
                             }}
                         >
