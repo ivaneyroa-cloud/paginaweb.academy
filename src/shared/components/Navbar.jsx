@@ -8,12 +8,14 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { UserMenu } from "@/features/auth";
 import ThemeToggle from "@/shared/components/ThemeToggle";
+import { useTheme } from "@/shared/context/ThemeContext";
 
 export const NavBar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,55 +43,182 @@ export const NavBar = () => {
   const navItems = [
     {
       href: "/cotizadorv2",
-      label: "Cotizador de Envío",
-      icon: <TbTruckDelivery size={22} />,
+      label: "Cotizador",
+      icon: <TbTruckDelivery size={18} />,
     },
     {
       href: "/calculadora",
-      label: "Calculadora Rentabilidad",
-      icon: <IoCalculatorOutline size={22} />,
+      label: "Calculadora",
+      icon: <IoCalculatorOutline size={18} />,
     },
   ];
 
   return (
     <header
       ref={menuRef}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b ${
-        scrolled || isOpen
-          ? "bg-white/90 backdrop-blur-md border-sky-200/50 shadow-sm"
-          : "bg-transparent border-transparent"
-      }`}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        zIndex: 50,
+        height: '60px',
+        borderBottom: '1px solid var(--ctz-border)',
+        background: scrolled || isOpen
+          ? (theme === 'dark' ? 'rgba(5, 11, 31, 0.9)' : 'rgba(248, 250, 252, 0.9)')
+          : 'transparent',
+        backdropFilter: scrolled || isOpen ? 'blur(16px)' : 'none',
+        WebkitBackdropFilter: scrolled || isOpen ? 'blur(16px)' : 'none',
+        transition: 'background 300ms ease-out, backdrop-filter 300ms ease-out',
+      }}
     >
-      {/* CAMBIO 1: h-20 a h-24 (Más alto) */}
-      <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '0 24px',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
         
         {/* --- LOGO --- */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <img 
-            src="/logo.png" 
+            src={theme === 'dark' ? '/logo-dark.png' : '/logo-light.png'}
             alt="Shippar" 
-            className="h-10 md:h-11 object-contain transition-transform group-hover:scale-105 mt-4" 
+            style={{
+              height: '32px',
+              objectFit: 'contain',
+              transition: 'opacity 200ms ease-out',
+            }}
           />
         </Link>
 
-        {/* --- DESKTOP MENU --- */}
-        <div className="hidden md:flex items-center gap-6">
-            
-          {/* Contenedor "Isla" */}
-          <nav className="flex items-center bg-white p-1.5 rounded-full border border-sky-200 shadow-sm">
+        {/* --- DESKTOP NAV --- */}
+        <nav className="hidden md:flex" style={{
+          alignItems: 'center',
+          gap: '4px',
+        }}>
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 16px',
+                  borderRadius: 'var(--ctz-radius-sm)',
+                  fontSize: '0.875rem',
+                  fontWeight: isActive ? 600 : 500,
+                  color: isActive ? 'var(--ctz-accent)' : 'var(--ctz-text-secondary)',
+                  background: isActive ? 'var(--ctz-accent-light)' : 'transparent',
+                  textDecoration: 'none',
+                  transition: 'all 200ms ease-out',
+                  position: 'relative',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.color = 'var(--ctz-text-primary)';
+                    e.currentTarget.style.background = 'var(--ctz-accent-light)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.color = 'var(--ctz-text-secondary)';
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
+              >
+                <span style={{ 
+                  color: isActive ? 'var(--ctz-accent)' : 'var(--ctz-text-muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}>
+                  {item.icon}
+                </span>
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* --- RIGHT SECTION --- */}
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: '8px' }}>
+          <ThemeToggle />
+          
+          <div style={{
+            width: '1px',
+            height: '20px',
+            background: 'var(--ctz-border)',
+            margin: '0 4px',
+          }} />
+
+          <UserMenu />
+        </div>
+
+        {/* --- MOBILE TOGGLE --- */}
+        <button
+          className="md:hidden"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+          style={{
+            padding: '8px',
+            borderRadius: 'var(--ctz-radius-sm)',
+            color: 'var(--ctz-text-secondary)',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'color 200ms ease-out',
+          }}
+        >
+          {isOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
+        </button>
+      </div>
+
+      {/* --- MOBILE MENU --- */}
+      {isOpen && (
+        <div 
+          className="md:hidden"
+          style={{
+            background: theme === 'dark' ? 'rgba(5, 11, 31, 0.95)' : 'rgba(248, 250, 252, 0.97)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderTop: '1px solid var(--ctz-border)',
+            padding: '12px 16px',
+            animation: 'ctz-fade-in 200ms ease-out',
+          }}
+        >
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-200 ${
-                    isActive
-                      ? "bg-sky-600 text-white shadow-md shadow-sky-600/20"
-                      : "text-sky-700 hover:bg-sky-50"
-                  }`}
+                  onClick={() => setIsOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '12px 16px',
+                    borderRadius: 'var(--ctz-radius-sm)',
+                    fontSize: '0.9375rem',
+                    fontWeight: isActive ? 600 : 500,
+                    color: isActive ? 'var(--ctz-accent)' : 'var(--ctz-text-secondary)',
+                    background: isActive ? 'var(--ctz-accent-light)' : 'transparent',
+                    textDecoration: 'none',
+                    transition: 'all 200ms ease-out',
+                  }}
                 >
-                  <span className={isActive ? "text-sky-100" : "text-sky-400 group-hover:text-sky-600"}>
+                  <span style={{ 
+                    color: isActive ? 'var(--ctz-accent)' : 'var(--ctz-text-muted)',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}>
                     {item.icon}
                   </span>
                   {item.label}
@@ -97,55 +226,18 @@ export const NavBar = () => {
               );
             })}
           </nav>
-
-          <div className="h-8 w-px bg-sky-200 mx-1"></div>
-
-          <ThemeToggle />
-          <UserMenu />
-        </div>
-
-        {/* --- MOBILE TOGGLE --- */}
-        <button
-          className="md:hidden text-sky-700 p-2 rounded-lg hover:bg-sky-50 transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <HiX size={32} /> : <HiMenuAlt3 size={32} />}
-        </button>
-      </div>
-
-      {/* --- MOBILE MENU --- */}
-      {isOpen && (
-        <div className="md:hidden bg-white border-t border-sky-100 shadow-lg animate-fade-in">
-          <nav className="flex flex-col p-4 space-y-3">
-            {navItems.map((item) => {
-               const isActive = pathname === item.href;
-               return (
-                <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    // CAMBIO 2: Lógica de colores Mobile (Todo Celeste)
-                    className={`flex items-center gap-3 px-4 py-4 rounded-xl border transition-all ${
-                    isActive
-                        ? "bg-sky-600 text-white border-sky-600 font-bold shadow-md"
-                        : "bg-sky-50 text-sky-700 border-sky-100 hover:bg-sky-100 font-semibold" 
-                        // ^ Aquí cambiamos el gris por bg-sky-50 y text-sky-700
-                    }`}
-                >
-                    <span className={isActive ? "text-sky-100" : "text-sky-500"}>
-                        {item.icon}
-                    </span>
-                    {item.label}
-                </Link>
-               );
-            })}
-            
-            <div className="pt-4 border-t border-sky-100 mt-2 flex items-center justify-between">
-              <ThemeToggle />
-              <UserMenu isMobile={true} />
-            </div>
-          </nav>
+          
+          <div style={{
+            marginTop: '12px',
+            paddingTop: '12px',
+            borderTop: '1px solid var(--ctz-border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+            <ThemeToggle />
+            <UserMenu isMobile={true} />
+          </div>
         </div>
       )}
     </header>

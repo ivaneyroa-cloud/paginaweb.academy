@@ -3,24 +3,25 @@
    Inspired by Wise · Mercury · Linear
    ═══════════════════════════════════════════════════════ */
 
-/* ──── Design Tokens — Light (default) ──── */
+/* ──── Design Tokens — Light ──── */
 [data-theme="light"],
 .cotizador-scope {
-  --ctz-bg-primary: #ffffff;
-  --ctz-bg-secondary: #f8fafc;
-  --ctz-bg-tertiary: #f1f5f9;
+  --ctz-bg-primary: #f8fafc;
+  --ctz-bg-secondary: #f1f5f9;
+  --ctz-bg-tertiary: #e2e8f0;
   --ctz-bg-elevated: #ffffff;
   --ctz-bg-input: #ffffff;
+  --ctz-bg-surface: #ffffff;
 
   --ctz-text-primary: #0f172a;
-  --ctz-text-secondary: #64748b;
+  --ctz-text-secondary: #475569;
   --ctz-text-muted: #94a3b8;
   --ctz-text-inverse: #ffffff;
 
   --ctz-accent: #1da1ff;
   --ctz-accent-hover: #0d8ce6;
   --ctz-accent-light: rgba(29, 161, 255, 0.08);
-  --ctz-accent-ring: rgba(29, 161, 255, 0.12);
+  --ctz-accent-ring: rgba(29, 161, 255, 0.16);
   --ctz-accent-gradient: linear-gradient(135deg, #1da1ff, #2bc0ff);
 
   --ctz-success: #22c55e;
@@ -30,13 +31,13 @@
   --ctz-warning: #f59e0b;
   --ctz-warning-light: rgba(245, 158, 11, 0.08);
 
-  --ctz-border: rgba(0, 0, 0, 0.06);
-  --ctz-border-hover: rgba(0, 0, 0, 0.12);
+  --ctz-border: rgba(0, 0, 0, 0.09);
+  --ctz-border-hover: rgba(0, 0, 0, 0.16);
   --ctz-border-focus: #1da1ff;
 
-  --ctz-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --ctz-shadow-md: 0 2px 12px rgba(0, 0, 0, 0.06);
-  --ctz-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --ctz-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ctz-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --ctz-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.09), 0 2px 6px rgba(0, 0, 0, 0.05);
 
   --ctz-radius-sm: 8px;
   --ctz-radius-md: 12px;
@@ -45,19 +46,25 @@
 
   --ctz-overlay: rgba(0, 0, 0, 0.4);
 
+  /* Glass properties (light — not used, set for consistency) */
+  --ctz-glass-bg: rgba(255, 255, 255, 0.7);
+  --ctz-glass-border: rgba(0, 0, 0, 0.06);
+  --ctz-glass-backdrop: blur(16px);
+
   color-scheme: light;
 }
 
-/* ──── Design Tokens — Dark ──── */
+/* ──── Design Tokens — Dark (inspired by shippar.net) ──── */
 [data-theme="dark"] .cotizador-scope,
 .cotizador-scope[data-theme="dark"] {
-  --ctz-bg-primary: #040916;
-  --ctz-bg-secondary: #050b1f;
-  --ctz-bg-tertiary: #0b1f3a;
-  --ctz-bg-elevated: #0e2445;
-  --ctz-bg-input: #0b1f3a;
+  --ctz-bg-primary: #050b1f;
+  --ctz-bg-secondary: #0a1628;
+  --ctz-bg-tertiary: #111d35;
+  --ctz-bg-elevated: rgba(255, 255, 255, 0.05);
+  --ctz-bg-input: rgba(255, 255, 255, 0.08);
+  --ctz-bg-surface: rgba(255, 255, 255, 0.03);
 
-  --ctz-text-primary: #e2e8f0;
+  --ctz-text-primary: #f1f5f9;
   --ctz-text-secondary: #94a3b8;
   --ctz-text-muted: #64748b;
   --ctz-text-inverse: #0f172a;
@@ -65,25 +72,30 @@
   --ctz-accent: #2bc0ff;
   --ctz-accent-hover: #1da1ff;
   --ctz-accent-light: rgba(43, 192, 255, 0.1);
-  --ctz-accent-ring: rgba(43, 192, 255, 0.15);
+  --ctz-accent-ring: rgba(43, 192, 255, 0.2);
   --ctz-accent-gradient: linear-gradient(135deg, #1da1ff, #2bc0ff);
 
-  --ctz-success: #22c55e;
-  --ctz-success-light: rgba(34, 197, 94, 0.1);
-  --ctz-error: #ef4444;
-  --ctz-error-light: rgba(239, 68, 68, 0.1);
-  --ctz-warning: #f59e0b;
-  --ctz-warning-light: rgba(245, 158, 11, 0.1);
+  --ctz-success: #34d399;
+  --ctz-success-light: rgba(52, 211, 153, 0.1);
+  --ctz-error: #f87171;
+  --ctz-error-light: rgba(248, 113, 113, 0.1);
+  --ctz-warning: #fbbf24;
+  --ctz-warning-light: rgba(251, 191, 36, 0.1);
 
-  --ctz-border: rgba(255, 255, 255, 0.06);
-  --ctz-border-hover: rgba(255, 255, 255, 0.12);
+  --ctz-border: rgba(255, 255, 255, 0.08);
+  --ctz-border-hover: rgba(255, 255, 255, 0.15);
   --ctz-border-focus: #2bc0ff;
 
-  --ctz-shadow-sm: none;
-  --ctz-shadow-md: none;
-  --ctz-shadow-lg: none;
+  --ctz-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --ctz-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --ctz-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
 
-  --ctz-overlay: rgba(0, 0, 0, 0.6);
+  --ctz-overlay: rgba(0, 0, 0, 0.7);
+
+  /* Glassmorphism card properties */
+  --ctz-glass-bg: rgba(255, 255, 255, 0.04);
+  --ctz-glass-border: rgba(255, 255, 255, 0.08);
+  --ctz-glass-backdrop: blur(16px);
 
   color-scheme: dark;
 }
@@ -190,6 +202,53 @@
 .ctz-card:hover {
   border-color: var(--ctz-border-hover);
   box-shadow: var(--ctz-shadow-md);
+}
+
+/* Card glassmorphism (dark mode auto-applies) */
+.cotizador-scope[data-theme="dark"] .ctz-card,
+[data-theme="dark"] .cotizador-scope .ctz-card,
+.cotizador-scope[data-theme="dark"] .bg-white,
+[data-theme="dark"] .cotizador-scope .bg-white {
+  background: var(--ctz-glass-bg) !important;
+  border-color: var(--ctz-glass-border) !important;
+  backdrop-filter: var(--ctz-glass-backdrop);
+  -webkit-backdrop-filter: var(--ctz-glass-backdrop);
+}
+
+/* Input visibility in dark mode */
+.cotizador-scope[data-theme="dark"] input,
+[data-theme="dark"] .cotizador-scope input,
+.cotizador-scope[data-theme="dark"] select,
+[data-theme="dark"] .cotizador-scope select,
+.cotizador-scope[data-theme="dark"] textarea,
+[data-theme="dark"] .cotizador-scope textarea {
+  background-color: var(--ctz-bg-input) !important;
+  color: var(--ctz-text-primary) !important;
+  border-color: var(--ctz-border-hover) !important;
+}
+
+.cotizador-scope[data-theme="dark"] input:focus,
+[data-theme="dark"] .cotizador-scope input:focus,
+.cotizador-scope[data-theme="dark"] select:focus,
+[data-theme="dark"] .cotizador-scope select:focus {
+  border-color: var(--ctz-border-focus) !important;
+  box-shadow: 0 0 0 3px var(--ctz-accent-ring) !important;
+}
+
+/* Light mode: ensure inputs have visible borders on white cards */
+.cotizador-scope[data-theme="light"] input,
+[data-theme="light"] .cotizador-scope input,
+.cotizador-scope[data-theme="light"] select,
+[data-theme="light"] .cotizador-scope select {
+  border-color: var(--ctz-border-hover) !important;
+}
+
+.cotizador-scope[data-theme="light"] input:focus,
+[data-theme="light"] .cotizador-scope input:focus,
+.cotizador-scope[data-theme="light"] select:focus,
+[data-theme="light"] .cotizador-scope select:focus {
+  border-color: var(--ctz-border-focus) !important;
+  box-shadow: 0 0 0 3px var(--ctz-accent-ring) !important;
 }
 
 .ctz-card-flat {
@@ -708,16 +767,22 @@
   z-index: -10;
   width: 100%;
   height: 100%;
-  background: var(--ctz-bg-secondary);
+  background: var(--ctz-bg-primary);
   transition: background 300ms ease-out;
 }
 
 .ctz-bg-dots {
   position: absolute;
   inset: 0;
-  opacity: 0.35;
+  opacity: 0.12;
   background-image: radial-gradient(circle, var(--ctz-border-hover) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* Dark mode: dots more visible */
+.cotizador-scope[data-theme="dark"] .ctz-bg-dots,
+[data-theme="dark"] .cotizador-scope .ctz-bg-dots {
+  opacity: 0.25;
 }
 
 .ctz-bg-glow {
@@ -726,11 +791,12 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 768px;
-  height: 256px;
+  max-width: 600px;
+  height: 200px;
   background: var(--ctz-accent-light);
-  filter: blur(100px);
+  filter: blur(120px);
   border-radius: 50%;
+  opacity: 0.6;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -790,7 +856,8 @@
    ═══════════════════════════════════════════════════════ */
 .cotizador-scope,
 .cotizador-scope * {
-  /* Scope isolation */
+  /* Scope isolation — prevents main site styles from leaking */
+  box-sizing: border-box;
 }
 
 /* Override main site body styles inside cotizador */
@@ -814,6 +881,7 @@
 
 .cotizador-scope input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* Scrollbar for cotizador scope */
@@ -828,6 +896,27 @@
 .cotizador-scope ::-webkit-scrollbar-thumb {
   background: var(--ctz-border-hover);
   border-radius: 3px;
+}
+
+/* Dark mode: navbar glass */
+.cotizador-scope[data-theme="dark"] .bg-white\/90,
+[data-theme="dark"] .cotizador-scope .bg-white\/90 {
+  background-color: rgba(5, 11, 31, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+/* Dark mode: navbar isla (pill nav) */
+.cotizador-scope[data-theme="dark"] header nav,
+[data-theme="dark"] .cotizador-scope header nav {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: var(--ctz-border) !important;
+}
+
+/* Dark mode: active nav link */
+.cotizador-scope[data-theme="dark"] .shadow-sky-600\/20,
+[data-theme="dark"] .cotizador-scope .shadow-sky-600\/20 {
+  box-shadow: 0 4px 12px rgba(29, 161, 255, 0.2) !important;
 }
 
 /* ═══════════════════════════════════════════════════════
