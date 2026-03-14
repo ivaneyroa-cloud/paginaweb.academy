@@ -11,12 +11,10 @@ registerTranslations("en", {
     "nav.cotizar": "Get a quote",
 
     /* ── Hero (Home) ── */
-    "hero.conecta": "Connect your",
-    "hero.negocio": "business",
-    "hero.conectado": "to the world",
-    "hero.subtitle_pre": "Import from anywhere in the world with express shipping,",
-    "hero.subtitle_bold": "real-time tracking",
-    "hero.subtitle_post": "and instant quoting.",
+    "hero.line1": "International logistics for businesses that",
+    "hero.line1_accent": "import",
+    "hero.subtitle": "Import from anywhere in the world with express shipping, real-time tracking and the best rates in Argentina.",
+    "hero.category": "International courier · Freight forwarder",
     "hero.cta_primary": "Get a quote",
     "hero.cta_secondary": "Talk to a specialist",
     "hero.notif_now": "now",

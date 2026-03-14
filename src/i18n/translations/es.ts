@@ -11,12 +11,10 @@ registerTranslations("es", {
     "nav.cotizar": "Cotizar envío",
 
     /* ── Hero (Home) ── */
-    "hero.conecta": "Conectá tu",
-    "hero.negocio": "negocio",
-    "hero.conectado": "con el mundo",
-    "hero.subtitle_pre": "Importá desde cualquier origen del mundo con envíos express,",
-    "hero.subtitle_bold": "seguimiento en tiempo real",
-    "hero.subtitle_post": "y cotización en segundos.",
+    "hero.line1": "Logística internacional para negocios que",
+    "hero.line1_accent": "importan",
+    "hero.subtitle": "Importá desde cualquier parte del mundo con envíos express, seguimiento en tiempo real y la mejor cotización de Argentina.",
+    "hero.category": "Courier internacional · Freight forwarder",
     "hero.cta_primary": "Cotizar envío",
     "hero.cta_secondary": "Hablar con un especialista",
     "hero.notif_now": "ahora",

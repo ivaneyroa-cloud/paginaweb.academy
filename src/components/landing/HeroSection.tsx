@@ -346,28 +346,19 @@ export default function HeroSection() {
                             className="mt-6"
                             style={{ fontWeight: 900, letterSpacing: "-0.035em", color: "#FFFFFF", lineHeight: 1.06 }}
                         >
-                            {/* "Tu negocio" */}
-                            <span style={{ fontSize: "clamp(2.8rem, 6.8vw, 4.9rem)", display: "block" }}>
-                                {t("hero.conecta")}{" "}
+                            {/* "Logística internacional para negocios que importan" */}
+                            <span style={{ fontSize: "clamp(2.4rem, 5.8vw, 4.2rem)", display: "block" }}>
+                                {t("hero.line1")}{" "}
                                 <span
                                     className={`negocio-word ${negocioActivated ? "activated" : ""}`}
                                     style={{ fontWeight: 950 }}
                                 >
-                                    {t("hero.negocio")}
+                                    {t("hero.line1_accent")}
                                 </span>
-                            </span>
-                            {/* "con el mundo" — 8% larger */}
-                            <span style={{
-                                fontSize: "clamp(3rem, 7.5vw, 5.35rem)",
-                                display: "block",
-                                marginTop: "0.04em",
-                                fontWeight: 900,
-                                letterSpacing: "-0.025em",
-                            }}>
-                                {t("hero.conectado")}
                             </span>
                         </motion.h1>
 
+                        {/* Subtitle */}
                         <motion.p
                             {...fadeUp(0.1)}
                             className="text-center"
@@ -376,14 +367,26 @@ export default function HeroSection() {
                                 fontSize: "clamp(1.05rem, 2vw, 1.22rem)",
                                 lineHeight: 1.78,
                                 color: "rgba(255,255,255,0.62)",
-                                maxWidth: 540,
+                                maxWidth: 580,
                             }}
                         >
-                            {t("hero.subtitle_pre")}{" "}
-                            <strong style={{ color: "rgba(255,255,255,0.82)", fontWeight: 600 }}>
-                                {t("hero.subtitle_bold")}
-                            </strong>{" "}
-                            {t("hero.subtitle_post")}
+                            {t("hero.subtitle")}
+                        </motion.p>
+
+                        {/* Category tag: Courier internacional & freight forwarder */}
+                        <motion.p
+                            {...fadeUp(0.15)}
+                            className="text-center"
+                            style={{
+                                marginTop: 14,
+                                fontSize: "clamp(0.78rem, 1.4vw, 0.88rem)",
+                                fontWeight: 500,
+                                letterSpacing: "0.08em",
+                                textTransform: "uppercase" as const,
+                                color: "rgba(43,192,255,0.55)",
+                            }}
+                        >
+                            {t("hero.category")}
                         </motion.p>
 
 
