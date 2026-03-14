@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "./Card";
 import { Input } from "@/shared/components/ui/Input";
 import { formatCurrency } from "@/shared/lib/formatters";
 import { CoinsIcon, TrashIcon, PlusIcon } from "@/shared/components/icons";
+import { HiChevronDown } from "react-icons/hi";
 
 /* ── Mode Toggle ── */
 const ModeButton = ({ label, isActive, onClick }) => (
@@ -10,22 +11,23 @@ const ModeButton = ({ label, isActive, onClick }) => (
     onClick={onClick}
     style={{
       flex: 1,
-      padding: "7px 12px",
-      fontSize: "0.8125rem",
+      padding: "6px 12px",
+      fontSize: "0.75rem",
       fontWeight: 600,
-      borderRadius: "var(--ctz-radius-sm)",
+      borderRadius: "6px",
       border: "none",
       cursor: "pointer",
       transition: "all 200ms ease-out",
+      letterSpacing: "0.02em",
       ...(isActive
         ? {
             background: "var(--ctz-accent)",
             color: "#fff",
-            boxShadow: "var(--ctz-shadow-sm)",
+            boxShadow: "0 1px 4px rgba(29, 161, 255, 0.3)",
           }
         : {
             background: "transparent",
-            color: "var(--ctz-text-secondary)",
+            color: "var(--ctz-text-muted)",
           }),
     }}
   >
@@ -36,26 +38,26 @@ const ModeButton = ({ label, isActive, onClick }) => (
 /* ── Dynamic Cost Inputs ── */
 const DynamicCostInput = ({ costs, onAdd, onRemove, onUpdate }) => (
   <div>
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
       {costs.map((cost) => (
-        <div key={cost.id} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 28px", gap: "8px", alignItems: "center" }}>
+        <div key={cost.id} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 28px", gap: "6px", alignItems: "center" }}>
           <input
             type="text"
             value={cost.name}
             onChange={(e) => onUpdate(cost.id, "name", e.target.value)}
             placeholder="Concepto"
             style={{
-              padding: "7px 10px",
+              padding: "6px 10px",
               fontSize: "0.8125rem",
               background: "var(--ctz-bg-input)",
               color: "var(--ctz-text-primary)",
-              border: "1px solid var(--ctz-border-hover)",
-              borderRadius: "var(--ctz-radius-sm)",
+              border: "1px solid var(--ctz-border)",
+              borderRadius: "6px",
               outline: "none",
               transition: "border-color 200ms",
             }}
             onFocus={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-focus)"; }}
-            onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-hover)"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; }}
           />
           <div style={{ position: "relative" }}>
             <span style={{
@@ -69,17 +71,17 @@ const DynamicCostInput = ({ costs, onAdd, onRemove, onUpdate }) => (
               placeholder="0"
               style={{
                 width: "100%",
-                padding: "7px 10px 7px 22px",
+                padding: "6px 10px 6px 22px",
                 fontSize: "0.8125rem",
                 background: "var(--ctz-bg-input)",
                 color: "var(--ctz-text-primary)",
-                border: "1px solid var(--ctz-border-hover)",
-                borderRadius: "var(--ctz-radius-sm)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "6px",
                 outline: "none",
                 transition: "border-color 200ms",
               }}
               onFocus={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-focus)"; }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-hover)"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; }}
             />
           </div>
           <button
@@ -102,55 +104,34 @@ const DynamicCostInput = ({ costs, onAdd, onRemove, onUpdate }) => (
     <button
       onClick={onAdd}
       style={{
-        marginTop: "8px",
+        marginTop: "6px",
         width: "100%",
         display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
-        padding: "8px",
-        fontSize: "0.8125rem",
-        fontWeight: 600,
-        color: "var(--ctz-accent)",
+        padding: "6px",
+        fontSize: "0.75rem",
+        fontWeight: 500,
+        color: "var(--ctz-text-muted)",
         background: "transparent",
-        border: "1px dashed var(--ctz-border-hover)",
-        borderRadius: "var(--ctz-radius-sm)",
+        border: "1px dashed var(--ctz-border)",
+        borderRadius: "6px",
         cursor: "pointer",
         transition: "all 200ms",
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--ctz-accent)"; e.currentTarget.style.background = "var(--ctz-accent-light)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-hover)"; e.currentTarget.style.background = "transparent"; }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--ctz-accent)"; e.currentTarget.style.color = "var(--ctz-accent)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
     >
-      <PlusIcon style={{ width: "14px", height: "14px" }} />
+      <PlusIcon style={{ width: "12px", height: "12px" }} />
       Agregar costo
     </button>
-  </div>
-);
-
-/* ── Subtotal Row ── */
-const SubtotalRow = ({ label, value, isHero = false }) => (
-  <div style={{
-    display: "flex", justifyContent: "space-between", alignItems: "center",
-    padding: isHero ? "0" : "0",
-  }}>
-    <span style={{
-      fontSize: isHero ? "0.875rem" : "0.8125rem",
-      fontWeight: isHero ? 700 : 400,
-      color: isHero ? "var(--ctz-text-primary)" : "var(--ctz-text-secondary)",
-    }}>
-      {label}
-    </span>
-    <span style={{
-      fontSize: isHero ? "1.0625rem" : "0.875rem",
-      fontWeight: isHero ? 700 : 500,
-      color: isHero ? "var(--ctz-accent)" : "var(--ctz-text-primary)",
-      fontVariantNumeric: "tabular-nums",
-    }}>
-      {formatCurrency(value)}
-    </span>
   </div>
 );
 
 /* ══════════════════════════════════════ */
 export const TotalCostsCard = (props) => {
   const { mode, onModeChange } = props;
+  const [showAdvanced, setShowAdvanced] = useState(
+    props.globalMultiplier !== 1 || props.unitAdditionalCosts.length > 0 || props.batchAdditionalCosts.length > 0
+  );
 
   const totalUnitAdditionalCosts = props.unitAdditionalCosts.reduce(
     (sum, cost) => sum + cost.amount, 0
@@ -163,92 +144,50 @@ export const TotalCostsCard = (props) => {
   const totalBaseCost = props.batchTotalCost + props.batchShippingCost + totalBatchAdditionalCosts;
 
   return (
-    <Card title="Costos" icon={<CoinsIcon size={20} />}>
+    <Card title="Costos" icon={<CoinsIcon size={18} />} tier="input">
       {/* Mode toggle */}
       <div style={{
         display: "flex",
-        padding: "3px",
+        padding: "2px",
         background: "var(--ctz-bg-secondary)",
-        borderRadius: "var(--ctz-radius-sm)",
-        marginBottom: "16px",
+        borderRadius: "8px",
+        marginBottom: "14px",
       }}>
         <ModeButton label="Lote" isActive={mode === "batch"} onClick={() => onModeChange("batch")} />
         <ModeButton label="Unidad" isActive={mode === "unit"} onClick={() => onModeChange("unit")} />
       </div>
 
-      {/* Mode hint */}
-      <p style={{
-        margin: "0 0 16px",
-        padding: "8px 12px",
-        fontSize: "0.75rem",
-        color: "var(--ctz-text-muted)",
-        background: "var(--ctz-bg-secondary)",
-        borderRadius: "var(--ctz-radius-sm)",
-        lineHeight: 1.5,
-      }}>
-        {mode === "unit"
-          ? "Ingresá el costo por unidad."
-          : "Ingresá el costo total del lote y la cantidad de unidades."}
-      </p>
-
-      {/* ── UNIT MODE ── */}
+      {/* ── PRIMARY INPUTS ── */}
       {mode === "unit" ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           <Input
             label="Costo del producto"
             value={props.unitProductCost}
             onChange={props.onUnitProductCostChange}
             prefix="$"
-            tip="Precio que pagaste por cada unidad del producto."
+            tip="Precio por unidad del producto."
           />
           <Input
             label="Costo de importación"
             value={props.unitShippingCost}
             onChange={props.onUnitShippingCostChange}
             prefix="$"
-            tip="Costo de importación por unidad. Podés calcularlo con el Cotizador."
+            tip="Costo de importación por unidad."
           />
-          <div>
-            <label style={{
-              display: "block", fontSize: "0.8125rem", fontWeight: 500,
-              color: "var(--ctz-text-secondary)", marginBottom: "6px",
-            }}>
-              Otros costos unitarios
-            </label>
-            <DynamicCostInput
-              costs={props.unitAdditionalCosts}
-              onAdd={props.onAddUnitAdditionalCost}
-              onRemove={props.onRemoveUnitAdditionalCost}
-              onUpdate={props.onUpdateUnitAdditionalCost}
-            />
-          </div>
-
-          {/* Subtotal */}
-          <div style={{
-            paddingTop: "12px",
-            borderTop: "1px solid var(--ctz-border)",
-            display: "flex", flexDirection: "column", gap: "6px",
-          }}>
-            <SubtotalRow label="Subtotal por unidad" value={unitSubtotal} />
-            <SubtotalRow label="Costo total por unidad" value={props.finalUnitCost} isHero />
-          </div>
         </div>
       ) : (
-        /* ── BATCH MODE ── */
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
             <Input
               label="Costo total del lote"
               value={props.batchTotalCost}
               onChange={props.onBatchTotalCostChange}
               prefix="$"
-              tip="Precio total que pagaste por toda la compra."
             />
             <Input
               label="Cantidad de unidades"
               value={props.batchQuantity}
               onChange={props.onBatchQuantityChange}
-              tip="Cuántas unidades compraste en total."
             />
           </div>
           <Input
@@ -256,97 +195,130 @@ export const TotalCostsCard = (props) => {
             value={props.batchShippingCost}
             onChange={props.onBatchShippingCostChange}
             prefix="$"
-            tip="Costo total de importación. Podés obtenerlo con el Cotizador."
           />
-          <div>
+        </div>
+      )}
+
+      {/* ── ADVANCED TOGGLE ── */}
+      <button
+        onClick={() => setShowAdvanced(!showAdvanced)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+          marginTop: "12px",
+          padding: "0",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          fontSize: "0.75rem",
+          fontWeight: 500,
+          color: "var(--ctz-text-muted)",
+          transition: "color 200ms",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
+      >
+        <HiChevronDown
+          size={14}
+          style={{
+            transition: "transform 200ms",
+            transform: showAdvanced ? "rotate(180deg)" : "rotate(0deg)",
+          }}
+        />
+        {showAdvanced ? "Ocultar ajustes" : "Costos adicionales y ajustes"}
+      </button>
+
+      {/* ── ADVANCED SECTION ── */}
+      {showAdvanced && (
+        <div style={{
+          marginTop: "10px",
+          paddingTop: "10px",
+          borderTop: "1px dashed var(--ctz-border)",
+          opacity: 0.85,
+        }}>
+          {/* Dynamic costs */}
+          <div style={{ marginBottom: "12px" }}>
             <label style={{
-              display: "block", fontSize: "0.8125rem", fontWeight: 500,
-              color: "var(--ctz-text-secondary)", marginBottom: "6px",
+              display: "block", fontSize: "0.75rem", fontWeight: 500,
+              color: "var(--ctz-text-muted)", marginBottom: "6px",
             }}>
-              Otros costos del lote
+              {mode === "unit" ? "Otros costos unitarios" : "Otros costos del lote"}
             </label>
             <DynamicCostInput
-              costs={props.batchAdditionalCosts}
-              onAdd={props.onAddBatchAdditionalCost}
-              onRemove={props.onRemoveBatchAdditionalCost}
-              onUpdate={props.onUpdateBatchAdditionalCost}
+              costs={mode === "unit" ? props.unitAdditionalCosts : props.batchAdditionalCosts}
+              onAdd={mode === "unit" ? props.onAddUnitAdditionalCost : props.onAddBatchAdditionalCost}
+              onRemove={mode === "unit" ? props.onRemoveUnitAdditionalCost : props.onRemoveBatchAdditionalCost}
+              onUpdate={mode === "unit" ? props.onUpdateUnitAdditionalCost : props.onUpdateBatchAdditionalCost}
             />
           </div>
 
-          {/* Subtotal */}
+          {/* Multiplier */}
           <div style={{
-            paddingTop: "12px",
-            borderTop: "1px solid var(--ctz-border)",
-            display: "flex", flexDirection: "column", gap: "6px",
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", alignItems: "end",
           }}>
-            <SubtotalRow label="Costo base total" value={totalBaseCost} />
-            <SubtotalRow label="Costo unitario final" value={props.finalUnitCost} isHero />
+            <Input
+              label="Multiplicador"
+              value={props.globalMultiplier}
+              onChange={props.onGlobalMultiplierChange}
+              placeholder="1"
+              prefix="x"
+            />
+            <div style={{
+              padding: "8px 12px",
+              background: "var(--ctz-accent-light)",
+              borderRadius: "6px",
+              border: "1px solid var(--ctz-accent-ring)",
+              textAlign: "center",
+            }}>
+              <span style={{
+                display: "block",
+                fontSize: "0.625rem",
+                fontWeight: 600,
+                color: "var(--ctz-text-muted)",
+                textTransform: "uppercase",
+                letterSpacing: "0.04em",
+              }}>
+                Ajustado
+              </span>
+              <span style={{
+                fontSize: "1.125rem",
+                fontWeight: 700,
+                color: "var(--ctz-accent)",
+                fontVariantNumeric: "tabular-nums",
+              }}>
+                {formatCurrency(props.adjustedUnitCost)}
+              </span>
+            </div>
           </div>
         </div>
       )}
 
-      {/* ── MULTIPLIER ── */}
+      {/* ── SUBTOTAL (always visible) ── */}
       <div style={{
-        marginTop: "16px",
-        paddingTop: "16px",
+        marginTop: "12px",
+        paddingTop: "10px",
         borderTop: "1px solid var(--ctz-border)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "baseline",
       }}>
-        <div style={{
-          display: "flex", justifyContent: "space-between", alignItems: "center",
-          marginBottom: "10px",
+        <span style={{
+          fontSize: "0.75rem",
+          fontWeight: 500,
+          color: "var(--ctz-text-muted)",
         }}>
-          <div>
-            <span style={{
-              fontSize: "0.8125rem", fontWeight: 600,
-              color: "var(--ctz-text-primary)",
-            }}>
-              Multiplicador
-            </span>
-            <span style={{
-              display: "block",
-              fontSize: "0.6875rem",
-              color: "var(--ctz-text-muted)",
-              marginTop: "1px",
-            }}>
-              Ajuste por imprevistos o reglas de negocio
-            </span>
-          </div>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", alignItems: "center" }}>
-          <Input
-            value={props.globalMultiplier}
-            onChange={props.onGlobalMultiplierChange}
-            placeholder="1"
-            prefix="x"
-          />
-          <div style={{
-            background: "var(--ctz-accent-light)",
-            borderRadius: "var(--ctz-radius-sm)",
-            padding: "10px 14px",
-            textAlign: "center",
-            border: "1px solid var(--ctz-accent-ring)",
-          }}>
-            <span style={{
-              display: "block",
-              fontSize: "0.6875rem",
-              fontWeight: 500,
-              color: "var(--ctz-text-muted)",
-              textTransform: "uppercase",
-              letterSpacing: "0.04em",
-              marginBottom: "2px",
-            }}>
-              Costo ajustado
-            </span>
-            <span style={{
-              fontSize: "1.25rem",
-              fontWeight: 700,
-              color: "var(--ctz-accent)",
-              fontVariantNumeric: "tabular-nums",
-            }}>
-              {formatCurrency(props.adjustedUnitCost)}
-            </span>
-          </div>
-        </div>
+          Costo unitario
+        </span>
+        <span style={{
+          fontSize: "1.25rem",
+          fontWeight: 700,
+          color: "var(--ctz-accent)",
+          fontVariantNumeric: "tabular-nums",
+          letterSpacing: "-0.01em",
+        }}>
+          {formatCurrency(props.adjustedUnitCost)}
+        </span>
       </div>
     </Card>
   );

@@ -4,30 +4,31 @@ import { formatCurrency } from "@/shared/lib/formatters";
 
 /**
  * MetricDisplay — Compact projection metric.
+ * Visually quieter than result KPIs (lighter borders, smaller text).
  */
 const MetricDisplay = ({ label, totalValue, unitValue, valueColor = "var(--ctz-text-primary)" }) => (
   <div style={{
     textAlign: "center",
-    background: "var(--ctz-bg-secondary)",
-    padding: "14px 12px",
-    borderRadius: "var(--ctz-radius-sm)",
+    padding: "12px 10px",
+    borderRadius: "6px",
     border: "1px solid var(--ctz-border)",
+    background: "transparent",
   }}>
     <span style={{
       display: "block",
-      fontSize: "0.6875rem",
+      fontSize: "0.625rem",
       fontWeight: 600,
       textTransform: "uppercase",
       letterSpacing: "0.04em",
       color: "var(--ctz-text-muted)",
-      marginBottom: "4px",
+      marginBottom: "3px",
     }}>
       {label}
     </span>
     <span style={{
       display: "block",
-      fontSize: "1.375rem",
-      fontWeight: 800,
+      fontSize: "1.125rem",
+      fontWeight: 700,
       color: valueColor,
       fontVariantNumeric: "tabular-nums",
       letterSpacing: "-0.02em",
@@ -37,9 +38,10 @@ const MetricDisplay = ({ label, totalValue, unitValue, valueColor = "var(--ctz-t
     </span>
     <span style={{
       display: "block",
-      fontSize: "0.6875rem",
+      fontSize: "0.625rem",
       color: "var(--ctz-text-muted)",
-      marginTop: "4px",
+      marginTop: "3px",
+      opacity: 0.7,
     }}>
       {unitValue}
     </span>
@@ -47,43 +49,43 @@ const MetricDisplay = ({ label, totalValue, unitValue, valueColor = "var(--ctz-t
 );
 
 /**
- * VolumeAnalysisCard — Projection section.
- * Uses --ctz-* tokens. Clean, integrated, no pastel gradients.
+ * VolumeAnalysisCard — Projection section (Tier 3: complementary).
+ * Visually quieter than the result hero. Uses dashed border + no shadow.
  */
 const VolumeAnalysisCard = (props) => (
   <div
     style={{
-      background: "var(--ctz-bg-elevated)",
       borderRadius: "var(--ctz-radius-md)",
-      border: "1px solid var(--ctz-border)",
-      boxShadow: "var(--ctz-shadow-sm)",
-      padding: "20px",
+      border: "1px dashed var(--ctz-border)",
+      padding: "16px 20px",
+      background: "transparent",
     }}
   >
     {/* Header */}
     <div style={{
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      marginBottom: "16px", flexWrap: "wrap", gap: "12px",
+      marginBottom: "12px", flexWrap: "wrap", gap: "10px",
     }}>
       <div>
         <span style={{
-          fontSize: "0.9375rem",
-          fontWeight: 700,
-          color: "var(--ctz-text-primary)",
-          letterSpacing: "-0.01em",
+          fontSize: "0.8125rem",
+          fontWeight: 600,
+          color: "var(--ctz-text-secondary)",
+          letterSpacing: "0.02em",
+          textTransform: "uppercase",
         }}>
           Proyección
         </span>
         <span style={{
           display: "block",
-          fontSize: "0.75rem",
+          fontSize: "0.6875rem",
           color: "var(--ctz-text-muted)",
-          marginTop: "2px",
+          marginTop: "1px",
         }}>
-          Ingresos, inversión y ganancia para el volumen proyectado.
+          Estimación para el volumen proyectado.
         </span>
       </div>
-      <div style={{ width: "160px" }}>
+      <div style={{ width: "140px" }}>
         <Input
           label="Unidades"
           value={props.quantity}
@@ -97,7 +99,7 @@ const VolumeAnalysisCard = (props) => (
     <div style={{
       display: "grid",
       gridTemplateColumns: "repeat(4, 1fr)",
-      gap: "10px",
+      gap: "8px",
     }}
       className="calc-metrics-grid"
     >

@@ -15,12 +15,7 @@ import CalculadoraHeader from "@/features/calculadora/components/CalculadoraHead
 
 import { TotalCostsCard } from "./components/TotalCostsCard";
 import { SalesCard } from "./components/SalesCard";
-import { ResultCard } from "./components/ResultCard";
 import VolumeAnalysisCard from "./components/VolumeAnalysisCard";
-import BreakEvenPriceCard from "./components/BreakEvenPriceCard";
-
-// UI Compartida — no longer using Button component
-// import { Button } from "@/shared/components/ui/Button";
 
 // Hooks
 import { useClipboard } from "@/shared/hooks/useClipboard";
@@ -638,64 +633,175 @@ export const CalculadoraApp = () => {
           />
         </div>
 
-        {/* ═══ ROW 2: RESULTS — 4 KPIs in one row ═══ */}
-        <div style={{ marginTop: "20px" }}>
+        {/* ═══ ROW 2: HERO RESULT ═══ */}
+        <div style={{ marginTop: "28px" }}>
           {/* Section label */}
           <div style={{
             borderLeft: "3px solid var(--ctz-accent)",
             paddingLeft: "14px",
-            paddingTop: "2px",
-            paddingBottom: "2px",
-            marginBottom: "16px",
+            marginBottom: "14px",
           }}>
             <h2 style={{
               margin: 0,
-              fontSize: "1.125rem",
-              fontWeight: 800,
+              fontSize: "1rem",
+              fontWeight: 700,
               color: "var(--ctz-text-primary)",
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.01em",
             }}>
-              Resultados
+              Resultado
             </h2>
-            <p style={{
-              margin: "2px 0 0",
-              fontSize: "0.8125rem",
-              color: "var(--ctz-text-secondary)",
-            }}>
-              Métricas clave de tu operación por unidad.
-            </p>
           </div>
 
+          {/* Hero KPI + secondary KPIs */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "12px",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "14px",
           }}
-            className="calc-kpi-grid"
+            className="calc-results-grid"
           >
-            <ResultCard
-              label="Ganancia neta"
-              value={formatCurrency(netProfitPerSale)}
-              valueColor={netProfitPerSale >= 0 ? "var(--ctz-success)" : "var(--ctz-error)"}
-              infoText="Ganancia por venta después de restar todos los costos y deducciones."
-            />
-            <ResultCard
-              label="Margen"
-              value={formatPercent(marginOnRevenue)}
-              valueColor={marginOnRevenue >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)"}
-              infoText="Porcentaje de cada venta que queda como ganancia."
-            />
-            <ResultCard
-              label="ROI"
-              value={formatPercent(roi)}
-              valueColor={roi >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)"}
-              infoText="Retorno sobre el costo invertido por unidad."
-            />
-            <BreakEvenPriceCard breakEvenPrice={breakEvenPrice} />
+            {/* ── HERO: Ganancia Neta ── */}
+            <div style={{
+              background: "var(--ctz-bg-elevated)",
+              border: "1px solid var(--ctz-border)",
+              borderTop: `3px solid ${netProfitPerSale >= 0 ? "var(--ctz-success)" : "var(--ctz-error)"}`,
+              borderRadius: "var(--ctz-radius-md)",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              boxShadow: "var(--ctz-shadow-md)",
+              position: "relative",
+              overflow: "hidden",
+            }}>
+              {/* Subtle glow */}
+              <div style={{
+                position: "absolute",
+                top: 0,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "60%",
+                height: "2px",
+                background: netProfitPerSale >= 0
+                  ? "linear-gradient(90deg, transparent, var(--ctz-success), transparent)"
+                  : "linear-gradient(90deg, transparent, var(--ctz-error), transparent)",
+                opacity: 0.5,
+              }} />
+              <span style={{
+                fontSize: "0.6875rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                color: "var(--ctz-text-muted)",
+                marginBottom: "8px",
+              }}>
+                Ganancia neta por venta
+              </span>
+              <span style={{
+                fontSize: "2.5rem",
+                fontWeight: 800,
+                color: netProfitPerSale >= 0 ? "var(--ctz-success)" : "var(--ctz-error)",
+                fontVariantNumeric: "tabular-nums",
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+              }}>
+                {formatCurrency(netProfitPerSale)}
+              </span>
+              <span style={{
+                fontSize: "0.6875rem",
+                color: "var(--ctz-text-muted)",
+                marginTop: "8px",
+              }}>
+                Ingreso neto − Costo unitario
+              </span>
+            </div>
+
+            {/* ── SECONDARY KPIs ── */}
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}>
+              {/* Margen */}
+              <div style={{
+                flex: 1,
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "var(--ctz-radius-sm)",
+                padding: "14px 18px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}>
+                <span style={{ fontSize: "0.8125rem", fontWeight: 500, color: "var(--ctz-text-secondary)" }}>
+                  Margen
+                </span>
+                <span style={{
+                  fontSize: "1.375rem",
+                  fontWeight: 800,
+                  color: marginOnRevenue >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)",
+                  fontVariantNumeric: "tabular-nums",
+                  letterSpacing: "-0.02em",
+                }}>
+                  {formatPercent(marginOnRevenue)}
+                </span>
+              </div>
+
+              {/* ROI */}
+              <div style={{
+                flex: 1,
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "var(--ctz-radius-sm)",
+                padding: "14px 18px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}>
+                <span style={{ fontSize: "0.8125rem", fontWeight: 500, color: "var(--ctz-text-secondary)" }}>
+                  ROI
+                </span>
+                <span style={{
+                  fontSize: "1.375rem",
+                  fontWeight: 800,
+                  color: roi >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)",
+                  fontVariantNumeric: "tabular-nums",
+                  letterSpacing: "-0.02em",
+                }}>
+                  {formatPercent(roi)}
+                </span>
+              </div>
+
+              {/* Precio mínimo */}
+              <div style={{
+                flex: 1,
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "var(--ctz-radius-sm)",
+                padding: "14px 18px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}>
+                <span style={{ fontSize: "0.8125rem", fontWeight: 500, color: "var(--ctz-text-secondary)" }}>
+                  Precio mínimo
+                </span>
+                <span style={{
+                  fontSize: "1.375rem",
+                  fontWeight: 800,
+                  color: "var(--ctz-warning)",
+                  fontVariantNumeric: "tabular-nums",
+                  letterSpacing: "-0.02em",
+                }}>
+                  {formatCurrency(breakEvenPrice)}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* ═══ ROW 3: PROJECTION ═══ */}
+        {/* ═══ ROW 3: PROJECTION (visually quieter) ═══ */}
         <div style={{ marginTop: "20px" }}>
           <VolumeAnalysisCard
             quantity={projectedQuantity}
@@ -715,7 +821,7 @@ export const CalculadoraApp = () => {
         <div style={{
           display: "flex",
           justifyContent: "flex-end",
-          marginTop: "20px",
+          marginTop: "16px",
           paddingBottom: "20px",
         }}>
           <button
@@ -723,22 +829,21 @@ export const CalculadoraApp = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
-              padding: "10px 20px",
-              fontSize: "0.8125rem",
+              gap: "6px",
+              padding: "8px 16px",
+              fontSize: "0.75rem",
               fontWeight: 600,
-              color: "#ffffff",
-              background: "var(--ctz-accent-gradient)",
-              border: "none",
+              color: "var(--ctz-text-muted)",
+              background: "transparent",
+              border: "1px solid var(--ctz-border)",
               borderRadius: "var(--ctz-radius-sm)",
               cursor: "pointer",
-              transition: "all 250ms ease-out",
-              boxShadow: "var(--ctz-shadow-sm)",
+              transition: "all 200ms ease-out",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "var(--ctz-shadow-md)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "var(--ctz-shadow-sm)"; }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--ctz-accent)"; e.currentTarget.style.color = "var(--ctz-accent)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
           >
-            <CopyIcon style={{ width: "15px", height: "15px" }} />
+            <CopyIcon style={{ width: "14px", height: "14px" }} />
             {copied ? "Copiado ✓" : "Copiar análisis"}
           </button>
         </div>

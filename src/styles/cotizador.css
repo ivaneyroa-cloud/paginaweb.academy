@@ -1335,11 +1335,11 @@
   }
 }
 
-/* KPI grid: 4-col desktop, 2-col tablet, 2-col mobile */
+/* Results grid: Hero KPI + secondary stack → 1-col on mobile */
 @media (max-width: 767px) {
-  .calc-kpi-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+  .calc-results-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
 }
 

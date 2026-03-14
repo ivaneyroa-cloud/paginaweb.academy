@@ -1,31 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "./Card";
 import { Input } from "@/shared/components/ui/Input";
 import { formatCurrency } from "@/shared/lib/formatters";
 import { StoreIcon } from "@/shared/components/icons";
-
-/* ── Summary Row ── */
-const SummaryRow = ({ label, value, color = "var(--ctz-text-primary)", bold = false }) => (
-  <div style={{
-    display: "flex", justifyContent: "space-between", alignItems: "center",
-  }}>
-    <span style={{
-      fontSize: "0.8125rem",
-      fontWeight: bold ? 600 : 400,
-      color: bold ? "var(--ctz-text-primary)" : "var(--ctz-text-secondary)",
-    }}>
-      {label}
-    </span>
-    <span style={{
-      fontSize: bold ? "1.0625rem" : "0.875rem",
-      fontWeight: bold ? 700 : 500,
-      color,
-      fontVariantNumeric: "tabular-nums",
-    }}>
-      {formatCurrency(value)}
-    </span>
-  </div>
-);
+import { HiChevronDown } from "react-icons/hi";
 
 export const SalesCard = ({
   grossSellingPrice,
@@ -46,67 +24,96 @@ export const SalesCard = ({
   totalDeductions,
   netIncomePerSale,
 }) => {
+  const hasAdvancedValues =
+    paymentFeePercent > 0 ||
+    installmentFeePercent > 0 ||
+    taxesAndRetentions > 0 ||
+    sellerShippingCost > 0 ||
+    promotionalDiscount > 0;
+
+  const [showAdvanced, setShowAdvanced] = useState(hasAdvancedValues);
+
   return (
-    <Card title="Venta" icon={<StoreIcon size={20} />}>
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        {/* Precio + Descuento */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-          <Input
-            label="Precio bruto"
-            value={grossSellingPrice}
-            onChange={onGrossSellingPriceChange}
-            prefix="$"
-            tip="Precio al que querés vender antes de descuentos."
-          />
-          <Input
-            label="Descuento promocional"
-            value={promotionalDiscount}
-            onChange={onPromotionalDiscountChange}
-            prefix="%"
-            tip="Descuento que vas a ofrecer (opcional)."
-          />
-        </div>
+    <Card title="Venta" icon={<StoreIcon size={18} />} tier="input">
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {/* ── PRIMARY: Price + Platform fee ── */}
+        <Input
+          label="Precio de venta"
+          value={grossSellingPrice}
+          onChange={onGrossSellingPriceChange}
+          prefix="$"
+          tip="Precio al que querés vender antes de descuentos."
+        />
+        <Input
+          label="Comisión de plataforma"
+          value={platformFeePercent}
+          onChange={onPlatformFeeChange}
+          prefix="%"
+          tip="Mercado Libre: 11–17%. Tienda Nube: 0.7–2%."
+        />
 
-        {/* Divider: Comisiones */}
-        <div style={{
-          paddingTop: "12px",
-          borderTop: "1px solid var(--ctz-border)",
-        }}>
-          <span style={{
-            display: "block",
-            fontSize: "0.6875rem",
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
+        {/* ── ADVANCED TOGGLE ── */}
+        <button
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "0",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "0.75rem",
+            fontWeight: 500,
             color: "var(--ctz-text-muted)",
-            marginBottom: "10px",
-          }}>
-            Comisiones y deducciones
-          </span>
+            transition: "color 200ms",
+            marginTop: "2px",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
+        >
+          <HiChevronDown
+            size={14}
+            style={{
+              transition: "transform 200ms",
+              transform: showAdvanced ? "rotate(180deg)" : "rotate(0deg)",
+            }}
+          />
+          {showAdvanced ? "Ocultar deducciones" : "Descuento, cuotas, impuestos y envío"}
+        </button>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {/* ── ADVANCED SECTION ── */}
+        {showAdvanced && (
+          <div style={{
+            paddingTop: "10px",
+            borderTop: "1px dashed var(--ctz-border)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            opacity: 0.85,
+          }}>
             <Input
-              label="Comisión de plataforma"
-              value={platformFeePercent}
-              onChange={onPlatformFeeChange}
+              label="Descuento promocional"
+              value={promotionalDiscount}
+              onChange={onPromotionalDiscountChange}
               prefix="%"
-              tip="Mercado Libre: 11–17%. Tienda Nube: 0.7–2%."
+              tip="Descuento que vas a ofrecer (opcional)."
             />
             <Input
               label="Comisión medio de pago"
               value={paymentFeePercent}
               onChange={onPaymentFeeChange}
               prefix="%"
-              tip="Comisión de la pasarela de pago. Suele estar entre 3% y 6%."
+              tip="Comisión de la pasarela de pago (3–6%)."
             />
             <Input
               label="Costo por cuotas"
               value={installmentFeePercent}
               onChange={onInstallmentFeeChange}
               prefix="%"
-              tip="Costo adicional al ofrecer cuotas sin interés (4–18% en ML)."
+              tip="Costo por ofrecer cuotas sin interés (4–18% en ML)."
             />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
               <Input
                 label="Impuestos sobre venta"
                 value={taxesAndRetentions}
@@ -115,7 +122,7 @@ export const SalesCard = ({
                 tip="IIBB, retenciones, etc."
               />
               <Input
-                label="Envío a cargo del vendedor"
+                label="Envío a cargo tuyo"
                 value={sellerShippingCost}
                 onChange={onSellerShippingCostChange}
                 prefix="$"
@@ -123,38 +130,48 @@ export const SalesCard = ({
               />
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Summary */}
+        {/* ── SUMMARY (always visible) ── */}
         <div style={{
-          paddingTop: "12px",
+          marginTop: "2px",
+          paddingTop: "10px",
           borderTop: "1px solid var(--ctz-border)",
-          display: "flex", flexDirection: "column", gap: "6px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "4px",
         }}>
-          <SummaryRow label="Precio final de venta" value={finalSellingPrice} />
-          <SummaryRow label="Total deducciones" value={totalDeductions} color="var(--ctz-error)" />
-
-          {/* Hero: Ingreso Neto */}
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ fontSize: "0.75rem", color: "var(--ctz-text-muted)" }}>Precio final</span>
+            <span style={{ fontSize: "0.8125rem", fontWeight: 500, color: "var(--ctz-text-secondary)", fontVariantNumeric: "tabular-nums" }}>
+              {formatCurrency(finalSellingPrice)}
+            </span>
+          </div>
+          {totalDeductions > 0 && (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ fontSize: "0.75rem", color: "var(--ctz-text-muted)" }}>Deducciones</span>
+              <span style={{ fontSize: "0.8125rem", fontWeight: 500, color: "var(--ctz-error)", fontVariantNumeric: "tabular-nums" }}>
+                -{formatCurrency(totalDeductions)}
+              </span>
+            </div>
+          )}
           <div style={{
-            marginTop: "6px",
-            padding: "10px 14px",
-            background: "var(--ctz-accent-light)",
-            borderRadius: "var(--ctz-radius-sm)",
-            border: "1px solid var(--ctz-accent-ring)",
-            display: "flex", justifyContent: "space-between", alignItems: "center",
+            display: "flex", justifyContent: "space-between", alignItems: "baseline",
+            marginTop: "4px", paddingTop: "6px", borderTop: "1px solid var(--ctz-border)",
           }}>
             <span style={{
-              fontSize: "0.875rem",
-              fontWeight: 700,
-              color: "var(--ctz-text-primary)",
+              fontSize: "0.75rem",
+              fontWeight: 500,
+              color: "var(--ctz-text-muted)",
             }}>
-              Ingreso neto por venta
+              Ingreso neto
             </span>
             <span style={{
               fontSize: "1.25rem",
               fontWeight: 700,
               color: "var(--ctz-accent)",
               fontVariantNumeric: "tabular-nums",
+              letterSpacing: "-0.01em",
             }}>
               {formatCurrency(netIncomePerSale)}
             </span>
