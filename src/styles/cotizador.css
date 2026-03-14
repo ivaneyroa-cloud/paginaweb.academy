@@ -61,12 +61,12 @@
   --ctz-bg-secondary: #0a1628;
   --ctz-bg-tertiary: #111d35;
   --ctz-bg-elevated: rgba(255, 255, 255, 0.05);
-  --ctz-bg-input: rgba(255, 255, 255, 0.08);
+  --ctz-bg-input: rgba(255, 255, 255, 0.10);
   --ctz-bg-surface: rgba(255, 255, 255, 0.03);
 
   --ctz-text-primary: #f1f5f9;
-  --ctz-text-secondary: #94a3b8;
-  --ctz-text-muted: #64748b;
+  --ctz-text-secondary: #b4c2d0;
+  --ctz-text-muted: #8494a7;
   --ctz-text-inverse: #0f172a;
 
   --ctz-accent: #2bc0ff;
@@ -1019,26 +1019,26 @@
 /* Sky borders */
 .cotizador-scope .border-sky-50 { border-color: var(--ctz-accent-light) !important; }
 .cotizador-scope .border-sky-100 { border-color: var(--ctz-accent-light) !important; }
-.cotizador-scope .border-sky-200 { border-color: var(--ctz-accent) !important; opacity: 0.3; }
-.cotizador-scope .border-sky-200\/80 { border-color: var(--ctz-accent) !important; opacity: 0.3; }
+.cotizador-scope .border-sky-200 { border-color: rgba(43, 192, 255, 0.25) !important; }
+.cotizador-scope .border-sky-200\/80 { border-color: rgba(43, 192, 255, 0.25) !important; }
 .cotizador-scope .border-sky-500 { border-color: var(--ctz-accent) !important; }
 .cotizador-scope .focus\:border-sky-500:focus { border-color: var(--ctz-accent) !important; }
 
 /* Blue borders */
 .cotizador-scope .border-blue-100,
-.cotizador-scope .border-blue-200 { border-color: var(--ctz-accent) !important; opacity: 0.2; }
+.cotizador-scope .border-blue-200 { border-color: rgba(43, 192, 255, 0.2) !important; }
 
 /* Green/emerald borders */
-.cotizador-scope .border-emerald-200 { border-color: var(--ctz-success) !important; opacity: 0.3; }
+.cotizador-scope .border-emerald-200 { border-color: rgba(34, 197, 94, 0.25) !important; }
 
 /* Red borders */
 .cotizador-scope .border-red-400,
 .cotizador-scope .border-red-500 { border-color: var(--ctz-error) !important; }
 
 /* Yellow/amber borders */
-.cotizador-scope .border-yellow-200 { border-color: var(--ctz-warning) !important; opacity: 0.3; }
+.cotizador-scope .border-yellow-200 { border-color: rgba(245, 158, 11, 0.25) !important; }
 .cotizador-scope .border-amber-200,
-.cotizador-scope .border-amber-300 { border-color: var(--ctz-warning) !important; opacity: 0.3; }
+.cotizador-scope .border-amber-300 { border-color: rgba(245, 158, 11, 0.25) !important; }
 
 /* ── Focus rings ── */
 .cotizador-scope .focus\:ring-sky-500:focus,
@@ -1059,6 +1059,20 @@
 .cotizador-scope .placeholder\:opacity-60::placeholder {
   color: var(--ctz-text-muted) !important;
   opacity: 1 !important;
+}
+
+/* Catch-all placeholder for dark mode */
+.cotizador-scope[data-theme="dark"] input::placeholder,
+[data-theme="dark"] .cotizador-scope input::placeholder,
+.cotizador-scope[data-theme="dark"] textarea::placeholder,
+[data-theme="dark"] .cotizador-scope textarea::placeholder {
+  color: var(--ctz-text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Labels — always readable */
+.cotizador-scope label {
+  color: var(--ctz-text-secondary) !important;
 }
 
 /* ── Divide ── */
