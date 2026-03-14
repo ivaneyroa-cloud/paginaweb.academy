@@ -234,7 +234,7 @@ export default function Navbar() {
                         <Link href="/" className="flex items-center group select-none">
                             <img
                                 src="/shippar-logo.webp"
-                                alt="Shippar"
+                                alt="Shippar — Logística internacional y courier express"
                                 className="h-[26px] md:h-[30px] w-auto transition-opacity duration-200 group-hover:opacity-85"
                             />
                         </Link>

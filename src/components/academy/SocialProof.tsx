@@ -53,7 +53,7 @@ export default function SocialProof() {
                     <img
                         key={i}
                         src={`https://i.pravatar.cc/56?img=${seed}`}
-                        alt=""
+                        alt={`Estudiante ${i + 1} de Shippar Academy`}
                         className="w-7 h-7 rounded-full border-2 border-[#0c1929] object-cover"
                     />
                 ))}
