@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { HiOutlineUserCircle, HiChevronDown, HiChevronUp } from "react-icons/hi";
+import { HiOutlineUserCircle, HiChevronDown } from "react-icons/hi";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { createClient } from "@/lib/supabase/client";
 import { ConfirmModal } from "@/shared/components/modals/ConfirmModal";
 
 export function UserMenu({ isMobile = false }) {
-  const supabase = useMemo(() => createClient(), []);
+  const supabaseRef = useRef(null);
+  if (!supabaseRef.current) supabaseRef.current = createClient();
+  const supabase = supabaseRef.current;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
