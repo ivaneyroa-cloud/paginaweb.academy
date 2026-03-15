@@ -833,8 +833,11 @@ export const CalculadoraApp = () => {
                 <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                   <input
                     type="number"
-                    value={projectedQuantity}
-                    onChange={handleNumericChange(setProjectedQuantity)}
+                    value={projectedQuantity === 0 ? "" : projectedQuantity}
+                    onChange={(e) => {
+                      const v = parseFloat(e.target.value);
+                      setProjectedQuantity(isNaN(v) || v < 0 ? 0 : v);
+                    }}
                     aria-label="Cantidad de unidades proyectadas"
                     style={{
                       width: "72px",
