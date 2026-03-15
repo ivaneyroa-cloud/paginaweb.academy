@@ -1,9 +1,9 @@
 import ToolsContent from "./ToolsContent";
 
 export const metadata = {
-  title: "Cotizador de Importación y Calculadora de Rentabilidad",
+  title: "Calculá tu Importación y Analizá Rentabilidad — Herramientas Gratuitas",
   description:
-    "Calculá el costo total de tu importación desde China, USA y Europa a Argentina. Incluye impuestos, aranceles, flete y seguro. Herramientas gratuitas de Shippar.",
+    "Estimá el costo total de importar desde China, USA y Europa a Argentina con impuestos y aranceles incluidos. Calculá tu margen de ganancia, ROI y punto de equilibrio. Herramientas gratuitas de Shippar.",
   openGraph: {
     title: "Herramientas para Importadores | Shippar",
     description:
@@ -28,6 +28,24 @@ const jsonLd = {
     name: "Shippar Global Logistics",
     url: "https://shippar.net",
   },
+  hasPart: [
+    {
+      "@type": "WebApplication",
+      name: "Cotizador de Importación",
+      url: "https://shippar.net/cotizadorv2",
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Web",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    {
+      "@type": "WebApplication",
+      name: "Calculadora de Rentabilidad",
+      url: "https://shippar.net/calculadora",
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Web",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+  ],
 };
 
 const faqJsonLd = {
