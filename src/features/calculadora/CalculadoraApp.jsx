@@ -15,7 +15,6 @@ import CalculadoraHeader from "@/features/calculadora/components/CalculadoraHead
 
 import { TotalCostsCard } from "./components/TotalCostsCard";
 import { SalesCard } from "./components/SalesCard";
-import VolumeAnalysisCard from "./components/VolumeAnalysisCard";
 
 // Hooks
 import { useClipboard } from "@/shared/hooks/useClipboard";
@@ -633,14 +632,28 @@ export const CalculadoraApp = () => {
           />
         </div>
 
-        {/* ═══ ROW 2: RESULTADO ═══ */}
-        <div style={{ marginTop: "28px" }}>
-          {/* Section label — accent border-left (same as cotizador headers) */}
+        {/* ═══ RESULTADO ═══ */}
+        <div style={{
+          marginTop: "28px",
+          background: "var(--ctz-bg-elevated)",
+          border: "1px solid var(--ctz-border)",
+          borderRadius: "var(--ctz-radius-md)",
+          boxShadow: "var(--ctz-shadow-sm)",
+          overflow: "hidden",
+        }}>
+          {/* Section header */}
           <div style={{
-            borderLeft: "3px solid var(--ctz-accent)",
-            paddingLeft: "14px",
-            marginBottom: "14px",
+            padding: "14px 20px 12px",
+            borderBottom: "1px solid var(--ctz-border)",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
           }}>
+            <span style={{ color: "var(--ctz-accent)", display: "flex", alignItems: "center" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </span>
             <h2 style={{
               margin: 0,
               fontSize: "0.9375rem",
@@ -652,80 +665,71 @@ export const CalculadoraApp = () => {
             </h2>
           </div>
 
-          {/* Hero + secondary KPIs grid */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "14px",
-          }}
-            className="calc-results-grid"
-          >
-            {/* ── HERO: Ganancia Neta (accent card like cotizador) ── */}
+          <div style={{ padding: "20px" }}>
+            {/* ── HERO: Ganancia Neta ── */}
             <div style={{
-              background: "var(--ctz-bg-elevated)",
-              border: `1px solid ${netProfitPerSale >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)"}`,
-              borderRadius: "var(--ctz-radius-md)",
-              padding: "24px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              boxShadow: "var(--ctz-shadow-md)",
+              textAlign: "center",
+              paddingBottom: "20px",
+              borderBottom: "1px solid var(--ctz-border)",
             }}>
               <span style={{
                 fontSize: "0.8125rem",
                 fontWeight: 500,
                 color: "var(--ctz-text-muted)",
-                marginBottom: "8px",
               }}>
                 Ganancia neta por venta
               </span>
-              <span style={{
-                fontSize: "2.25rem",
+              <div style={{
+                fontSize: "2.5rem",
                 fontWeight: 800,
                 color: netProfitPerSale >= 0 ? "var(--ctz-success)" : "var(--ctz-error)",
                 fontVariantNumeric: "tabular-nums",
                 letterSpacing: "-0.03em",
                 lineHeight: 1,
+                marginTop: "6px",
               }}>
                 {formatCurrency(netProfitPerSale)}
-              </span>
+              </div>
               <span style={{
                 fontSize: "0.75rem",
                 color: "var(--ctz-text-muted)",
-                marginTop: "8px",
+                marginTop: "6px",
+                display: "block",
               }}>
                 Ingreso neto − Costo unitario
               </span>
             </div>
 
-            {/* ── SECONDARY KPIs (same card bg as cotizador) ── */}
+            {/* ── CONTEXT: Margen + ROI (same row) ── */}
             <div style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "1px",
+              background: "var(--ctz-border)",
+              margin: "0 -20px",
+              borderBottom: "1px solid var(--ctz-border)",
             }}>
               {[
-                { label: "Margen", value: formatPercent(marginOnRevenue), color: marginOnRevenue >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)" },
-                { label: "ROI", value: formatPercent(roi), color: roi >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)" },
-                { label: "Precio mínimo", value: formatCurrency(breakEvenPrice), color: "var(--ctz-warning)" },
+                { label: "Margen", value: formatPercent(marginOnRevenue), color: marginOnRevenue >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)", tip: "sobre ingreso neto" },
+                { label: "ROI", value: formatPercent(roi), color: roi >= 0 ? "var(--ctz-accent)" : "var(--ctz-error)", tip: "sobre inversión" },
               ].map((kpi) => (
                 <div key={kpi.label} style={{
-                  flex: 1,
                   background: "var(--ctz-bg-elevated)",
-                  border: "1px solid var(--ctz-border)",
-                  borderRadius: "var(--ctz-radius-sm)",
-                  padding: "12px 18px",
+                  padding: "16px 20px",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  transition: "border-color 200ms",
                 }}>
-                  <span style={{ fontSize: "0.8125rem", fontWeight: 500, color: "var(--ctz-text-secondary)" }}>
-                    {kpi.label}
-                  </span>
+                  <div>
+                    <span style={{ fontSize: "0.8125rem", fontWeight: 500, color: "var(--ctz-text-secondary)", display: "block" }}>
+                      {kpi.label}
+                    </span>
+                    <span style={{ fontSize: "0.6875rem", color: "var(--ctz-text-muted)" }}>
+                      {kpi.tip}
+                    </span>
+                  </div>
                   <span style={{
-                    fontSize: "1.25rem",
+                    fontSize: "1.375rem",
                     fontWeight: 700,
                     color: kpi.color,
                     fontVariantNumeric: "tabular-nums",
@@ -736,67 +740,208 @@ export const CalculadoraApp = () => {
                 </div>
               ))}
             </div>
+
+            {/* ── BREAK-EVEN: Contextual bar ── */}
+            <div style={{
+              padding: "16px 0",
+              borderBottom: "1px solid var(--ctz-border)",
+            }}>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                marginBottom: "8px",
+              }}>
+                <span style={{
+                  fontSize: "0.8125rem",
+                  fontWeight: 500,
+                  color: "var(--ctz-text-secondary)",
+                }}>
+                  Precio mínimo para no perder
+                </span>
+                <span style={{
+                  fontSize: "1.125rem",
+                  fontWeight: 700,
+                  color: "var(--ctz-warning)",
+                  fontVariantNumeric: "tabular-nums",
+                  letterSpacing: "-0.01em",
+                }}>
+                  {formatCurrency(breakEvenPrice)}
+                </span>
+              </div>
+              {/* Visual bar showing price vs break-even */}
+              {finalSellingPrice > 0 && isFinite(breakEvenPrice) && breakEvenPrice > 0 && (
+                <div>
+                  <div style={{
+                    height: "6px",
+                    borderRadius: "3px",
+                    background: "var(--ctz-bg-secondary)",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}>
+                    <div style={{
+                      height: "100%",
+                      borderRadius: "3px",
+                      width: `${Math.min((breakEvenPrice / finalSellingPrice) * 100, 100)}%`,
+                      background: finalSellingPrice >= breakEvenPrice
+                        ? "var(--ctz-warning)"
+                        : "var(--ctz-error)",
+                      transition: "width 300ms ease-out",
+                    }} />
+                  </div>
+                  <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "6px",
+                    fontSize: "0.6875rem",
+                    color: "var(--ctz-text-muted)",
+                  }}>
+                    <span>Mínimo: {formatCurrency(breakEvenPrice)}</span>
+                    {finalSellingPrice > breakEvenPrice ? (
+                      <span style={{ color: "var(--ctz-success)" }}>
+                        Tu precio está {Math.round(((finalSellingPrice / breakEvenPrice) - 1) * 100)}% por encima
+                      </span>
+                    ) : finalSellingPrice < breakEvenPrice ? (
+                      <span style={{ color: "var(--ctz-error)" }}>
+                        Estás {Math.round(((breakEvenPrice / finalSellingPrice) - 1) * 100)}% por debajo — perdés plata
+                      </span>
+                    ) : (
+                      <span>Exactamente en el punto de equilibrio</span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ── PROJECTION: Inline (not a separate card) ── */}
+            <div style={{ paddingTop: "16px" }}>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "12px",
+                flexWrap: "wrap",
+                gap: "8px",
+              }}>
+                <span style={{
+                  fontSize: "0.8125rem",
+                  fontWeight: 500,
+                  color: "var(--ctz-text-secondary)",
+                }}>
+                  Proyección para
+                </span>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <input
+                    type="number"
+                    value={projectedQuantity}
+                    onChange={handleNumericChange(setProjectedQuantity)}
+                    style={{
+                      width: "72px",
+                      padding: "5px 8px",
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                      textAlign: "center",
+                      background: "var(--ctz-bg-input)",
+                      color: "var(--ctz-text-primary)",
+                      border: "1px solid var(--ctz-border)",
+                      borderRadius: "var(--ctz-radius-sm)",
+                      outline: "none",
+                      fontVariantNumeric: "tabular-nums",
+                      transition: "border-color 200ms",
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-focus)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; }}
+                  />
+                  <span style={{ fontSize: "0.8125rem", color: "var(--ctz-text-muted)" }}>unidades</span>
+                </div>
+              </div>
+
+              {/* Projection metrics — horizontal row */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "10px",
+              }}
+                className="calc-metrics-grid"
+              >
+                {[
+                  { label: "Facturación", value: formatCurrency(projectedRevenue), unit: `${formatCurrency(finalSellingPrice)} /u`, color: "var(--ctz-text-primary)" },
+                  { label: "Ingresos netos", value: formatCurrency(projectedNetIncome), unit: `${formatCurrency(netIncomePerSale)} /u`, color: "var(--ctz-accent)" },
+                  { label: "Inversión", value: formatCurrency(adjustedInvestment), unit: `${formatCurrency(finalUnitCost)} /u`, color: "var(--ctz-error)" },
+                  { label: "Ganancia neta", value: formatCurrency(projectedNetProfit), unit: `${formatCurrency(netProfitPerSale)} /u`, color: projectedNetProfit >= 0 ? "var(--ctz-success)" : "var(--ctz-error)" },
+                ].map((m) => (
+                  <div key={m.label} style={{
+                    textAlign: "center",
+                    padding: "12px 8px",
+                    borderRadius: "var(--ctz-radius-sm)",
+                    background: "var(--ctz-bg-secondary)",
+                    border: "1px solid var(--ctz-border)",
+                  }}>
+                    <span style={{
+                      display: "block", fontSize: "0.6875rem", fontWeight: 600,
+                      textTransform: "uppercase", letterSpacing: "0.04em",
+                      color: "var(--ctz-text-muted)", marginBottom: "4px",
+                    }}>{m.label}</span>
+                    <span style={{
+                      display: "block", fontSize: "1.125rem", fontWeight: 700,
+                      color: m.color, fontVariantNumeric: "tabular-nums",
+                      letterSpacing: "-0.02em", lineHeight: 1.1,
+                    }}>{m.value}</span>
+                    <span style={{
+                      display: "block", fontSize: "0.6875rem",
+                      color: "var(--ctz-text-muted)", marginTop: "4px",
+                    }}>{m.unit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── COPY (inside the card footer) ── */}
+          <div style={{
+            padding: "12px 20px",
+            borderTop: "1px solid var(--ctz-border)",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}>
+            <button
+              onClick={handleCopyAnalysis}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "7px 14px",
+                fontSize: "0.8125rem",
+                fontWeight: 600,
+                color: "var(--ctz-text-muted)",
+                background: "transparent",
+                border: "none",
+                borderRadius: "var(--ctz-radius-sm)",
+                cursor: "pointer",
+                transition: "all 200ms ease-out",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--ctz-accent)";
+                e.currentTarget.style.background = "var(--ctz-accent-light)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--ctz-text-muted)";
+                e.currentTarget.style.background = "transparent";
+              }}
+            >
+              <CopyIcon style={{ width: "14px", height: "14px" }} />
+              {copied ? "Copiado ✓" : "Copiar análisis"}
+            </button>
           </div>
         </div>
 
-        {/* ═══ ROW 3: PROYECCIÓN ═══ */}
-        <div style={{ marginTop: "20px" }}>
-          <VolumeAnalysisCard
-            quantity={projectedQuantity}
-            onQuantityChange={handleNumericChange(setProjectedQuantity)}
-            netProfitPerSale={netProfitPerSale}
-            projectedRevenue={projectedRevenue}
-            unitSellingPrice={finalSellingPrice}
-            projectedNetIncome={projectedNetIncome}
-            unitNetIncome={netIncomePerSale}
-            totalInvestment={adjustedInvestment}
-            unitCost={finalUnitCost}
-            projectedNetProfit={projectedNetProfit}
-          />
-        </div>
-
-        {/* ═══ COPY BUTTON (ghost, same pattern as cotizador secondary CTAs) ═══ */}
-        <div style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginTop: "16px",
-          paddingBottom: "20px",
-        }}>
-          <button
-            onClick={handleCopyAnalysis}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "9px 18px",
-              fontSize: "0.8125rem",
-              fontWeight: 600,
-              color: "var(--ctz-text-secondary)",
-              background: "transparent",
-              border: "1px solid var(--ctz-border)",
-              borderRadius: "var(--ctz-radius-sm)",
-              cursor: "pointer",
-              transition: "all 200ms ease-out",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--ctz-accent)";
-              e.currentTarget.style.color = "var(--ctz-accent)";
-              e.currentTarget.style.background = "var(--ctz-accent-light)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "var(--ctz-border)";
-              e.currentTarget.style.color = "var(--ctz-text-secondary)";
-              e.currentTarget.style.background = "transparent";
-            }}
-          >
-            <CopyIcon style={{ width: "14px", height: "14px" }} />
-            {copied ? "Copiado ✓" : "Copiar análisis"}
-          </button>
-        </div>
+        {/* Bottom spacing */}
+        <div style={{ paddingBottom: "24px" }} />
       </div>
     </main>
   );
 };
 
 export default CalculadoraApp;
+
 

@@ -1335,14 +1335,6 @@
   }
 }
 
-/* Results grid: Hero KPI + secondary stack → 1-col on mobile */
-@media (max-width: 767px) {
-  .calc-results-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-}
-
 /* Projection metrics: 4-col desktop, 2-col mobile */
 @media (max-width: 767px) {
   .calc-metrics-grid {
@@ -1350,3 +1342,4 @@
     gap: 8px !important;
   }
 }
+
