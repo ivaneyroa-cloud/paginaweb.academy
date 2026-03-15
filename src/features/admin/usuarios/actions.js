@@ -1,21 +1,38 @@
 // Acciones del servidor para la gestión de usuarios
-// Estas funciones se ejecutan en el servidor y manejan la lógica de administración de perfiles
+// Solo superadmin puede modificar roles.
 
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { obtenerPerfilActual } from '@/lib/supabase/profile';
+
+// ──────────────────────────────────────────────
+// Helper: verify the calling user is superadmin
+// ──────────────────────────────────────────────
+async function verificarSuperadmin() {
+  const { data: perfil } = await obtenerPerfilActual();
+  if (!perfil || perfil.rol?.toLowerCase() !== 'superadmin') {
+    return { allowed: false, perfil: null };
+  }
+  return { allowed: true, perfil };
+}
 
 /**
- * Obtiene todos los perfiles de usuarios de la base de datos
- * @returns {Promise<{data?: Array, error?: string}>} Lista de usuarios o error
+ * Obtiene todos los perfiles de usuarios de la base de datos.
+ * Any admin or superadmin can list users.
  */
 export async function obtenerUsuarios() {
+  const { data: perfil } = await obtenerPerfilActual();
+  const rol = perfil?.rol?.toLowerCase();
+
+  if (!perfil || (rol !== 'admin' && rol !== 'superadmin')) {
+    return { error: 'No tenés permisos para ver esta sección.' };
+  }
+
   const supabase = await createClient();
 
   try {
-    // Consultamos la tabla perfiles para obtener todos los usuarios
-    // IMPORTANTE: Primero obtenemos todos los usuarios sin ordenamiento en Supabase
     const { data, error } = await supabase
       .from('perfiles')
       .select('*');
@@ -25,17 +42,14 @@ export async function obtenerUsuarios() {
       return { error: error.message };
     }
 
-    // Ordenamos en el servidor: primero los admins, luego por fecha de actualización
+    // Sort: superadmins first, then admins, then by created_at
     const dataOrdenada = data?.sort((a, b) => {
-      // Primero, ordenamos por rol (admin primero)
-      const esAdminA = a.rol?.toLowerCase() === 'admin';
-      const esAdminB = b.rol?.toLowerCase() === 'admin';
-      
-      if (esAdminA && !esAdminB) return -1; // A es admin, va primero
-      if (!esAdminA && esAdminB) return 1;  // B es admin, va primero
-      
-      // Si ambos tienen el mismo tipo de rol, ordenamos por fecha más reciente
-      return new Date(b.updated_at) - new Date(a.updated_at);
+      const rolOrder = { superadmin: 0, admin: 1, usuario: 2 };
+      const orderA = rolOrder[a.rol?.toLowerCase()] ?? 2;
+      const orderB = rolOrder[b.rol?.toLowerCase()] ?? 2;
+
+      if (orderA !== orderB) return orderA - orderB;
+      return new Date(b.created_at) - new Date(a.created_at);
     });
 
     return { data: dataOrdenada };
@@ -46,103 +60,102 @@ export async function obtenerUsuarios() {
 }
 
 /**
- * Alterna el estado VIP de un usuario
- * @param {string} userId - ID del usuario a actualizar
- * @param {boolean} nuevoEstado - Nuevo estado VIP (true/false)
- * @returns {Promise<{success?: boolean, error?: string}>} Resultado de la operación
- */
-export async function alternarVIP(userId, nuevoEstado) {
-  const supabase = await createClient();
-
-  try {
-    // Actualizamos el campo es_vip del perfil
-    const { error } = await supabase
-      .from('perfiles')
-      .update({ 
-        es_vip: nuevoEstado,
-        updated_at: new Date().toISOString() // Actualizamos la fecha de modificación
-      })
-      .eq('id', userId);
-
-    if (error) {
-      console.error('Error al actualizar estado VIP:', error);
-      return { error: error.message };
-    }
-
-    // Revalidamos la página para que se actualicen los datos
-    revalidatePath('/admin/usuarios');
-    
-    return { success: true };
-  } catch (err) {
-    console.error('Error inesperado:', err);
-    return { error: 'Error al actualizar el estado VIP' };
-  }
-}
-
-/**
- * Alterna el estado de bloqueo de un usuario
- * @param {string} userId - ID del usuario a actualizar
- * @param {boolean} nuevoEstado - Nuevo estado de bloqueo (true/false)
- * @returns {Promise<{success?: boolean, error?: string}>} Resultado de la operación
- */
-export async function alternarBloqueo(userId, nuevoEstado) {
-  const supabase = await createClient();
-
-  try {
-    // Actualizamos el campo esta_bloqueado del perfil
-    const { error } = await supabase
-      .from('perfiles')
-      .update({ 
-        esta_bloqueado: nuevoEstado,
-        updated_at: new Date().toISOString() // Actualizamos la fecha de modificación
-      })
-      .eq('id', userId);
-
-    if (error) {
-      console.error('Error al actualizar estado de bloqueo:', error);
-      return { error: error.message };
-    }
-
-    // Revalidamos la página para que se actualicen los datos
-    revalidatePath('/admin/usuarios');
-    
-    return { success: true };
-  } catch (err) {
-    console.error('Error inesperado:', err);
-    return { error: 'Error al actualizar el estado de bloqueo' };
-  }
-}
-
-/**
- * Alterna el rol de un usuario entre 'usuario' y 'admin'
- * @param {string} userId - ID del usuario a actualizar
- * @param {string} nuevoRol - Nuevo rol ('admin' o 'usuario')
- * @returns {Promise<{success?: boolean, error?: string}>} Resultado de la operación
+ * Alterna el rol de un usuario entre 'usuario' y 'admin'.
+ * 
+ * RULES:
+ *   1. Only superadmin can change roles.
+ *   2. Nobody can assign 'superadmin' from the UI.
+ *   3. Nobody can modify their own role.
+ *   4. Nobody can modify another superadmin's role.
  */
 export async function alternarRol(userId, nuevoRol) {
+  const { allowed, perfil: miPerfil } = await verificarSuperadmin();
+  if (!allowed) {
+    return { error: 'Solo el Super Admin puede cambiar roles.' };
+  }
+
+  // Rule 2: can't assign superadmin from UI
+  if (nuevoRol === 'superadmin') {
+    return { error: 'El rol superadmin no se puede asignar desde la interfaz.' };
+  }
+
+  // Rule 3: can't modify own role
+  if (miPerfil.id === userId) {
+    return { error: 'No podés modificar tu propio rol.' };
+  }
+
+  // Rule 4: verify target is not superadmin
   const supabase = await createClient();
+  const { data: targetUser } = await supabase
+    .from('perfiles')
+    .select('rol')
+    .eq('id', userId)
+    .single();
+
+  if (targetUser?.rol?.toLowerCase() === 'superadmin') {
+    return { error: 'No podés modificar el rol de otro Super Admin.' };
+  }
+
+  // Valid roles: 'admin' or 'usuario'
+  const rolValido = ['admin', 'usuario'].includes(nuevoRol) ? nuevoRol : 'usuario';
 
   try {
-    // Actualizamos el campo rol del perfil
     const { error } = await supabase
       .from('perfiles')
-      .update({ 
-        rol: nuevoRol,
-        updated_at: new Date().toISOString()
-      })
+      .update({ rol: rolValido })
       .eq('id', userId);
 
-    if (error) {
-      console.error('Error al actualizar rol:', error);
-      return { error: error.message };
-    }
+    if (error) return { error: error.message };
 
-    // Revalidamos la página para que se actualicen los datos
     revalidatePath('/admin/usuarios');
-    
     return { success: true };
   } catch (err) {
-    console.error('Error inesperado:', err);
     return { error: 'Error al actualizar el rol del usuario' };
+  }
+}
+
+/**
+ * Bloquea o desbloquea a un usuario.
+ * 
+ * RULES:
+ *   1. Only superadmin can block/unblock.
+ *   2. Can't block yourself.
+ *   3. Can't block another superadmin.
+ */
+export async function toggleBloqueo(userId, bloquear) {
+  const { allowed, perfil: miPerfil } = await verificarSuperadmin();
+  if (!allowed) {
+    return { error: 'Solo el Super Admin puede bloquear usuarios.' };
+  }
+
+  if (miPerfil.id === userId) {
+    return { error: 'No podés bloquearte a vos mismo.' };
+  }
+
+  const supabase = await createClient();
+
+  // Verify target is not superadmin
+  const { data: targetUser } = await supabase
+    .from('perfiles')
+    .select('rol, nombre_completo')
+    .eq('id', userId)
+    .single();
+
+  if (targetUser?.rol?.toLowerCase() === 'superadmin') {
+    return { error: 'No podés bloquear a otro Super Admin.' };
+  }
+
+  try {
+    const { error } = await supabase
+      .from('perfiles')
+      .update({ bloqueado: bloquear })
+      .eq('id', userId);
+
+    if (error) return { error: error.message };
+
+    revalidatePath('/admin/usuarios');
+    return { success: true, nombre: targetUser?.nombre_completo };
+  } catch (err) {
+    return { error: 'Error al actualizar el estado del usuario' };
   }
 }

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { FiArrowRight, FiGlobe, FiUsers, FiTag } from 'react-icons/fi';
 import { MdOutlineLocalShipping } from 'react-icons/md';
+import { obtenerPerfilActual } from '@/lib/supabase/profile';
+import { redirect } from 'next/navigation';
 
 export const metadata = { title: 'Tarifarios y Cupones - Shippar' };
 
@@ -10,63 +12,106 @@ const SUBMODULOS = [
     icon: FiGlobe,
     title: 'Tarifas Internacionales',
     desc: 'Edita los costos base del proveedor (crudo) y parámetros como recargo fuel.',
-    iconBg: 'bg-blue-100', iconColor: 'text-blue-600',
-    hoverBorder: 'hover:border-blue-300', hoverShadow: 'hover:shadow-blue-100',
+    accent: '#3b82f6',
+    accentBg: 'rgba(59, 130, 246, 0.08)',
   },
   {
     href: '/admin/tarifas/publicas',
     icon: FiUsers,
     title: 'Tarifas Públicas',
     desc: 'Edita los multiplicadores de precio final al cliente y el recargo express.',
-    iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600',
-    hoverBorder: 'hover:border-emerald-300', hoverShadow: 'hover:shadow-emerald-100',
+    accent: '#10b981',
+    accentBg: 'rgba(16, 185, 129, 0.08)',
   },
   {
     href: '/admin/cupones',
     icon: FiTag,
     title: 'Cupones de Descuento',
     desc: 'Crea, edita o elimina cupones con descuentos porcentuales sobre la tarifa base.',
-    iconBg: 'bg-purple-100', iconColor: 'text-purple-600',
-    hoverBorder: 'hover:border-purple-300', hoverShadow: 'hover:shadow-purple-100',
+    accent: '#8b5cf6',
+    accentBg: 'rgba(139, 92, 246, 0.08)',
   },
 ];
 
-export default function TarifasHubPage() {
+export default async function TarifasHubPage() {
+  const { data: perfil } = await obtenerPerfilActual();
+  if (perfil?.rol?.toLowerCase() !== 'superadmin') {
+    redirect('/admin');
+  }
+
   return (
     <>
-      <header className="mb-10 flex items-center gap-4">
-        <div className="p-3 bg-emerald-100 rounded-2xl shadow-sm">
-          <MdOutlineLocalShipping className="w-10 h-10 text-emerald-600" />
+      <header style={{ marginBottom: 32, display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{
+          width: 56, height: 56, borderRadius: 12,
+          background: 'rgba(16, 185, 129, 0.08)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <MdOutlineLocalShipping style={{ width: 28, height: 28, color: '#10b981' }} />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Tarifarios y Cupones</h1>
-          <p className="text-slate-500 font-medium mt-1">Selecciona el submódulo que deseas administrar.</p>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+            Tarifarios y Cupones
+          </h1>
+          <p style={{ margin: '4px 0 0', fontSize: 14, color: '#64748b' }}>
+            Selecciona el submódulo que deseas administrar.
+          </p>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+        gap: 20,
+      }}>
         {SUBMODULOS.map((modulo) => (
           <Link
             key={modulo.href}
             href={modulo.href}
-            className={`group relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${modulo.hoverBorder} ${modulo.hoverShadow}`}
+            className="admin-card-hover"
+            style={{
+              background: '#ffffff',
+              border: '1px solid rgba(0, 0, 0, 0.09)',
+              borderRadius: 16,
+              padding: 24,
+              textDecoration: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 16,
+              transition: 'all 0.25s ease',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.06)',
+            }}
           >
-            <div className="flex flex-col gap-4">
-              <div className={`flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${modulo.iconBg} ${modulo.iconColor}`}>
-                <modulo.icon className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-slate-800 group-hover:text-slate-900">{modulo.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-slate-500">{modulo.desc}</p>
-              </div>
+            <div style={{
+              width: 44, height: 44, borderRadius: 8,
+              background: modulo.accentBg,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <modulo.icon style={{ width: 22, height: 22, color: modulo.accent }} />
             </div>
-            <div className="mt-4 flex items-center justify-end opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
-              <span className="text-xs font-semibold text-slate-400 mr-2">Configurar</span>
-              <FiArrowRight className={`h-4 w-4 ${modulo.iconColor}`} />
+            <div>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: '0 0 4px' }}>
+                {modulo.title}
+              </h3>
+              <p style={{ fontSize: 13, lineHeight: 1.5, color: '#64748b', margin: 0 }}>
+                {modulo.desc}
+              </p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 6, marginTop: 4 }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: modulo.accent }}>Configurar</span>
+              <FiArrowRight style={{ width: 14, height: 14, color: modulo.accent }} />
             </div>
           </Link>
         ))}
       </div>
+
+      <style>{`
+        .admin-card-hover:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07) !important;
+          border-color: rgba(0, 0, 0, 0.16) !important;
+        }
+      `}</style>
     </>
   );
 }

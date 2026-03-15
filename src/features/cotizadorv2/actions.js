@@ -88,7 +88,7 @@ export async function getCategoriaByNombre(nombre) {
  */
 export async function revalidateCategorias() {
   const { revalidatePath } = await import("next/cache");
-  revalidatePath("/cotizadorv2");
+  revalidatePath("/cotizador-importacion");
 }
 
 /**

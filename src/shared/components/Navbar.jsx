@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { IoCalculatorOutline } from "react-icons/io5";
 import { TbTruckDelivery } from "react-icons/tb";
-import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { HiMenuAlt3, HiX, HiOutlineDocumentText } from "react-icons/hi";
 import { UserMenu } from "@/features/auth";
 import ThemeToggle from "@/shared/components/ThemeToggle";
 import { useTheme } from "@/shared/context/ThemeContext";
@@ -42,14 +42,19 @@ export const NavBar = () => {
 
   const navItems = [
     {
-      href: "/cotizadorv2",
+      href: "/cotizador-importacion",
       label: "Cotizador",
       icon: <TbTruckDelivery size={18} />,
     },
     {
-      href: "/calculadora",
+      href: "/calculadora-rentabilidad",
       label: "Calculadora",
       icon: <IoCalculatorOutline size={18} />,
+    },
+    {
+      href: "/blog",
+      label: "Blog",
+      icon: <HiOutlineDocumentText size={18} />,
     },
   ];
 

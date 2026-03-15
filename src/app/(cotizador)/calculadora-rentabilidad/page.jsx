@@ -17,7 +17,7 @@ export const metadata = {
     title: "Calculadora de Rentabilidad para Importadores | Shippar",
     description:
       "Analizá margen, ROI, ganancia neta y punto de equilibrio por unidad al importar y revender. Herramienta gratuita.",
-    url: "https://shippar.net/calculadora",
+    url: "https://shippar.net/calculadora-rentabilidad",
     type: "website",
   },
   twitter: {
@@ -27,7 +27,7 @@ export const metadata = {
       "Calculá tu ganancia neta, margen y ROI al importar y revender productos. Gratis.",
   },
   alternates: {
-    canonical: "https://shippar.net/calculadora",
+    canonical: "https://shippar.net/calculadora-rentabilidad",
   },
 };
 
@@ -37,7 +37,7 @@ const jsonLd = {
   "@type": "SoftwareApplication",
   name: "Calculadora de Rentabilidad — Shippar",
   description: metadata.description,
-  url: "https://shippar.net/calculadora",
+  url: "https://shippar.net/calculadora-rentabilidad",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Web",
   offers: {
@@ -125,8 +125,8 @@ const breadcrumbJsonLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Shippar", item: "https://shippar.net" },
-    { "@type": "ListItem", position: 2, name: "Herramientas", item: "https://shippar.net/tools" },
-    { "@type": "ListItem", position: 3, name: "Calculadora de Rentabilidad", item: "https://shippar.net/calculadora" },
+    { "@type": "ListItem", position: 2, name: "Herramientas", item: "https://shippar.net/herramientas" },
+    { "@type": "ListItem", position: 3, name: "Calculadora de Rentabilidad", item: "https://shippar.net/calculadora-rentabilidad" },
   ],
 };
 

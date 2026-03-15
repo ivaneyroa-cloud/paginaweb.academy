@@ -355,7 +355,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
           }}>
             <li><Link href="/" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Shippar</Link></li>
             <li style={{ opacity: 0.5 }}>/</li>
-            <li><Link href="/tools" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Herramientas</Link></li>
+            <li><Link href="/herramientas" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Herramientas</Link></li>
             <li style={{ opacity: 0.5 }}>/</li>
             <li style={{ color: "var(--ctz-text-secondary)", fontWeight: 500 }}>Cotizador</li>
           </ol>
@@ -571,7 +571,7 @@ export default function CotizadorV2App({ datosCotizacion }) {
               Ingresá el costo de importación y estimá margen, ROI y punto de equilibrio.
             </p>
           </div>
-          <Link href="/calculadora" style={{
+          <Link href="/calculadora-rentabilidad" style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
             padding: "9px 18px", fontSize: "0.8125rem", fontWeight: 600,
             color: "var(--ctz-accent)", background: "var(--ctz-accent-light)",

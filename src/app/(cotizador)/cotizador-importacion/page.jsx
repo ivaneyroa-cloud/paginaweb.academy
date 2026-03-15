@@ -19,7 +19,7 @@ export const metadata = {
     title: "Cotizador de Importación | Shippar",
     description:
       "Estimá el costo total de importar tu producto con CIF, impuestos, flete y aranceles incluidos. Herramienta gratuita con tarifas reales.",
-    url: "https://shippar.net/cotizadorv2",
+    url: "https://shippar.net/cotizador-importacion",
     type: "website",
   },
   twitter: {
@@ -29,7 +29,7 @@ export const metadata = {
       "Calculá CIF, impuestos y flete para tu importación desde cualquier origen a Argentina.",
   },
   alternates: {
-    canonical: "https://shippar.net/cotizadorv2",
+    canonical: "https://shippar.net/cotizador-importacion",
   },
 };
 
@@ -41,7 +41,7 @@ const jsonLd = {
   "@type": "SoftwareApplication",
   name: "Cotizador de Importación — Shippar",
   description: metadata.description,
-  url: "https://shippar.net/cotizadorv2",
+  url: "https://shippar.net/cotizador-importacion",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Web",
   offers: {
@@ -128,8 +128,8 @@ const breadcrumbJsonLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Shippar", item: "https://shippar.net" },
-    { "@type": "ListItem", position: 2, name: "Herramientas", item: "https://shippar.net/tools" },
-    { "@type": "ListItem", position: 3, name: "Cotizador de Importación", item: "https://shippar.net/cotizadorv2" },
+    { "@type": "ListItem", position: 2, name: "Herramientas", item: "https://shippar.net/herramientas" },
+    { "@type": "ListItem", position: 3, name: "Cotizador de Importación", item: "https://shippar.net/cotizador-importacion" },
   ],
 };
 

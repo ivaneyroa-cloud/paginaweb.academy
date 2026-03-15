@@ -260,7 +260,7 @@ export default function ToolsContent() {
                 "Tarifas generales Shippar vigentes",
                 "Desglose completo por concepto",
               ]}
-              href="/cotizadorv2"
+              href="/cotizador-importacion"
               cta="Cotizar importación"
             />
 
@@ -275,7 +275,7 @@ export default function ToolsContent() {
                 "Punto de equilibrio (precio mínimo)",
                 "Proyección por volumen de ventas",
               ]}
-              href="/calculadora"
+              href="/calculadora-rentabilidad"
               cta="Calcular rentabilidad"
             />
           </div>
@@ -447,7 +447,7 @@ export default function ToolsContent() {
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             <Accordion title="¿Cómo calculo el costo total de una importación a Argentina?">
               <p style={{ margin: 0 }}>
-                Con el <Link href="/cotizadorv2" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>cotizador de Shippar</Link> podés estimar el costo completo. Seleccioná origen, destino, producto y cantidad. El sistema calcula automáticamente CIF, aranceles, IVA aduanero, tasa estadística, flete internacional y seguro.
+                Con el <Link href="/cotizador-importacion" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>cotizador de Shippar</Link> podés estimar el costo completo. Seleccioná origen, destino, producto y cantidad. El sistema calcula automáticamente CIF, aranceles, IVA aduanero, tasa estadística, flete internacional y seguro.
               </p>
             </Accordion>
 
@@ -459,13 +459,13 @@ export default function ToolsContent() {
 
             <Accordion title="¿Cuánto cuesta importar un producto desde China a Argentina?">
               <p style={{ margin: 0 }}>
-                El costo depende del peso, volumen, valor del producto y modalidad de envío. Con el <Link href="/cotizadorv2" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>cotizador de importación</Link> podés estimar el costo real en minutos ingresando los datos de tu producto. Incluye flete internacional, seguro, impuestos y tasas aduaneras.
+                El costo depende del peso, volumen, valor del producto y modalidad de envío. Con el <Link href="/cotizador-importacion" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>cotizador de importación</Link> podés estimar el costo real en minutos ingresando los datos de tu producto. Incluye flete internacional, seguro, impuestos y tasas aduaneras.
               </p>
             </Accordion>
 
             <Accordion title="¿Cómo sé si mi importación es rentable?">
               <p style={{ margin: 0 }}>
-                Usá la <Link href="/calculadora" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>calculadora de rentabilidad</Link>. Ingresá el costo de producto + importación, tu precio de venta y las comisiones de tu canal. El sistema calcula tu ganancia neta, margen, ROI y punto de equilibrio por unidad.
+                Usá la <Link href="/calculadora-rentabilidad" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>calculadora de rentabilidad</Link>. Ingresá el costo de producto + importación, tu precio de venta y las comisiones de tu canal. El sistema calcula tu ganancia neta, margen, ROI y punto de equilibrio por unidad.
               </p>
             </Accordion>
 

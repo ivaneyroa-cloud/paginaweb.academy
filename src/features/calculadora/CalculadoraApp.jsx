@@ -543,7 +543,7 @@ export const CalculadoraApp = () => {
           }}>
             <li><Link href="/" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Shippar</Link></li>
             <li style={{ opacity: 0.5 }}>/</li>
-            <li><Link href="/tools" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Herramientas</Link></li>
+            <li><Link href="/herramientas" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Herramientas</Link></li>
             <li style={{ opacity: 0.5 }}>/</li>
             <li style={{ color: "var(--ctz-text-secondary)", fontWeight: 500 }}>Calculadora</li>
           </ol>
@@ -987,7 +987,7 @@ export const CalculadoraApp = () => {
               Usá el cotizador para calcular CIF, impuestos y flete — y después transferí el resultado acá.
             </p>
           </div>
-          <Link href="/cotizadorv2" style={{
+          <Link href="/cotizador-importacion" style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
             padding: "9px 18px", fontSize: "0.8125rem", fontWeight: 600,
             color: "var(--ctz-accent)", background: "var(--ctz-accent-light)",
@@ -1105,7 +1105,7 @@ export const CalculadoraApp = () => {
               <strong style={{ color: "var(--ctz-text-primary)" }}>Ingresá el costo del producto</strong> — el precio FOB unitario en USD.
             </li>
             <li style={{ marginBottom: "8px" }}>
-              <strong style={{ color: "var(--ctz-text-primary)" }}>Sumá el costo de importación</strong> — flete, impuestos y aranceles. Si usaste el <Link href="/cotizadorv2" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>cotizador de Shippar</Link>, podés transferir el dato directamente.
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Sumá el costo de importación</strong> — flete, impuestos y aranceles. Si usaste el <Link href="/cotizador-importacion" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>cotizador de Shippar</Link>, podés transferir el dato directamente.
             </li>
             <li style={{ marginBottom: "8px" }}>
               <strong style={{ color: "var(--ctz-text-primary)" }}>Definí tu precio de venta</strong> — el precio bruto al que publicás.
@@ -1219,7 +1219,7 @@ export const CalculadoraApp = () => {
             display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px",
           }}>
             {[
-              { label: "Herramientas", desc: "Todas las calculadoras de Shippar", href: "/tools" },
+              { label: "Herramientas", desc: "Todas las calculadoras de Shippar", href: "/herramientas" },
               { label: "Courier Express", desc: "Envíos rápidos puerta a puerta", href: "/servicios/courier" },
               { label: "Carga Marítima", desc: "Fletes para volumen", href: "/servicios/maritima" },
               { label: "Sourcing", desc: "Encontrá proveedores confiables", href: "/servicios/sourcing" },

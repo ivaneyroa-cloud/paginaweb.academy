@@ -21,9 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     /* ── Tools pages ── */
     const toolPages = [
-        { path: "/tools", priority: 0.8, changeFrequency: "monthly" as const },
-        { path: "/cotizadorv2", priority: 0.8, changeFrequency: "monthly" as const },
-        { path: "/calculadora", priority: 0.8, changeFrequency: "monthly" as const },
+        { path: "/herramientas", priority: 0.8, changeFrequency: "monthly" as const },
+        { path: "/cotizador-importacion", priority: 0.8, changeFrequency: "monthly" as const },
+        { path: "/calculadora-rentabilidad", priority: 0.8, changeFrequency: "monthly" as const },
     ];
 
     /* ── Academy pages (public) ── */

@@ -8,11 +8,11 @@ export const metadata = {
     title: "Herramientas para Importadores | Shippar",
     description:
       "Estimá costos, impuestos y rentabilidad de tu importación con las herramientas gratuitas de Shippar.",
-    url: "https://shippar.net/tools",
+    url: "https://shippar.net/herramientas",
     type: "website",
   },
   alternates: {
-    canonical: "https://shippar.net/tools",
+    canonical: "https://shippar.net/herramientas",
   },
 };
 
@@ -22,7 +22,7 @@ const jsonLd = {
   "@type": "WebPage",
   name: "Herramientas para Importadores — Shippar",
   description: metadata.description,
-  url: "https://shippar.net/tools",
+  url: "https://shippar.net/herramientas",
   creator: {
     "@type": "Organization",
     name: "Shippar Global Logistics",
@@ -32,7 +32,7 @@ const jsonLd = {
     {
       "@type": "WebApplication",
       name: "Cotizador de Importación",
-      url: "https://shippar.net/cotizadorv2",
+      url: "https://shippar.net/cotizador-importacion",
       applicationCategory: "FinanceApplication",
       operatingSystem: "Web",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -40,7 +40,7 @@ const jsonLd = {
     {
       "@type": "WebApplication",
       name: "Calculadora de Rentabilidad",
-      url: "https://shippar.net/calculadora",
+      url: "https://shippar.net/calculadora-rentabilidad",
       applicationCategory: "FinanceApplication",
       operatingSystem: "Web",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -100,7 +100,7 @@ const breadcrumbJsonLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Shippar", item: "https://shippar.net" },
-    { "@type": "ListItem", position: 2, name: "Herramientas", item: "https://shippar.net/tools" },
+    { "@type": "ListItem", position: 2, name: "Herramientas", item: "https://shippar.net/herramientas" },
   ],
 };
 

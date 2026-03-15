@@ -111,7 +111,9 @@ export function UserMenu({ isMobile = false }) {
     };
   }, [supabase]);
 
-  const isAdmin = (profile?.rol || "").toLowerCase() === "admin";
+  const rolLower = (profile?.rol || "").toLowerCase();
+  const isAdmin = rolLower === "admin" || rolLower === "superadmin";
+  const roleLabel = rolLower === "superadmin" ? "Super Admin" : rolLower === "admin" ? "Admin" : "Usuario";
 
   const initials = (() => {
     const base = profile?.nombre_completo || user?.email || "";
@@ -236,7 +238,7 @@ export function UserMenu({ isMobile = false }) {
               {profile?.nombre_completo || user.email}
             </span>
             <span style={{ fontSize: '0.6875rem', color: 'var(--ctz-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              {profile?.rol || "Usuario"}
+              {roleLabel}
             </span>
           </div>
         </div>

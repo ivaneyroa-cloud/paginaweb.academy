@@ -133,9 +133,9 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith("/admin") ||
         pathname.startsWith("/auth") ||
         pathname.startsWith("/cotizador") ||
-        pathname.startsWith("/cotizadorv2") ||
-        pathname.startsWith("/calculadora") ||
-        pathname.startsWith("/tools")
+        pathname.startsWith("/cotizador-importacion") ||
+        pathname.startsWith("/calculadora-rentabilidad") ||
+        pathname.startsWith("/herramientas")
     ) {
         let supabaseResponse = NextResponse.next({ request });
 
@@ -165,6 +165,25 @@ export async function middleware(request: NextRequest) {
             error: authError,
         } = await supabaseSSR.auth.getUser();
 
+        // Check if user is blocked (applies to all cotizador routes)
+        if (user && !authError) {
+            try {
+                const { data: perfil } = await supabaseSSR
+                    .from("perfiles")
+                    .select("rol, bloqueado")
+                    .eq("id", user.id)
+                    .single();
+
+                if (perfil?.bloqueado === true) {
+                    // Blocked users get signed out and redirected
+                    await supabaseSSR.auth.signOut();
+                    const blockedUrl = new URL("/auth/login", request.url);
+                    blockedUrl.searchParams.set("error", "blocked");
+                    return NextResponse.redirect(blockedUrl);
+                }
+            } catch { /* continue */ }
+        }
+
         // Admin route protection
         if (pathname.startsWith("/admin")) {
             if (!user || authError) {
@@ -180,11 +199,11 @@ export async function middleware(request: NextRequest) {
                     .eq("id", user.id)
                     .single();
 
-                if (perfilError || !perfil || perfil.rol?.toLowerCase() !== "admin") {
-                    return NextResponse.redirect(new URL("/tools", request.url));
+                if (perfilError || !perfil || !['admin', 'superadmin'].includes(perfil.rol?.toLowerCase())) {
+                    return NextResponse.redirect(new URL("/herramientas", request.url));
                 }
             } catch {
-                return NextResponse.redirect(new URL("/tools", request.url));
+                return NextResponse.redirect(new URL("/herramientas", request.url));
             }
         }
 
@@ -207,8 +226,8 @@ export const config = {
         "/admin/:path*",
         "/auth/:path*",
         "/cotizador/:path*",
-        "/cotizadorv2/:path*",
-        "/calculadora/:path*",
-        "/tools/:path*",
+        "/cotizador-importacion/:path*",
+        "/calculadora-rentabilidad/:path*",
+        "/herramientas/:path*",
     ],
 };

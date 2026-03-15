@@ -25,7 +25,7 @@ export async function GET(request) {
 
   // "next" es la URL a la que redirigir después del login (opcional)
   // Si no se especifica, vamos a "/" (página principal)
-  const next = searchParams.get('next') ?? '/';
+  const next = searchParams.get('next') ?? '/cotizador-importacion';
 
   if (code) {
     // Creamos el cliente de Supabase para el servidor

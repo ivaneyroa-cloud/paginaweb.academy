@@ -1,8 +1,16 @@
 import { CategoriasTable } from '@/features/admin/categorias/components/CategoriasTable';
 import { getCategorias } from '@/features/admin/categorias/actions';
 import { TbCategory } from 'react-icons/tb';
+import { obtenerPerfilActual } from '@/lib/supabase/profile';
+import { redirect } from 'next/navigation';
 
 export default async function CategoriasPage() {
+  // Only superadmin can access categorias
+  const { data: perfil } = await obtenerPerfilActual();
+  if (perfil?.rol?.toLowerCase() !== 'superadmin') {
+    redirect('/admin');
+  }
+
   const categorias = await getCategorias();
   return (
     <>

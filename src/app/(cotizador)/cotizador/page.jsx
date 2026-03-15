@@ -1,9 +1,5 @@
-import CotizadorApp from "@/features/cotizador/CotizadorApp";
+import { redirect } from 'next/navigation';
 
-export default function CotizadorPage() {
-  return (
-    <section>
-      <CotizadorApp />
-    </section>
-  );
+export default function CotizadorRedirect() {
+  redirect('/cotizador-importacion');
 }
