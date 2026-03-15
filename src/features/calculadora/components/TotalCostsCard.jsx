@@ -5,7 +5,7 @@ import { formatCurrency } from "@/shared/lib/formatters";
 import { CoinsIcon, TrashIcon, PlusIcon } from "@/shared/components/icons";
 import { HiChevronDown } from "react-icons/hi";
 
-/* ── Mode Toggle (matches cotizador ShippingMethodSelector) ── */
+/* ── Mode Toggle ── */
 const ModeButton = ({ label, isActive, onClick }) => (
   <button
     onClick={onClick}
@@ -81,20 +81,58 @@ const DynamicCostRow = ({ cost, onRemove, onUpdate }) => (
   </div>
 );
 
+/* ── Collapsible Toggle ── */
+const AdvancedToggle = ({ isOpen, onClick, label, badge }) => (
+  <button
+    onClick={onClick}
+    style={{
+      display: "flex", alignItems: "center", gap: "6px",
+      marginTop: "14px", padding: "0", background: "none", border: "none",
+      cursor: "pointer", fontSize: "0.8125rem", fontWeight: 500,
+      color: "var(--ctz-text-muted)", transition: "color 200ms",
+    }}
+    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
+    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
+  >
+    <HiChevronDown size={14} style={{
+      transition: "transform 200ms",
+      transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+    }} />
+    {label}
+    {badge && (
+      <span style={{
+        marginLeft: "4px",
+        padding: "1px 6px",
+        fontSize: "0.6875rem",
+        fontWeight: 600,
+        borderRadius: "4px",
+        background: "var(--ctz-accent-light)",
+        color: "var(--ctz-accent)",
+      }}>
+        {badge}
+      </span>
+    )}
+  </button>
+);
+
 /* ══════════════════════════════════════ */
 export const TotalCostsCard = (props) => {
   const { mode, onModeChange } = props;
-  const [showAdvanced, setShowAdvanced] = useState(
-    props.globalMultiplier !== 1 || props.unitAdditionalCosts.length > 0 || props.batchAdditionalCosts.length > 0
-  );
-
   const costs = mode === "unit" ? props.unitAdditionalCosts : props.batchAdditionalCosts;
+  const hasExtraCosts = costs.length > 0 && costs.some(c => c.amount > 0);
+  const hasMultiplier = props.globalMultiplier !== 1;
+  const hasAdvancedData = hasExtraCosts || hasMultiplier || costs.length > 0;
+
+  const [showAdvanced, setShowAdvanced] = useState(hasAdvancedData);
+
+  // Build badge text showing active adjustments count
+  const activeAdjustments = (hasExtraCosts ? costs.filter(c => c.amount > 0).length : 0) + (hasMultiplier ? 1 : 0);
 
   return (
     <Card
       title="Costos"
       icon={<CoinsIcon size={20} />}
-      tooltip="Ingresá el costo total por unidad: precio del producto + importación + extras opcionales."
+      tooltip="Ingresá el costo total por unidad: precio del producto + importación. Podés agregar costos adicionales y un multiplicador para ajustes finos."
     >
       {/* Mode toggle */}
       <div style={{
@@ -108,7 +146,7 @@ export const TotalCostsCard = (props) => {
         <ModeButton label="Unidad" isActive={mode === "unit"} onClick={() => onModeChange("unit")} />
       </div>
 
-      {/* ── PRIMARY INPUTS ── */}
+      {/* ── ESSENTIAL INPUTS ── */}
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         {mode === "unit" ? (
           <>
@@ -117,7 +155,7 @@ export const TotalCostsCard = (props) => {
               tip="Precio por unidad del producto." />
             <Input label="Costo de importación" value={props.unitShippingCost}
               onChange={props.onUnitShippingCostChange} prefix="$"
-              tip="Costo de importación por unidad." />
+              tip="Costo de importación por unidad (envío Shippar)." />
           </>
         ) : (
           <>
@@ -128,82 +166,84 @@ export const TotalCostsCard = (props) => {
                 onChange={props.onBatchQuantityChange} />
             </div>
             <Input label="Costo de importación (lote)" value={props.batchShippingCost}
-              onChange={props.onBatchShippingCostChange} prefix="$" />
+              onChange={props.onBatchShippingCostChange} prefix="$"
+              tip="Costo total de importación por el lote completo." />
           </>
         )}
       </div>
 
       {/* ── ADVANCED TOGGLE ── */}
-      <button
+      <AdvancedToggle
+        isOpen={showAdvanced}
         onClick={() => setShowAdvanced(!showAdvanced)}
-        style={{
-          display: "flex", alignItems: "center", gap: "6px",
-          marginTop: "14px", padding: "0", background: "none", border: "none",
-          cursor: "pointer", fontSize: "0.8125rem", fontWeight: 500,
-          color: "var(--ctz-text-muted)", transition: "color 200ms",
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
-      >
-        <HiChevronDown size={14} style={{
-          transition: "transform 200ms",
-          transform: showAdvanced ? "rotate(180deg)" : "rotate(0deg)",
-        }} />
-        {showAdvanced ? "Ocultar ajustes" : "Costos adicionales y multiplicador"}
-      </button>
+        label={showAdvanced ? "Ocultar ajustes" : "Ajustes y costos adicionales"}
+        badge={!showAdvanced && activeAdjustments > 0 ? `${activeAdjustments} activo${activeAdjustments > 1 ? "s" : ""}` : null}
+      />
 
       {/* ── ADVANCED SECTION ── */}
       {showAdvanced && (
         <div style={{
           marginTop: "12px", paddingTop: "12px",
           borderTop: "1px solid var(--ctz-border)",
+          display: "flex", flexDirection: "column", gap: "14px",
         }}>
           {/* Dynamic costs */}
-          <label style={{
-            display: "block", fontSize: "0.8125rem", fontWeight: 500,
-            color: "var(--ctz-text-secondary)", marginBottom: "8px",
-          }}>
-            {mode === "unit" ? "Otros costos unitarios" : "Otros costos del lote"}
-          </label>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "12px" }}>
-            {costs.map((cost) => (
-              <DynamicCostRow key={cost.id} cost={cost}
-                onRemove={mode === "unit" ? props.onRemoveUnitAdditionalCost : props.onRemoveBatchAdditionalCost}
-                onUpdate={mode === "unit" ? props.onUpdateUnitAdditionalCost : props.onUpdateBatchAdditionalCost}
-              />
-            ))}
-            <button
-              onClick={mode === "unit" ? props.onAddUnitAdditionalCost : props.onAddBatchAdditionalCost}
-              style={{
-                width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
-                padding: "7px", fontSize: "0.8125rem", fontWeight: 500,
-                color: "var(--ctz-accent)", background: "transparent",
-                border: "1px solid var(--ctz-border)", borderRadius: "var(--ctz-radius-sm)",
-                cursor: "pointer", transition: "all 200ms",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--ctz-accent)"; e.currentTarget.style.background = "var(--ctz-accent-light)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; e.currentTarget.style.background = "transparent"; }}
-            >
-              <PlusIcon style={{ width: "14px", height: "14px" }} />
-              Agregar costo
-            </button>
+          <div>
+            <label style={{
+              display: "block", fontSize: "0.8125rem", fontWeight: 500,
+              color: "var(--ctz-text-secondary)", marginBottom: "8px",
+            }}>
+              {mode === "unit" ? "Otros costos unitarios" : "Otros costos del lote"}
+            </label>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {costs.map((cost) => (
+                <DynamicCostRow key={cost.id} cost={cost}
+                  onRemove={mode === "unit" ? props.onRemoveUnitAdditionalCost : props.onRemoveBatchAdditionalCost}
+                  onUpdate={mode === "unit" ? props.onUpdateUnitAdditionalCost : props.onUpdateBatchAdditionalCost}
+                />
+              ))}
+              <button
+                onClick={mode === "unit" ? props.onAddUnitAdditionalCost : props.onAddBatchAdditionalCost}
+                style={{
+                  width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
+                  padding: "7px", fontSize: "0.8125rem", fontWeight: 500,
+                  color: "var(--ctz-accent)", background: "transparent",
+                  border: "1px solid var(--ctz-border)", borderRadius: "var(--ctz-radius-sm)",
+                  cursor: "pointer", transition: "all 200ms",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--ctz-accent)"; e.currentTarget.style.background = "var(--ctz-accent-light)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; e.currentTarget.style.background = "transparent"; }}
+              >
+                <PlusIcon style={{ width: "14px", height: "14px" }} />
+                Agregar costo
+              </button>
+            </div>
           </div>
 
           {/* Multiplier */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", alignItems: "end" }}>
-            <Input label="Multiplicador" value={props.globalMultiplier}
-              onChange={props.onGlobalMultiplierChange} placeholder="1" prefix="x" />
-            <div style={{
-              padding: "10px 14px", background: "var(--ctz-accent-light)", borderRadius: "var(--ctz-radius-sm)",
-              border: "1px solid var(--ctz-accent-ring)", textAlign: "center",
+          <div>
+            <label style={{
+              display: "block", fontSize: "0.8125rem", fontWeight: 500,
+              color: "var(--ctz-text-secondary)", marginBottom: "8px",
             }}>
-              <span style={{
-                display: "block", fontSize: "0.6875rem", fontWeight: 500, color: "var(--ctz-text-muted)",
-                textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "2px",
-              }}>Ajustado</span>
-              <span style={{
-                fontSize: "1.125rem", fontWeight: 700, color: "var(--ctz-accent)", fontVariantNumeric: "tabular-nums",
-              }}>{formatCurrency(props.adjustedUnitCost)}</span>
+              Multiplicador global
+            </label>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", alignItems: "end" }}>
+              <Input value={props.globalMultiplier}
+                onChange={props.onGlobalMultiplierChange} placeholder="1" prefix="x"
+                tip="Aplicá un factor al costo total (ej: 1.05 para +5% de imprevistos)." />
+              <div style={{
+                padding: "10px 14px", background: "var(--ctz-accent-light)", borderRadius: "var(--ctz-radius-sm)",
+                border: "1px solid var(--ctz-accent-ring)", textAlign: "center",
+              }}>
+                <span style={{
+                  display: "block", fontSize: "0.6875rem", fontWeight: 500, color: "var(--ctz-text-muted)",
+                  textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "2px",
+                }}>Costo ajustado</span>
+                <span style={{
+                  fontSize: "1.125rem", fontWeight: 700, color: "var(--ctz-accent)", fontVariantNumeric: "tabular-nums",
+                }}>{formatCurrency(props.adjustedUnitCost)}</span>
+              </div>
             </div>
           </div>
         </div>
