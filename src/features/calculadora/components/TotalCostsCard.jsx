@@ -29,6 +29,12 @@ const ModeButton = ({ label, isActive, onClick }) => (
             color: "var(--ctz-text-secondary)",
           }),
     }}
+    onMouseEnter={(e) => {
+      if (!isActive) e.currentTarget.style.background = "var(--ctz-bg-secondary)";
+    }}
+    onMouseLeave={(e) => {
+      if (!isActive) e.currentTarget.style.background = "transparent";
+    }}
   >
     {label}
   </button>
@@ -69,12 +75,16 @@ const DynamicCostRow = ({ cost, onRemove, onUpdate }) => (
         onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; }}
       />
     </div>
+    {/* Trash — transparent default, red on hover */}
     <button onClick={() => onRemove(cost.id)} aria-label={`Eliminar ${cost.name}`}
       style={{
         width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center",
-        background: "var(--ctz-error-light)", color: "var(--ctz-error)",
-        border: "none", borderRadius: "6px", cursor: "pointer", transition: "opacity 200ms",
+        background: "transparent", color: "var(--ctz-text-muted)",
+        border: "none", borderRadius: "6px", cursor: "pointer",
+        transition: "all 200ms ease-out",
       }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "var(--ctz-error-light)"; e.currentTarget.style.color = "var(--ctz-error)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
     >
       <TrashIcon style={{ width: "14px", height: "14px" }} />
     </button>
@@ -87,12 +97,14 @@ const AdvancedToggle = ({ isOpen, onClick, label, badge }) => (
     onClick={onClick}
     style={{
       display: "flex", alignItems: "center", gap: "6px",
-      marginTop: "14px", padding: "0", background: "none", border: "none",
+      marginTop: "14px", padding: "4px 8px 4px 4px",
+      marginLeft: "-4px",
+      background: "none", border: "none", borderRadius: "var(--ctz-radius-sm)",
       cursor: "pointer", fontSize: "0.8125rem", fontWeight: 500,
-      color: "var(--ctz-text-muted)", transition: "color 200ms",
+      color: "var(--ctz-text-muted)", transition: "all 200ms",
     }}
-    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
-    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
+    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; e.currentTarget.style.background = "var(--ctz-accent-light)"; }}
+    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; e.currentTarget.style.background = "none"; }}
   >
     <HiChevronDown size={14} style={{
       transition: "transform 200ms",
@@ -125,7 +137,6 @@ export const TotalCostsCard = (props) => {
 
   const [showAdvanced, setShowAdvanced] = useState(hasAdvancedData);
 
-  // Build badge text showing active adjustments count
   const activeAdjustments = (hasExtraCosts ? costs.filter(c => c.amount > 0).length : 0) + (hasMultiplier ? 1 : 0);
 
   return (
@@ -187,7 +198,6 @@ export const TotalCostsCard = (props) => {
           borderTop: "1px solid var(--ctz-border)",
           display: "flex", flexDirection: "column", gap: "14px",
         }}>
-          {/* Dynamic costs */}
           <div>
             <label style={{
               display: "block", fontSize: "0.8125rem", fontWeight: 500,
@@ -220,7 +230,6 @@ export const TotalCostsCard = (props) => {
             </div>
           </div>
 
-          {/* Multiplier */}
           <div>
             <label style={{
               display: "block", fontSize: "0.8125rem", fontWeight: 500,

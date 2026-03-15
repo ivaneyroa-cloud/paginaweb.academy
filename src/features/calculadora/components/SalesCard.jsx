@@ -11,12 +11,14 @@ const AdvancedToggle = ({ isOpen, onClick, label, badge }) => (
     onClick={onClick}
     style={{
       display: "flex", alignItems: "center", gap: "6px",
-      padding: "0", background: "none", border: "none",
+      padding: "4px 8px 4px 4px",
+      marginLeft: "-4px",
+      background: "none", border: "none", borderRadius: "var(--ctz-radius-sm)",
       cursor: "pointer", fontSize: "0.8125rem", fontWeight: 500,
-      color: "var(--ctz-text-muted)", transition: "color 200ms",
+      color: "var(--ctz-text-muted)", transition: "all 200ms",
     }}
-    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; }}
-    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; }}
+    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ctz-text-secondary)"; e.currentTarget.style.background = "var(--ctz-accent-light)"; }}
+    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ctz-text-muted)"; e.currentTarget.style.background = "none"; }}
   >
     <HiChevronDown size={14} style={{
       transition: "transform 200ms",
@@ -73,13 +75,12 @@ export const SalesCard = ({
   totalDeductions,
   netIncomePerSale,
 }) => {
-  // Count how many advanced fields have values
   const advancedFields = [
-    { val: promotionalDiscount, label: "descuento" },
-    { val: paymentFeePercent, label: "pago" },
-    { val: installmentFeePercent, label: "cuotas" },
-    { val: taxesAndRetentions, label: "impuestos" },
-    { val: sellerShippingCost, label: "envío" },
+    { val: promotionalDiscount },
+    { val: paymentFeePercent },
+    { val: installmentFeePercent },
+    { val: taxesAndRetentions },
+    { val: sellerShippingCost },
   ];
   const activeCount = advancedFields.filter(f => f.val > 0).length;
   const hasAdvancedValues = activeCount > 0;
@@ -105,23 +106,20 @@ export const SalesCard = ({
         <AdvancedToggle
           isOpen={showAdvanced}
           onClick={() => setShowAdvanced(!showAdvanced)}
-          label={showAdvanced ? "Ocultar deducciones" : "Deducciones adicionales"}
+          label={showAdvanced ? "Ocultar deducciones" : "Comisiones y costos adicionales"}
           badge={!showAdvanced && activeCount > 0 ? `${activeCount} activa${activeCount > 1 ? "s" : ""}` : null}
         />
 
-        {/* ── ADVANCED SECTION ── */}
+        {/* ── ADVANCED SECTION — 3 micro-groups ── */}
         {showAdvanced && (
           <div style={{
             paddingTop: "12px", borderTop: "1px solid var(--ctz-border)",
             display: "flex", flexDirection: "column", gap: "16px",
           }}>
-            {/* Group: Descuento y comisiones */}
+            {/* Group 1: Comisiones (cosas que te cobra la pasarela) */}
             <div>
-              <GroupLabel>Descuento y comisiones</GroupLabel>
+              <GroupLabel>Comisiones</GroupLabel>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <Input label="Descuento promocional" value={promotionalDiscount}
-                  onChange={onPromotionalDiscountChange} prefix="%"
-                  tip="Descuento que ofrecés al comprador (opcional)." />
                 <Input label="Comisión medio de pago" value={paymentFeePercent}
                   onChange={onPaymentFeeChange} prefix="%"
                   tip="Pasarela de pago: 3–6% según proveedor." />
@@ -131,16 +129,24 @@ export const SalesCard = ({
               </div>
             </div>
 
-            {/* Group: Impuestos y envío */}
+            {/* Group 2: Impuestos (lo que te cobra el Estado) */}
             <div>
-              <GroupLabel>Impuestos y envío</GroupLabel>
+              <GroupLabel>Impuestos</GroupLabel>
+              <Input label="Impuestos sobre venta" value={taxesAndRetentions}
+                onChange={onTaxesAndRetentionsChange} prefix="%"
+                tip="IIBB, retenciones u otros impuestos." />
+            </div>
+
+            {/* Group 3: Descuento y envío (decisiones del vendedor) */}
+            <div>
+              <GroupLabel>Descuento y envío</GroupLabel>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-                <Input label="Impuestos sobre venta" value={taxesAndRetentions}
-                  onChange={onTaxesAndRetentionsChange} prefix="%"
-                  tip="IIBB, retenciones u otros impuestos." />
+                <Input label="Descuento promocional" value={promotionalDiscount}
+                  onChange={onPromotionalDiscountChange} prefix="%"
+                  tip="Descuento que ofrecés al comprador." />
                 <Input label="Envío a cargo tuyo" value={sellerShippingCost}
                   onChange={onSellerShippingCostChange} prefix="$"
-                  tip="Costo de envío que absorbés como vendedor." />
+                  tip="Costo de envío que absorbés." />
               </div>
             </div>
           </div>

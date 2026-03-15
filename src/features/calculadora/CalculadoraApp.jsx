@@ -835,6 +835,7 @@ export const CalculadoraApp = () => {
                     type="number"
                     value={projectedQuantity}
                     onChange={handleNumericChange(setProjectedQuantity)}
+                    aria-label="Cantidad de unidades proyectadas"
                     style={{
                       width: "72px",
                       padding: "5px 8px",
@@ -847,10 +848,10 @@ export const CalculadoraApp = () => {
                       borderRadius: "var(--ctz-radius-sm)",
                       outline: "none",
                       fontVariantNumeric: "tabular-nums",
-                      transition: "border-color 200ms",
+                      transition: "border-color 200ms, box-shadow 200ms",
                     }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-focus)"; }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-focus)"; e.currentTarget.style.boxShadow = "0 0 0 2px var(--ctz-accent-ring)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; e.currentTarget.style.boxShadow = "none"; }}
                   />
                   <span style={{ fontSize: "0.8125rem", color: "var(--ctz-text-muted)" }}>unidades</span>
                 </div>
@@ -919,6 +920,7 @@ export const CalculadoraApp = () => {
                 borderRadius: "var(--ctz-radius-sm)",
                 cursor: "pointer",
                 transition: "all 200ms ease-out",
+                outline: "none",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = "var(--ctz-accent)";
@@ -927,6 +929,14 @@ export const CalculadoraApp = () => {
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = "var(--ctz-text-muted)";
                 e.currentTarget.style.background = "transparent";
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.boxShadow = "0 0 0 2px var(--ctz-accent-ring)";
+                e.currentTarget.style.color = "var(--ctz-accent)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.color = "var(--ctz-text-muted)";
               }}
             >
               <CopyIcon style={{ width: "14px", height: "14px" }} />

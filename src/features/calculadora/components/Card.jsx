@@ -66,8 +66,8 @@ export const Card = ({ title, icon, tooltip, children, className = "", noPadding
             <div style={{ position: "relative", marginLeft: "auto" }}>
               <button
                 type="button"
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
+                onMouseEnter={(e) => { setShowTooltip(true); e.currentTarget.style.background = "var(--ctz-accent-ring)"; }}
+                onMouseLeave={(e) => { setShowTooltip(false); e.currentTarget.style.background = "var(--ctz-accent-light)"; }}
                 onClick={() => setShowTooltip((p) => !p)}
                 aria-label="Más información"
                 style={{
