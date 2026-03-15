@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
+import Link from "next/link";
 
 // Context
 import { useDataTransfer } from "@/shared/context/DataTransferContext";
@@ -533,6 +534,21 @@ export const CalculadoraApp = () => {
   return (
     <main className="ctz-main min-h-screen">
       <div className="max-w-7xl mx-auto">
+        {/* ── Breadcrumbs ── */}
+        <nav aria-label="Breadcrumb" style={{ marginBottom: "16px" }}>
+          <ol style={{
+            display: "flex", alignItems: "center", gap: "6px",
+            listStyle: "none", margin: 0, padding: 0,
+            fontSize: "0.8125rem", color: "var(--ctz-text-muted)",
+          }}>
+            <li><Link href="/" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Shippar</Link></li>
+            <li style={{ opacity: 0.5 }}>/</li>
+            <li><Link href="/tools" style={{ color: "var(--ctz-text-muted)", textDecoration: "none" }}>Herramientas</Link></li>
+            <li style={{ opacity: 0.5 }}>/</li>
+            <li style={{ color: "var(--ctz-text-secondary)", fontWeight: 500 }}>Calculadora</li>
+          </ol>
+        </nav>
+
         <CalculadoraHeader />
 
         {/* Transfer data mini-button */}
@@ -948,8 +964,92 @@ export const CalculadoraApp = () => {
           </div>
         </div>
 
-        {/* Bottom spacing */}
-        <div style={{ paddingBottom: "24px" }} />
+        {/* ── Cross-link to Cotizador ── */}
+        <div style={{
+          marginTop: "20px",
+          background: "var(--ctz-bg-elevated)",
+          border: "1px solid var(--ctz-border)",
+          borderRadius: "var(--ctz-radius-md)",
+          padding: "20px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+          flexWrap: "wrap",
+        }}>
+          <div>
+            <p style={{ margin: 0, fontSize: "0.9375rem", fontWeight: 600, color: "var(--ctz-text-primary)" }}>
+              ¿Necesitás estimar el costo de importación?
+            </p>
+            <p style={{ margin: "4px 0 0", fontSize: "0.8125rem", color: "var(--ctz-text-muted)" }}>
+              Usá el cotizador para calcular CIF, impuestos y flete.
+            </p>
+          </div>
+          <Link href="/cotizadorv2" style={{
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            padding: "9px 18px", fontSize: "0.8125rem", fontWeight: 600,
+            color: "var(--ctz-accent)", background: "var(--ctz-accent-light)",
+            border: "1px solid var(--ctz-accent-ring)",
+            borderRadius: "var(--ctz-radius-sm)", textDecoration: "none",
+            transition: "all 200ms ease-out",
+          }}>
+            Ir al cotizador →
+          </Link>
+        </div>
+
+        {/* ── FAQs (visible content for SEO) ── */}
+        <section style={{ marginTop: "28px", paddingBottom: "40px" }}>
+          <h2 style={{
+            fontSize: "1.125rem", fontWeight: 700, color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.01em", margin: "0 0 14px",
+          }}>
+            Preguntas frecuentes
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {[
+              {
+                q: "¿Cómo calculo mi margen de ganancia al importar?",
+                a: "Ingresá el costo del producto, el costo de importación (flete Shippar), tu precio de venta y las comisiones que aplican en tu canal. La calculadora te muestra automáticamente la ganancia neta por unidad, el margen sobre ingresos y el ROI sobre tu inversión.",
+              },
+              {
+                q: "¿Qué es el punto de equilibrio en una importación?",
+                a: "Es el precio mínimo al que tenés que vender para cubrir todos tus costos y no perder plata. La calculadora lo compara con tu precio de venta y te dice cuánto margen tenés por encima de ese piso.",
+              },
+              {
+                q: "¿Qué costos debo incluir para calcular la rentabilidad real?",
+                a: "Como mínimo: el costo del producto y el costo de importación. Para mayor precisión, incluí comisiones de plataforma (ML, Tienda Nube), comisiones de medio de pago, costo por cuotas, impuestos sobre la venta y el costo de envío si lo absorbés vos.",
+              },
+              {
+                q: "¿Cuánto margen necesito para que mi importación sea rentable?",
+                a: "Depende de tu operación, pero como regla general un margen neto del 20-30% sobre precio de venta es un piso razonable para cubrir imprevistos y generar ganancia sostenible.",
+              },
+            ].map((faq) => (
+              <details key={faq.q} style={{
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "var(--ctz-radius-md)",
+                overflow: "hidden",
+              }}>
+                <summary style={{
+                  padding: "16px 20px", cursor: "pointer",
+                  fontSize: "0.9375rem", fontWeight: 600,
+                  color: "var(--ctz-text-primary)",
+                  letterSpacing: "-0.01em",
+                  listStyle: "none",
+                }}>
+                  {faq.q}
+                </summary>
+                <div style={{
+                  padding: "0 20px 16px",
+                  fontSize: "0.875rem", lineHeight: 1.7,
+                  color: "var(--ctz-text-secondary)",
+                }}>
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );

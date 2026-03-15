@@ -2,8 +2,50 @@ import CotizadorV2App from "@/features/cotizadorv2/CotizadorV2App";
 import { getDatosCotizacion } from "@/features/cotizadorv2/actions";
 
 export const metadata = {
-  title: "Cotizador V2 - Shippar",
-  description: "Cotizador de Importaciones V2 con cálculo en cascada basado en Valor CIF",
+  title: "Cotizador de Importación: Estimá costos, impuestos y flete",
+  description:
+    "Cotizá tu importación desde China, USA y Europa a Argentina. Calculamos CIF, aranceles, IVA aduanero, tasa estadística y flete para que sepas el costo real antes de comprar.",
+  openGraph: {
+    title: "Cotizador de Importación | Shippar",
+    description:
+      "Estimá el costo total de importar tu producto con impuestos, flete y aranceles incluidos. Herramienta gratuita.",
+    url: "https://shippar.net/cotizadorv2",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://shippar.net/cotizadorv2",
+  },
+};
+
+/* JSON-LD — WebApplication */
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Cotizador de Importación — Shippar",
+  description: metadata.description,
+  url: "https://shippar.net/cotizadorv2",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  creator: {
+    "@type": "Organization",
+    name: "Shippar Global Logistics",
+    url: "https://shippar.net",
+  },
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Shippar", item: "https://shippar.net" },
+    { "@type": "ListItem", position: 2, name: "Herramientas", item: "https://shippar.net/tools" },
+    { "@type": "ListItem", position: 3, name: "Cotizador de Importación", item: "https://shippar.net/cotizadorv2" },
+  ],
 };
 
 export default async function CotizadorV2Page() {
@@ -23,5 +65,11 @@ export default async function CotizadorV2Page() {
   }
 
   // Pasar toda la data estructurada
-  return <CotizadorV2App datosCotizacion={response.data} />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <CotizadorV2App datosCotizacion={response.data} />
+    </>
+  );
 }

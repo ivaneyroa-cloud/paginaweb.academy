@@ -19,6 +19,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: "/terminos", priority: 0.3, changeFrequency: "yearly" as const },
     ];
 
+    /* ── Tools pages ── */
+    const toolPages = [
+        { path: "/tools", priority: 0.8, changeFrequency: "monthly" as const },
+        { path: "/cotizadorv2", priority: 0.8, changeFrequency: "monthly" as const },
+        { path: "/calculadora", priority: 0.8, changeFrequency: "monthly" as const },
+    ];
+
     /* ── Academy pages (public) ── */
     const academyPages = [
         { path: "/academy", priority: 0.7, changeFrequency: "weekly" as const },
@@ -27,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     /* ── Generate entries for default (es) and en locales ── */
     const entries: MetadataRoute.Sitemap = [];
 
-    for (const page of [...mainPages, ...academyPages]) {
+    for (const page of [...mainPages, ...toolPages, ...academyPages]) {
         // Spanish (default, canonical URL)
         entries.push({
             url: `${BASE_URL}${page.path}`,
