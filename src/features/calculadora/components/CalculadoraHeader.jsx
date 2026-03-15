@@ -63,7 +63,7 @@ export default function CalculadoraHeader() {
             lineHeight: 1.5,
           }}
         >
-          Analizá la rentabilidad por unidad de tu operación.
+          Calculá ganancia neta, margen, ROI y punto de equilibrio por unidad.
         </p>
       </div>
     </div>

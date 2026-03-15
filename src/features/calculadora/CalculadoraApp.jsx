@@ -964,6 +964,10 @@ export const CalculadoraApp = () => {
           </div>
         </div>
 
+        {/* ═══════════════════════════════════════════ */}
+        {/* CONTENIDO SEO VISIBLE (below the tool)     */}
+        {/* ═══════════════════════════════════════════ */}
+
         {/* ── Cross-link to Cotizador ── */}
         <div style={{
           marginTop: "20px",
@@ -971,10 +975,8 @@ export const CalculadoraApp = () => {
           border: "1px solid var(--ctz-border)",
           borderRadius: "var(--ctz-radius-md)",
           padding: "20px 24px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "16px",
+          display: "flex", alignItems: "center",
+          justifyContent: "space-between", gap: "16px",
           flexWrap: "wrap",
         }}>
           <div>
@@ -982,7 +984,7 @@ export const CalculadoraApp = () => {
               ¿Necesitás estimar el costo de importación?
             </p>
             <p style={{ margin: "4px 0 0", fontSize: "0.8125rem", color: "var(--ctz-text-muted)" }}>
-              Usá el cotizador para calcular CIF, impuestos y flete.
+              Usá el cotizador para calcular CIF, impuestos y flete — y después transferí el resultado acá.
             </p>
           </div>
           <Link href="/cotizadorv2" style={{
@@ -993,35 +995,191 @@ export const CalculadoraApp = () => {
             borderRadius: "var(--ctz-radius-sm)", textDecoration: "none",
             transition: "all 200ms ease-out",
           }}>
-            Ir al cotizador →
+            Cotizador de importación →
           </Link>
         </div>
 
-        {/* ── FAQs (visible content for SEO) ── */}
-        <section style={{ marginTop: "28px", paddingBottom: "40px" }}>
+        {/* ── Qué calcula esta herramienta ── */}
+        <section style={{ marginTop: "40px", marginBottom: "32px" }}>
           <h2 style={{
-            fontSize: "1.125rem", fontWeight: 700, color: "var(--ctz-text-primary)",
-            letterSpacing: "-0.01em", margin: "0 0 14px",
+            fontSize: "1.25rem", fontWeight: 700, color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.02em", margin: "0 0 12px",
+          }}>
+            Qué calcula esta herramienta
+          </h2>
+          <p style={{
+            fontSize: "0.9375rem", color: "var(--ctz-text-secondary)",
+            lineHeight: 1.65, margin: "0 0 16px", maxWidth: "720px",
+          }}>
+            La calculadora analiza la rentabilidad de un producto importado que vendés en Argentina. Considerá costos de producto, importación, comisiones de venta e impuestos — y obtené métricas claras para decidir si el negocio cierra.
+          </p>
+          <div style={{
+            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px",
+          }}>
+            {[
+              "Ganancia neta por unidad",
+              "Margen sobre ingresos",
+              "ROI sobre inversión",
+              "Punto de equilibrio (precio mínimo)",
+              "Proyección por volumen de ventas",
+              "Desglose de deducciones",
+            ].map((item) => (
+              <div key={item} style={{
+                padding: "10px 14px", fontSize: "0.8125rem", fontWeight: 500,
+                color: "var(--ctz-text-secondary)",
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "var(--ctz-radius-sm)",
+                display: "flex", alignItems: "center", gap: "8px",
+              }}>
+                <span style={{ color: "var(--ctz-accent)", fontWeight: 700, fontSize: "0.75rem" }}>✓</span>
+                {item}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Glosario de KPIs ── */}
+        <section style={{ marginBottom: "32px" }}>
+          <h2 style={{
+            fontSize: "1.25rem", fontWeight: 700, color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.02em", margin: "0 0 14px",
+          }}>
+            Qué significa cada indicador
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {[
+              {
+                term: "Ganancia neta por unidad",
+                def: "Es lo que te queda en el bolsillo por cada unidad que vendés. Se calcula restando al precio de venta neto todos los costos: producto, importación, comisiones, impuestos y envío. Si es positivo, ganás; si es negativo, perdés plata en cada venta."
+              },
+              {
+                term: "Margen sobre ingresos",
+                def: "Es el porcentaje de tu facturación que queda como ganancia después de pagar todos los costos. Se calcula como (Ganancia Neta / Precio de Venta Neto) × 100. Un margen del 25% significa que de cada $100 facturados, $25 son ganancia real."
+              },
+              {
+                term: "ROI (Return on Investment)",
+                def: "Mide cuánto rendimiento obtenés por cada peso invertido. Se calcula como (Ganancia Neta / Inversión Total) × 100. Un ROI del 50% significa que invertiste $100 y ganaste $50 netos. A mayor ROI, más eficiente es tu capital."
+              },
+              {
+                term: "Punto de equilibrio (Break-even)",
+                def: "Es el precio mínimo al que tenés que vender cada unidad para cubrir exactamente todos tus costos y no perder plata. Cualquier precio por encima genera ganancia; por debajo genera pérdida. Es el piso de tu operación."
+              },
+            ].map((g) => (
+              <div key={g.term} style={{
+                padding: "16px 20px",
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "var(--ctz-radius-md)",
+              }}>
+                <h3 style={{
+                  fontSize: "0.9375rem", fontWeight: 700, margin: "0 0 4px",
+                  color: "var(--ctz-text-primary)", letterSpacing: "-0.01em",
+                }}>
+                  {g.term}
+                </h3>
+                <p style={{
+                  fontSize: "0.875rem", lineHeight: 1.65, margin: 0,
+                  color: "var(--ctz-text-secondary)",
+                }}>
+                  {g.def}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Cómo usar esta calculadora ── */}
+        <section style={{ marginBottom: "32px" }}>
+          <h2 style={{
+            fontSize: "1.25rem", fontWeight: 700, color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.02em", margin: "0 0 12px",
+          }}>
+            Cómo usar esta calculadora
+          </h2>
+          <ol style={{
+            margin: 0, padding: "0 0 0 20px", fontSize: "0.9375rem",
+            color: "var(--ctz-text-secondary)", lineHeight: 1.8,
+          }}>
+            <li style={{ marginBottom: "8px" }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Ingresá el costo del producto</strong> — el precio FOB unitario en USD.
+            </li>
+            <li style={{ marginBottom: "8px" }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Sumá el costo de importación</strong> — flete, impuestos y aranceles. Si usaste el <Link href="/cotizadorv2" style={{ color: "var(--ctz-accent)", textDecoration: "none" }}>cotizador de Shippar</Link>, podés transferir el dato directamente.
+            </li>
+            <li style={{ marginBottom: "8px" }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Definí tu precio de venta</strong> — el precio bruto al que publicás.
+            </li>
+            <li style={{ marginBottom: "8px" }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Ajustá comisiones e impuestos</strong> — plataforma, medio de pago, cuotas, IIBB y retenciones según tu canal.
+            </li>
+            <li>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Leé los resultados</strong> — ganancia neta, margen, ROI y punto de equilibrio se calculan en tiempo real.
+            </li>
+          </ol>
+        </section>
+
+        {/* ── Cómo interpretar los resultados ── */}
+        <section style={{ marginBottom: "32px" }}>
+          <h2 style={{
+            fontSize: "1.25rem", fontWeight: 700, color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.02em", margin: "0 0 12px",
+          }}>
+            Cómo interpretar los resultados
+          </h2>
+          <div style={{
+            fontSize: "0.9375rem", color: "var(--ctz-text-secondary)",
+            lineHeight: 1.65, display: "flex", flexDirection: "column", gap: "12px",
+            maxWidth: "720px",
+          }}>
+            <p style={{ margin: 0 }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Si la ganancia neta es positiva</strong>, tu operación genera plata. Cuanto mayor sea el margen, más colchón tenés para imprevistos (tipo de cambio, devoluciones, stock que no rota).
+            </p>
+            <p style={{ margin: 0 }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Si el ROI es alto</strong>, tu capital rinde bien. Un ROI del 40-60% suele ser un buen rango para importaciones con reventa en Argentina.
+            </p>
+            <p style={{ margin: 0 }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Si tu precio está cerca del punto de equilibrio</strong>, tenés poco margen de error. Conviene subir el precio, bajar costos o negociar mejores condiciones con tu proveedor o logística.
+            </p>
+            <p style={{ margin: 0 }}>
+              <strong style={{ color: "var(--ctz-text-primary)" }}>Usá la proyección por volumen</strong> para estimar cuánto ganás si vendés 50, 100 o 500 unidades. Eso te ayuda a decidir cuánto stock comprar.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Preguntas Frecuentes ── */}
+        <section style={{ marginBottom: "32px" }}>
+          <h2 style={{
+            fontSize: "1.25rem", fontWeight: 700, color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.02em", margin: "0 0 14px",
           }}>
             Preguntas frecuentes
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {[
               {
-                q: "¿Cómo calculo mi margen de ganancia al importar?",
-                a: "Ingresá el costo del producto, el costo de importación (flete Shippar), tu precio de venta y las comisiones que aplican en tu canal. La calculadora te muestra automáticamente la ganancia neta por unidad, el margen sobre ingresos y el ROI sobre tu inversión.",
+                q: "¿Cómo calculo mi margen de ganancia al importar y revender?",
+                a: "Ingresá el costo del producto, el costo de importación, tu precio de venta y las comisiones de tu canal. La calculadora resta todos los costos y te muestra la ganancia neta por unidad, el margen sobre ingresos y el ROI sobre tu inversión.",
               },
               {
                 q: "¿Qué es el punto de equilibrio en una importación?",
-                a: "Es el precio mínimo al que tenés que vender para cubrir todos tus costos y no perder plata. La calculadora lo compara con tu precio de venta y te dice cuánto margen tenés por encima de ese piso.",
+                a: "Es el precio mínimo al que tenés que vender cada unidad para cubrir todos tus costos. La calculadora lo compara con tu precio real y te dice cuánto margen tenés por encima de ese piso.",
+              },
+              {
+                q: "¿Qué es el ROI y cómo se interpreta?",
+                a: "ROI (Return on Investment) mide cuánto ganás en relación a lo que invertiste. Se calcula como (Ganancia Neta / Inversión Total) × 100. Un ROI del 50% significa que por cada $100 invertidos, ganás $50 netos.",
               },
               {
                 q: "¿Qué costos debo incluir para calcular la rentabilidad real?",
-                a: "Como mínimo: el costo del producto y el costo de importación. Para mayor precisión, incluí comisiones de plataforma (ML, Tienda Nube), comisiones de medio de pago, costo por cuotas, impuestos sobre la venta y el costo de envío si lo absorbés vos.",
+                a: "Como mínimo: costo del producto y costo de importación. Para mayor precisión, sumá comisiones de plataforma (ML, Tienda Nube), medio de pago, costo por cuotas, impuestos (IIBB, retenciones) y envío si lo absorbés vos.",
               },
               {
-                q: "¿Cuánto margen necesito para que mi importación sea rentable?",
-                a: "Depende de tu operación, pero como regla general un margen neto del 20-30% sobre precio de venta es un piso razonable para cubrir imprevistos y generar ganancia sostenible.",
+                q: "¿Cuánto margen necesito para que sea rentable?",
+                a: "Depende de tu operación, pero un margen neto del 20-30% sobre precio de venta suele ser un piso razonable para cubrir imprevistos y generar ganancia sostenible.",
+              },
+              {
+                q: "¿Puedo transferir datos del cotizador a esta calculadora?",
+                a: "Sí. Si cotizaste tu importación con el cotizador de Shippar, el costo total se puede transferir directamente. Esto te da un flujo continuo de cotizar → analizar rentabilidad → decidir.",
               },
             ].map((faq) => (
               <details key={faq.q} style={{
@@ -1034,19 +1192,59 @@ export const CalculadoraApp = () => {
                   padding: "16px 20px", cursor: "pointer",
                   fontSize: "0.9375rem", fontWeight: 600,
                   color: "var(--ctz-text-primary)",
-                  letterSpacing: "-0.01em",
-                  listStyle: "none",
+                  letterSpacing: "-0.01em", listStyle: "none",
                 }}>
                   {faq.q}
                 </summary>
                 <div style={{
-                  padding: "0 20px 16px",
-                  fontSize: "0.875rem", lineHeight: 1.7,
-                  color: "var(--ctz-text-secondary)",
+                  padding: "0 20px 16px", fontSize: "0.875rem",
+                  lineHeight: 1.7, color: "var(--ctz-text-secondary)",
                 }}>
                   {faq.a}
                 </div>
               </details>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Servicios relacionados ── */}
+        <section style={{ marginBottom: "40px" }}>
+          <h2 style={{
+            fontSize: "1.125rem", fontWeight: 700, color: "var(--ctz-text-primary)",
+            letterSpacing: "-0.01em", margin: "0 0 14px",
+          }}>
+            Servicios relacionados
+          </h2>
+          <div style={{
+            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px",
+          }}>
+            {[
+              { label: "Herramientas", desc: "Todas las calculadoras de Shippar", href: "/tools" },
+              { label: "Courier Express", desc: "Envíos rápidos puerta a puerta", href: "/servicios/courier" },
+              { label: "Carga Marítima", desc: "Fletes para volumen", href: "/servicios/maritima" },
+              { label: "Sourcing", desc: "Encontrá proveedores confiables", href: "/servicios/sourcing" },
+            ].map((svc) => (
+              <Link key={svc.href} href={svc.href} style={{
+                display: "block", padding: "14px 16px",
+                background: "var(--ctz-bg-elevated)",
+                border: "1px solid var(--ctz-border)",
+                borderRadius: "var(--ctz-radius-sm)",
+                textDecoration: "none",
+                transition: "border-color 200ms, background 200ms",
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border-hover)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--ctz-border)"; }}
+              >
+                <span style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  fontSize: "0.875rem", fontWeight: 600, color: "var(--ctz-text-primary)",
+                  marginBottom: "2px",
+                }}>
+                  {svc.label}
+                  <span style={{ color: "var(--ctz-text-muted)", fontSize: "0.75rem" }}>→</span>
+                </span>
+                <span style={{ fontSize: "0.8125rem", color: "var(--ctz-text-muted)" }}>{svc.desc}</span>
+              </Link>
             ))}
           </div>
         </section>
